@@ -17,9 +17,9 @@ const AboutPage = () => {
           <span className="text-white">
             Liquidify v1 is a permissionless protocol built on Ethereum that
             allows anyone to create ERC20 tokens that are backed 1:1 by their
-            favorite NFTs. These are known as LNFTs (or Liquid NFTs). It lowers the
-            barriers of entry into NFT ownership by bringing liquidity into NFTs
-            and allowing for fractional ownership at scale.
+            favorite NFTs. These are known as LNFTs (or Liquid NFTs). It lowers
+            the barriers of entry into NFT ownership by bringing liquidity into
+            NFTs and allowing for fractional ownership at scale.
           </span>
 
           <span className="text-white">
@@ -43,8 +43,8 @@ const AboutPage = () => {
           </span>
           <span className="text-white">
             $LIQ has not been launched yet and an allocation will be reserved
-            for those who trade any collection or create an LNFT on Liquidify's
-            protocol.
+            for those who create an LNFT with an LP, trade any LNFT or
+            wrap and unwrap on the Liquidify protocol.
           </span>
           {/* Future idea: on an availability basis return the user the exact
          NFT they wrapped however, if a new user buys the required tokens to
