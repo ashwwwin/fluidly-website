@@ -2,9 +2,8 @@
 import { BookCheckIcon, Droplet, Info, Wallet, X } from "lucide-react";
 import Image from "next/image";
 import AboutPage from "../components/AboutPage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CollectionPage from "../components/CollectionPage";
-import LiquidifyPopUp from "../components/LiquidifyPage";
 import LiquidifyPage from "../components/LiquidifyPage";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
@@ -12,7 +11,6 @@ export default function Home() {
   const [page, setPage] = useState<"about" | "collection" | "liquidify">(
     "collection"
   );
-
 
   return (
     <>
