@@ -19,7 +19,7 @@ export default function Home() {
         <title>Liquidify.gg</title>
 
         <div className="w-full items-center px-3 shadow-xl border-b-2 border-white border-opacity-5 py-3.5 flex bg-white bg-opacity-5">
-          <img src="/icon.png" className="h-[35px] select-none mr-3" />
+          <img src="/icon.png" className="h-[35px] select-none" />
           <img
             src="/logo.png"
             className="h-[30px] select-none pointer-events-none"
