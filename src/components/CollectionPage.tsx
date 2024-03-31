@@ -211,7 +211,7 @@ const CollectionPage = () => {
                     onClick={() => {
                       setSelectedCollection(collection);
                     }}
-                    className="flex flex-grow bg-white transition-all hover:bg-opacity-[17.5%] cursor-pointer select-none flex flex-grow w-full bg-opacity-10 border-l-2 rounded-l-lg select-none border-y-2 border-opacity-10 border-white w-full px-3 py-2"
+                    className="flex flex-grow bg-white transition-all duration-[100ms] hover:bg-opacity-[17.5%] cursor-pointer select-none flex flex-grow w-full bg-opacity-10 border-l-2 rounded-l-lg select-none border-y-2 border-opacity-10 border-white w-full px-3 py-2"
                   >
                     <img
                       className="mr-3 h-[70px] min-h-[70px] rounded-md outline-none overflow-hidden pointer-events-none"
@@ -234,7 +234,7 @@ const CollectionPage = () => {
                         `https://etherscan.io/token/${collection.liquidifyContract}`
                       );
                     }}
-                    className="flex w-[70px] max-w-[70px] bg-white transition-all px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none border-y-2 border-opacity-10 border-white"
+                    className="flex w-[70px] max-w-[70px] bg-white transition-all duration-[100ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none border-y-2 border-opacity-10 border-white"
                   >
                     <Blocks className="h-[18px]" />
                   </div>
@@ -244,7 +244,7 @@ const CollectionPage = () => {
                         `https://magiceden.io/collections/ethereum/${collection.nftAddress}`
                       );
                     }}
-                    className="flex w-[70px] max-w-[70px] bg-white transition-all px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none border-y-2 border-opacity-10 border-white"
+                    className="flex w-[70px] max-w-[70px] bg-white transition-all duration-[100ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none border-y-2 border-opacity-10 border-white"
                   >
                     <img
                       src="/magiceden.png"
@@ -258,7 +258,7 @@ const CollectionPage = () => {
                         `https://etherscan.io/address/${collection.nftAddress}`
                       );
                     }}
-                    className="flex w-[70px] max-w-[70px] bg-white transition-all px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none border-y-2 border-opacity-10 border-white"
+                    className="flex w-[70px] max-w-[70px] bg-white transition-all duration-[100ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none border-y-2 border-opacity-10 border-white"
                   >
                     <img src="/etherscan.svg" className="h-[20px]" />
                   </div>
@@ -268,7 +268,7 @@ const CollectionPage = () => {
                         `https://app.uniswap.org/#/swap?theme=dark&inputCurrency=ETH&outputCurrency=${collection.liquidifyContract}`
                       );
                     }}
-                    className="flex w-[70px] max-w-[70px] bg-white transition-all px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none border-y-2 border-opacity-10 border-white"
+                    className="flex w-[70px] max-w-[70px] bg-white transition-all duration-[100ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none border-y-2 border-opacity-10 border-white"
                   >
                     <img src="/uniswap.png" className="h-[21px]" />
                   </div>
@@ -276,7 +276,7 @@ const CollectionPage = () => {
                     onClick={() => {
                       window.open("https://etherscan.com/");
                     }}
-                    className="flex w-[70px] max-w-[70px] bg-white transition-all px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 rounded-r-lg select-none border-y-2 border-r-2 border-opacity-10 border-white"
+                    className="flex w-[70px] max-w-[70px] bg-white transition-all duration-[100ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 rounded-r-lg select-none border-y-2 border-r-2 border-opacity-10 border-white"
                   >
                     <img src="/dextools.svg" className="h-[20px]" />
                   </div>
