@@ -11,6 +11,22 @@ export default function Home() {
   const [page, setPage] = useState<"about" | "collection" | "liquidify">(
     "collection"
   );
+  const [collections, setCollections] = useState<any>(undefined);
+
+  useEffect(() => {
+    const fetchCollections = async () => {
+      const response = await fetch("/api/collections");
+
+      const data = await response.json();
+      console.log(data);
+      setCollections(data);
+    };
+
+    fetchCollections().catch(console.error);
+
+    // Cleanup function to prevent effect from running more than once
+    return () => {};
+  }, []);
 
   return (
     <>
@@ -187,7 +203,7 @@ export default function Home() {
           )}
           {page == "collection" && (
             <>
-              <CollectionPage />
+              <CollectionPage collections={collections} />
             </>
           )}
           {page == "liquidify" && (
