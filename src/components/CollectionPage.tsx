@@ -98,7 +98,7 @@ const CollectionPage = () => {
                 Back
               </div>
 
-              <div className="flex h-full w-full items-center justify-center w-[340px]">
+              <div className="flex h-full w-full items-center justify-center w-[340px] max-w-[340px]">
                 <div className="flex flex-col">
                   <button></button>
                 </div>
