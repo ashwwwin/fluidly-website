@@ -1,6 +1,6 @@
 "use client";
 
-import { Droplet, Info, X } from "lucide-react";
+import { Droplet, HammerIcon, Image, Info, X } from "lucide-react";
 import React, { useState } from "react";
 import "../app/globals.css";
 
@@ -31,18 +31,19 @@ const LiquidifyPage = () => {
                 onClick={() => {
                   setSelectedContract("ERC721");
                 }}
-                className="cursor-pointer shadow-xl hover:shadow-none select-none hover:bg-opacity-[7.5%] text-opacity-80 hover:text-opacity-100 text-white h-[250px] font-mono bg-white bg-opacity-5 transition-all border-white border-opacity-5 flex items-center justify-center w-[250px] border-2 rounded-lg"
+                className="cursor-pointer flex-col shadow-xl hover:shadow-none select-none hover:bg-opacity-[7.5%] text-opacity-80 hover:text-opacity-100 text-white h-[250px] font-mono bg-white bg-opacity-5 transition-all border-white border-opacity-5 flex items-center justify-center w-[250px] border-2 rounded-lg"
               >
+                <Image className="mb-2" />
                 ERC721
               </div>
               <div
                 onClick={() => {
-                  setSelectedContract("ERC1155");
+                  // setSelectedContract("ERC1155");
                 }}
                 className="flex flex-col cursor-not-allowed shadow-xl opacity-50 hover:shadow-none select-none text-opacity-80 text-white h-[250px] font-mono bg-white bg-opacity-5 transition-all border-white border-opacity-5 flex items-center justify-center w-[250px] border-2 rounded-lg"
               >
-                <span>ERC1155 (🛠️)</span>
-                <span className="text-xs text-white">Coming soon</span>
+                <HammerIcon className="mb-2"/>
+                <span>ERC1155</span>
               </div>
             </div>
           </>

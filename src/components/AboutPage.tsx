@@ -17,7 +17,7 @@ const AboutPage = () => {
           <span className="text-white">
             Liquidify v1 is a permissionless protocol built on Ethereum that
             allows anyone to create ERC20 tokens that are backed 1:1 by their
-            favorite NFTs. These are as LNFTs (or Liquid NFTs). It lowers the
+            favorite NFTs. These are known as LNFTs (or Liquid NFTs). It lowers the
             barriers of entry into NFT ownership by bringing liquidity into NFTs
             and allowing for fractional ownership at scale.
           </span>

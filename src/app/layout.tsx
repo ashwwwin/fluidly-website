@@ -1,13 +1,38 @@
+"use client";
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import "@rainbow-me/rainbowkit/styles.css";
+
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { WagmiProvider } from "wagmi";
+import {
+  arbitrum,
+  base,
+  mainnet,
+  optimism,
+  polygon,
+  sepolia,
+  zora,
+} from "wagmi/chains";
+import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+
+const config = getDefaultConfig({
+  appName: "Liquidify",
+  projectId: "YOUR_PROJECT_ID",
+  chains: [mainnet],
+  ssr: true, // If your dApp uses server side rendering (SSR)
+});
+
+const queryClient = new QueryClient();
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "Liquidify",
-  description: "Create ERC20 tokens backed 1:1 by your NFTs",
-};
+// export const metadata: Metadata = {
+//   title: "Liquidify.gg",
+//   description: "Convert your NFTs into ERC20s",
+// };
 
 export default function RootLayout({
   children,
@@ -16,7 +41,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <WagmiProvider config={config}>
+        <QueryClientProvider client={queryClient}>
+          <RainbowKitProvider>
+            <body className={inter.className}>{children}</body>
+          </RainbowKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
     </html>
   );
 }
