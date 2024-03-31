@@ -11,23 +11,23 @@ export async function GET(request: NextRequest) {
     const collection = db.collection("liquidNfts");
 
     console.log(contract);
-    let isExists = await collection.findOne({
-      nftAddress: contract,
-    });
+    // let isExists = await collection.findOne({
+    //   nftAddress: contract,
+    // });
 
-    console.log("isExists", isExists);
+    // console.log("isExists", isExists);
 
-    if (!isExists) {
-      return new NextResponse(
-        JSON.stringify({ message: "Contract not found in Liquidified NFTs" }),
-        {
-          status: 500,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-    }
+    // if (!isExists) {
+    //   return new NextResponse(
+    //     JSON.stringify({ message: "Contract not found in Liquidified NFTs" }),
+    //     {
+    //       status: 500,
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //     }
+    //   );
+    // }
 
     const alchemyKey = process.env.ALCHEMY_KEY;
     const alchemyUrl = `https://eth-mainnet.g.alchemy.com/nft/v2/${alchemyKey}/getNFTs?owner=${wallet}&contractAddresses[]=${contract}&withMetadata=false&pageSize=100`;
