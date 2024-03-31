@@ -12,12 +12,14 @@ export async function GET(request: NextRequest) {
 
     console.log(contract);
     let isExists = await collection.findOne({
-      nftAddress: { $regex: new RegExp(`^${contract}$`, "i") },
+      nftAddress: contract,
     });
+
+    console.log("isExists", isExists);
 
     if (!isExists) {
       return new NextResponse(
-        JSON.stringify({ message: "Contract not found in Liquidified LNFTs" }),
+        JSON.stringify({ message: "Contract not found in Liquidified NFTs" }),
         {
           status: 500,
           headers: {
