@@ -16,7 +16,11 @@ import {
   sepolia,
   zora,
 } from "wagmi/chains";
-import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import {
+  getDefaultConfig,
+  RainbowKitProvider,
+  darkTheme,
+} from "@rainbow-me/rainbowkit";
 
 const config = getDefaultConfig({
   appName: "Liquidify",
@@ -43,7 +47,7 @@ export default function RootLayout({
     <html lang="en">
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
-          <RainbowKitProvider>
+          <RainbowKitProvider theme={darkTheme({ borderRadius: "small" })}>
             <body className={inter.className}>{children}</body>
           </RainbowKitProvider>
         </QueryClientProvider>

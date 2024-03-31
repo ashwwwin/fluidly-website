@@ -1,13 +1,84 @@
 "use client";
 
 import { Droplet, HammerIcon, Image, Info, X } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../app/globals.css";
+import LiquidERC721Factory from "../app/abi/LiquidERC721Factory.json";
+import { useWriteContract, useReadContract, useAccount } from "wagmi";
 
 const LiquidifyPage = () => {
+  const {
+    data: hash,
+    isSuccess,
+    isError,
+    isPending,
+    writeContract,
+    error,
+  } = useWriteContract();
+  const account = useAccount();
   const [selectedContract, setSelectedContract] = useState<
     "ERC721" | "ERC1155" | undefined
   >(undefined);
+
+  // string memory tokenName,
+  // string memory tokenSymbol,
+  // address nftContractAddress,
+  // uint256 tokensPerNft
+
+  const [tokenName, setTokenName] = useState("");
+  const [tokenSymbol, setTokenSymbol] = useState("");
+  const [nftContractAddress, setNftContractAddress] = useState("");
+  const [tokensPerNft, setTokensPerNft] = useState<number>(1);
+
+  const factoryAddress = "0x3650904aa590553111f208DfE159C980b4dcdf8e";
+
+  useEffect(() => {
+    if (!error) return;
+    let errMsg = error.toString();
+
+    if (errMsg.includes("User rejected the request")) {
+      return;
+    }
+
+    if (errMsg.includes("Connector not connected")) {
+      return alert("Please connect your wallet");
+    }
+
+    if (
+      errMsg.includes(
+        "executing this transaction exceeds the balance of the account"
+      )
+    ) {
+      return alert("Insufficient ETH balance for transaction and gas");
+    }
+
+    if (errMsg.includes("Pixel is owned")) {
+      return alert("Pixel is owned");
+    }
+
+    if (errMsg.includes("Listing expired")) {
+      return alert("Listing expired for one or more blocks");
+    }
+
+    return alert(errMsg);
+  }, [isError]);
+
+  const createNLFT = () => {
+    const tx = writeContract(
+      {
+        address: factoryAddress,
+        abi: LiquidERC721Factory.abi,
+        functionName: "createLiquidERC721",
+        args: [tokenName, tokenSymbol, nftContractAddress, tokensPerNft],
+      },
+      {
+        onSuccess: (tx: any) => {
+          alert("Success, opening a new tab BaseScan with tx");
+          window.open(`https://basescan.org/tx/${tx}`);
+        },
+      }
+    );
+  };
 
   return (
     <div className="flex w-full flex-col h-full">
@@ -42,7 +113,7 @@ const LiquidifyPage = () => {
                 }}
                 className="flex flex-col cursor-not-allowed shadow-xl opacity-50 hover:shadow-none select-none text-opacity-80 text-white h-[250px] font-mono bg-white bg-opacity-5 transition-all border-white border-opacity-5 flex items-center justify-center w-[250px] border-2 rounded-lg"
               >
-                <HammerIcon className="mb-2"/>
+                <HammerIcon className="mb-2" />
                 <span>ERC1155</span>
               </div>
             </div>
@@ -55,6 +126,9 @@ const LiquidifyPage = () => {
               <div className="text-white mb-5 flex-col gap-y-2.5 flex items-center">
                 <span className="select-none">{selectedContract} to wrap</span>
                 <input
+                  onChange={(e) => {
+                    setNftContractAddress(e.target.value);
+                  }}
                   placeholder={`${selectedContract} address`}
                   className="text-white bg-white bg-opacity-10 w-[350px] outline-none py-1.5 px-2 rounded-md"
                 />
@@ -92,13 +166,22 @@ const LiquidifyPage = () => {
                 <span className="mt-6 select-none">ERC20 to create</span>
                 <input
                   placeholder="Token name"
+                  onChange={(e) => {
+                    setTokenName(e.target.value);
+                  }}
                   className="text-white bg-white bg-opacity-10 w-[350px] outline-none py-1.5 px-2 rounded-md"
                 />
                 <input
+                  onChange={(e) => {
+                    setTokenSymbol(e.target.value);
+                  }}
                   placeholder="Token symbol"
                   className="text-white bg-white bg-opacity-10 w-[350px] outline-none py-1.5 px-2 rounded-md"
                 />
                 <input
+                  onChange={(e) => {
+                    setTokensPerNft(parseInt(e.target.value));
+                  }}
                   placeholder="Tokens per NFT"
                   className="text-white bg-white bg-opacity-10 w-[350px] outline-none py-1.5 px-2 rounded-md"
                 />
@@ -117,7 +200,10 @@ const LiquidifyPage = () => {
                 >
                   Back
                 </button>
-                <button className="bg-white w-full select-none hover:bg-opacity-10 transition-all bg-opacity-5 border-2 border-opacity-10 text-white outline-none rounded-md border-white px-3 py-1">
+                <button
+                  onClick={createNLFT}
+                  className="bg-white w-full select-none hover:bg-opacity-10 transition-all bg-opacity-5 border-2 border-opacity-10 text-white outline-none rounded-md border-white px-3 py-1"
+                >
                   Create LNFT
                 </button>
               </div>

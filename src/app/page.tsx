@@ -6,16 +6,19 @@ import { useState } from "react";
 import CollectionPage from "../components/CollectionPage";
 import LiquidifyPopUp from "../components/LiquidifyPage";
 import LiquidifyPage from "../components/LiquidifyPage";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export default function Home() {
   const [page, setPage] = useState<"about" | "collection" | "liquidify">(
     "collection"
   );
 
+
   return (
     <>
       <main className="flex min-h-screen flex-col items-center">
         <link rel="icon" href="/icon.png" />
+        <title>Liquidify.gg</title>
 
         <div className="w-full items-center px-3 shadow-xl border-b-2 border-white border-opacity-5 py-3.5 flex bg-white bg-opacity-5">
           <img src="/icon.png" className="h-[35px] select-none mr-3" />
@@ -66,8 +69,114 @@ export default function Home() {
               Liquidify
             </button>
             <button className="outline-none flex items-center bg-white mr-2 text-white rounded-sm py-1 bg-opacity-0 transition-all hover:text-opacity-100 px-3 rounded-md select-none text-opacity-50">
-              <Wallet className="h-[15px] mr-1" />
-              Wallet
+              <ConnectButton.Custom>
+                {({
+                  account,
+                  chain,
+                  openAccountModal,
+                  openChainModal,
+                  openConnectModal,
+                  authenticationStatus,
+                  mounted,
+                }) => {
+                  // Note: If your app doesn't use authentication, you
+                  // can remove all 'authenticationStatus' checks
+                  const ready = mounted && authenticationStatus !== "loading";
+                  const connected =
+                    ready &&
+                    account &&
+                    chain &&
+                    (!authenticationStatus ||
+                      authenticationStatus === "authenticated");
+
+                  return (
+                    <div
+                      {...(!ready && {
+                        "aria-hidden": true,
+                        style: {
+                          opacity: 0,
+                          pointerEvents: "none",
+                          userSelect: "none",
+                        },
+                      })}
+                    >
+                      {(() => {
+                        if (!connected) {
+                          return (
+                            <>
+                              <button
+                                onClick={openConnectModal}
+                                className="flex items-center"
+                                type="button"
+                              >
+                                <Wallet className="h-[15px] mr-1" />
+                                Wallet
+                              </button>
+                            </>
+                          );
+                        }
+
+                        if (chain.unsupported) {
+                          return (
+                            <button
+                              className="flex items-center"
+                              onClick={openChainModal}
+                              type="button"
+                            >
+                              <Wallet className="h-[15px] mr-1" />
+                              Wrong network
+                            </button>
+                          );
+                        }
+
+                        return (
+                          <div style={{ display: "flex", gap: 12 }}>
+                            {/* <button
+                          onClick={openChainModal}
+                          style={{ display: "flex", alignItems: "center" }}
+                          type="button"
+                        >
+                          {chain.hasIcon && (
+                            <div
+                              style={{
+                                background: chain.iconBackground,
+                                width: 12,
+                                height: 12,
+                                borderRadius: 999,
+                                overflow: "hidden",
+                                marginRight: 4,
+                              }}
+                            >
+                              {chain.iconUrl && (
+                                <img
+                                  alt={chain.name ?? "Chain icon"}
+                                  src={chain.iconUrl}
+                                  style={{ width: 12, height: 12 }}
+                                />
+                              )}
+                            </div>
+                          )}
+                          {chain.name}
+                        </button> */}
+
+                            <button
+                              className="flex items-center"
+                              onClick={openAccountModal}
+                              type="button"
+                            >
+                              <Wallet className="h-[15px] mr-1" />
+                              {account.displayName}
+                              {/* {account.displayBalance
+                            ? ` (${account.displayBalance})`
+                            : ""} */}
+                            </button>
+                          </div>
+                        );
+                      })()}
+                    </div>
+                  );
+                }}
+              </ConnectButton.Custom>
             </button>
           </div>
         </div>
