@@ -15,9 +15,9 @@ import { useState, useEffect } from "react";
 import { useWriteContract, useAccount, useReadContract } from "wagmi";
 import LiquidERC721 from "../app/abi/LiquidERC721.json";
 
-const CollectionPage = () => {
+const CollectionPage = ({ collections }: { collections: any }) => {
   const [walletAddress, setWalletAddress] = useState<string>("");
-  const [collections, setCollections] = useState<any>(undefined);
+
   const [selectedCollection, setSelectedCollection] = useState<any>(undefined);
   const [mode, setMode] = useState<"wrap" | "unwrap" | "summary">("wrap");
   const [tokenIdList, setTokenIdList] = useState<number[]>([]);
@@ -55,18 +55,6 @@ const CollectionPage = () => {
 
     fetchTokenIds();
   }, [selectedCollection, walletAddress]);
-
-  useEffect(() => {
-    const fetchCollections = async () => {
-      const response = await fetch("/api/collections");
-
-      const data = await response.json();
-      console.log(data);
-      setCollections(data);
-    };
-
-    fetchCollections().catch(console.error);
-  }, []);
 
   return (
     <>
