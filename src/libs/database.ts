@@ -19,5 +19,5 @@ export const connectToDatabase = async () => {
   global.mongoClient = client; // Assign the MongoClient instance
 
   console.log("New MongoDB connection established");
-  return client.db("etherpixels"); // Return the Db instance from the MongoClient
+  return client.db("test"); // Return the Db instance from the MongoClient
 };

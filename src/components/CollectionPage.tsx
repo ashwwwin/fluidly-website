@@ -3,8 +3,23 @@
 import { BookCheckIcon, Info } from "lucide-react";
 import React from "react";
 import "../app/globals.css";
+import { useState, useEffect } from "react";
 
 const CollectionPage = () => {
+  const [collections, setCollections] = useState([]);
+
+  useEffect(() => {
+    const fetchCollections = async () => {
+      const response = await fetch("/api/collections");
+
+      const data = await response.json();
+      console.log(data);
+      setCollections(data);
+    };
+
+    fetchCollections().catch(console.error);
+  }, []);
+
   return (
     <>
       <div className="flex w-full">
