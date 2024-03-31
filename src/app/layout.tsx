@@ -7,15 +7,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider } from "wagmi";
-import {
-  arbitrum,
-  base,
-  mainnet,
-  optimism,
-  polygon,
-  sepolia,
-  zora,
-} from "wagmi/chains";
+import { base, mainnet } from "wagmi/chains";
 import {
   getDefaultConfig,
   RainbowKitProvider,
@@ -24,7 +16,7 @@ import {
 
 const config = getDefaultConfig({
   appName: "Liquidify",
-  projectId: "YOUR_PROJECT_ID",
+  projectId: process.env.WC_PROJECT_ID || "YOUR_PROJECT_ID",
   chains: [mainnet],
   ssr: true, // If your dApp uses server side rendering (SSR)
 });

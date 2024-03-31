@@ -5,7 +5,9 @@ export async function GET(request: NextRequest) {
   try {
     const db = await connectToDatabase();
     const collection = db.collection("liquidNfts");
-    const liquidNfts = await collection.find({}).toArray();
+    let liquidNfts = await collection.find({}).toArray();
+    // Sorting liquidNfts to bring liquidifyVerified to the top
+    liquidNfts = liquidNfts.sort((a, b) => b.liquidifyVerified - a.liquidifyVerified);
     console.log(liquidNfts);
     return new NextResponse(JSON.stringify({ liquidNfts }), {
       status: 200,
