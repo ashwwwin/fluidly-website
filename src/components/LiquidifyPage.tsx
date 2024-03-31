@@ -210,7 +210,7 @@ const LiquidifyPage = () => {
             </div>
             <span
               onClick={() => {
-                window.open("");
+                window.open("https://www.youtube.com/watch?v=m_Slm6Vij5c");
               }}
               className="flex mb-8 gap-x-2 text-white hover:opacity-100 cursor-pointer select-none opacity-60 text-[15px] w-full items-center justify-center mt-2 text-center"
             >
