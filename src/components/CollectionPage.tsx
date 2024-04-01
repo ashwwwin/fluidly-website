@@ -207,7 +207,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
       <div className="flex flex-col w-screen">
         <div className="flex flex-col w-full items-center justify-center">
           <span className="flex text-2xl items-center py-1 mt-1 select-none font-medium text-white">
-            <BookCheckIcon className="h-[18px] mr-2" />
+            <BookCheckIcon className="h-[18px] mr-1.5" />
             Collections
           </span>
           <span className="text-sm text-center text-white opacity-50 w-[650px]">

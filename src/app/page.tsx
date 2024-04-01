@@ -1,17 +1,25 @@
 "use client";
 
-import { BookCheckIcon, Droplet, Info, Wallet, X } from "lucide-react";
+import {
+  BookCheckIcon,
+  Droplet,
+  HelpCircle,
+  Info,
+  Wallet,
+  X,
+} from "lucide-react";
 import Image from "next/image";
 import AboutPage from "../components/AboutPage";
 import { useEffect, useState } from "react";
 import CollectionPage from "../components/CollectionPage";
 import LiquidifyPage from "../components/LiquidifyPage";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import FaqPage from "@/components/FaqPage";
 
 export default function Home() {
-  const [page, setPage] = useState<"about" | "collection" | "liquidify">(
-    "collection"
-  );
+  const [page, setPage] = useState<
+    "about" | "collection" | "liquidify" | "faq"
+  >("collection");
   const [collections, setCollections] = useState<any>(undefined);
 
   useEffect(() => {
@@ -55,6 +63,19 @@ export default function Home() {
               }
             >
               <Info className="h-[15px] mr-1" /> About
+            </button>
+            <button
+              onClick={() => {
+                setPage("faq");
+              }}
+              className={
+                "outline-none flex items-center bg-white text-white rounded-sm py-1 bg-opacity-0 transition-all px-3 rounded-md select-none " +
+                (page == "faq"
+                  ? " text-opacity-100"
+                  : " text-opacity-50 hover:text-opacity-100")
+              }
+            >
+              <HelpCircle className="h-[15px] mr-1" /> FAQ
             </button>
             <button
               onClick={() => {
@@ -200,6 +221,11 @@ export default function Home() {
           {page == "about" && (
             <>
               <AboutPage />
+            </>
+          )}
+          {page == "faq" && (
+            <>
+              <FaqPage />
             </>
           )}
           {page == "collection" && (
