@@ -11,6 +11,7 @@
   "dependencies": {
     "@rainbow-me/rainbowkit": "^2.0.2",
     "@tanstack/react-query": "^5.28.9",
+    "ethers": "^6.11.1",
     "lucide-react": "^0.363.0",
     "mongodb": "^6.5.0",
     "next": "14.1.4",

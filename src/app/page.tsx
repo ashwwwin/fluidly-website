@@ -1,4 +1,5 @@
 "use client";
+
 import { BookCheckIcon, Droplet, Info, Wallet, X } from "lucide-react";
 import Image from "next/image";
 import AboutPage from "../components/AboutPage";

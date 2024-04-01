@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectToDatabase } from "../../../libs/database";
+import { connectToDatabase } from "../../../../libs/database";
 
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);

@@ -87,7 +87,7 @@ const LiquidifyPage = () => {
           <Droplet className="h-[18px] mr-2" />
           Liquidify
         </span>
-        <span className="text-sm text-white select-none w-[450px] text-center">
+        <span className="text-sm text-white text-opacity-50 w-[450px] text-center">
           If your collection or a collection you would like to trade as an ERC20
           has already been liquidified there's no need to repeat this process
           unless you know what you're doing.
