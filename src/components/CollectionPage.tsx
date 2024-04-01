@@ -195,7 +195,6 @@ const CollectionPage = ({ collections }: { collections: any }) => {
 
   useEffect(() => {
     if (selectedCollection == undefined) return;
-    if (!walletAddress) return alert("Please connect your wallet");
 
     fetchBalance();
     fetchApproval();
@@ -359,6 +358,8 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                 <div className="flex">
                   <div
                     onClick={() => {
+                      if (!walletAddress)
+                        return alert("Please connect your wallet");
                       setSelectedCollection(collection);
                     }}
                     className="flex flex-grow bg-white transition-all duration-[100ms] hover:bg-opacity-[17.5%] cursor-pointer select-none flex flex-grow w-full bg-opacity-10 border-l-2 rounded-l-lg select-none border-y-2 border-opacity-10 border-white w-full px-3 py-2"
