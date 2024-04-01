@@ -13,7 +13,7 @@ const AboutPage = () => {
             <Info className="h-[18px] mr-1.5" /> About Liquidify
           </div>
         </div>
-        <div className="flex flex-col gap-y-5 mt-4 w-full max-w-[720px] mx-auto text-center">
+        <div className="flex flex-col opacity-50 gap-y-5 mt-4 w-full max-w-[720px] mx-auto text-center">
           <span className="text-white">
             Liquidify v1 is a permissionless protocol built on Ethereum that
             allows anyone to create ERC20 tokens that are backed 1:1 by their

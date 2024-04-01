@@ -427,7 +427,9 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                   </div>
                   <div
                     onClick={() => {
-                      window.open("https://etherscan.com/");
+                      window.open(
+                        "https://www.dextools.io/app/en/ether/pair-explorer/0x74fb648e0a76831d5a18bf08333603450da7c221"
+                      );
                     }}
                     className="flex w-[70px] max-w-[70px] bg-white transition-all duration-[100ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 rounded-r-lg select-none border-y-2 border-r-2 border-opacity-10 border-white"
                   >
