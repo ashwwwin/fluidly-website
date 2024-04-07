@@ -351,7 +351,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
           </>
         )}
 
-        <div className="flex flex-col text-white mt-5 min-w-screen mx-10">
+        <div className="flex flex-col text-white mt-5 gap-y-3 min-w-screen mx-10">
           {collections?.liquidNfts?.map((collection: any) => {
             return (
               <>
