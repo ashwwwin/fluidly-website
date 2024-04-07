@@ -14,6 +14,9 @@ import "../app/globals.css";
 import { useState, useEffect } from "react";
 import { useWriteContract, useAccount, useReadContract } from "wagmi";
 import LiquidERC721 from "../app/abi/LiquidERC721.json";
+import { switchChain } from "@wagmi/core";
+import { mainnet, base } from "@wagmi/core/chains";
+// import { config } from '../../src/compone'
 
 const CollectionPage = ({ collections }: { collections: any }) => {
   const [walletAddress, setWalletAddress] = useState<string>("");

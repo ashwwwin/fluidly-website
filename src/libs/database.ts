@@ -8,7 +8,7 @@ declare global {
 export const connectToDatabase = async () => {
   if (global.mongoClient) {
     console.log("Reusing existing connection");
-    return global.mongoClient.db("etherpixels"); // Use the db method here
+    return global.mongoClient.db("test"); // Use the db method here
   }
 
   const mongoUrl = process.env.MONGO_URL || "";
