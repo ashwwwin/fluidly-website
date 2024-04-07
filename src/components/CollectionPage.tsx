@@ -380,9 +380,10 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                         )}{" "}
                         ${collection.tokenSymbol}/NFT
                       </span>
+                      <span>Chain: {collection.network}</span>
                     </div>
                   </div>
-                  <div
+                  {/* <div
                     onClick={() => {
                       window.open(
                         `https://etherscan.io/token/${collection.liquidifyContract}`
@@ -391,7 +392,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                     className="flex w-[70px] max-w-[70px] bg-white transition-all duration-[100ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none border-y-2 border-opacity-10 border-white"
                   >
                     <Blocks className="h-[18px]" />
-                  </div>
+                  </div> */}
                   <div
                     onClick={() => {
                       window.open(
@@ -409,7 +410,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                   <div
                     onClick={() => {
                       window.open(
-                        `https://etherscan.io/address/${collection.nftAddress}`
+                        `https://etherscan.io/token/${collection.liquidifyContract}`
                       );
                     }}
                     className="flex w-[70px] max-w-[70px] bg-white transition-all duration-[100ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none border-y-2 border-opacity-10 border-white"
