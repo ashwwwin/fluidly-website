@@ -368,7 +368,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                     className="flex flex-grow bg-white transition-all duration-[100ms] hover:bg-opacity-[17.5%] cursor-pointer select-none flex flex-grow w-full bg-opacity-10 border-l-2 rounded-l-lg select-none border-y-2 border-opacity-10 border-white w-full px-3 py-2"
                   >
                     <img
-                      className="mr-3 h-[70px] min-h-[70px] rounded-md outline-none overflow-hidden pointer-events-none"
+                      className="mr-3 h-[70px] w-[70px] bg-white bg-opacity-10 min-h-[70px] max-h-[70px] object-contain rounded-md outline-none overflow-hidden pointer-events-none"
                       src={collection.nftProjectImage || "/temp.png"}
                     />
                     <div className="flex flex-col w-full">
