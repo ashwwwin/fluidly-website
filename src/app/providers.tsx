@@ -35,7 +35,7 @@ const config = getDefaultConfig({
       wallets: [argentWallet, trustWallet, ledgerWallet],
     },
   ],
-  chains: [mainnet],
+  chains: [mainnet, base],
   ssr: true, // If your dApp uses server side rendering (SSR)
 });
 

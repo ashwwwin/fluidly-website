@@ -6,10 +6,7 @@ export async function GET(request: NextRequest) {
     const db = await connectToDatabase();
     const collection = db.collection("liquidNfts");
 
-
-
     let liquidNfts = await collection.find({}).toArray();
-
 
     console.log(liquidNfts);
     return new NextResponse(JSON.stringify({ liquidNfts }), {
@@ -28,3 +25,5 @@ export async function GET(request: NextRequest) {
     });
   }
 }
+
+export const dynamic = "force-dynamic";
