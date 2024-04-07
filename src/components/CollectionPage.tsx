@@ -278,7 +278,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                           </div>
                           <ChevronLeft className="group-hover:rotate-[-90deg] h-[15px] transition-all" />
                         </div>
-                        {tokenIdList && (
+                        {tokenIdList.length >= 1 && (
                           <>
                             <div className="flex pt-[50px] absolute rounded-lg group-hover:block hidden w-[317px]  ">
                               <div className="flex flex-col bg-[#272727] rounded-lg shadow-xl z-[999] p-1 w-full">

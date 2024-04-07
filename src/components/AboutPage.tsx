@@ -15,7 +15,7 @@ const AboutPage = () => {
         </div>
         <div className="flex flex-col opacity-50 gap-y-5 mt-4 w-full max-w-[720px] mx-auto text-center">
           <span className="text-white">
-            Liquidify v1 is a permissionless protocol built on Ethereum that
+            Liquidify v1 is a permissionless protocol built on Base that
             allows anyone to create ERC20 tokens that are backed 1:1 by their
             favorite NFTs. These are known as LNFTs (or Liquid NFTs). It lowers
             the barriers of entry into NFT ownership by bringing liquidity into
@@ -43,8 +43,18 @@ const AboutPage = () => {
           </span>
           <span className="text-white">
             $LIQ has not been launched yet and an allocation will be reserved
-            for those who create an LNFT with an LP, trade any LNFT or
-            wrap and unwrap on the Liquidify protocol.
+            for those who create an LNFT with an LP, trade any LNFT or wrap and
+            unwrap on the Liquidify protocol. A seperate allocation will be
+            reserved for those who own an{" "}
+            <span
+              className="hover:text-blue-300 cursor-pointer"
+              onClick={() => {
+                window.open("https://etherpixels.com");
+              }}
+            >
+              Ether Pixel
+            </span>
+            .
           </span>
           {/* Future idea: on an availability basis return the user the exact
          NFT they wrapped however, if a new user buys the required tokens to
