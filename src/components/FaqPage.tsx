@@ -19,10 +19,10 @@ const FaqPage = () => {
               What is Liquidify?
             </span>
             <span className="text-sm mt-1 opacity-50">
-              We provide a trusted bridge between your NFT and ensuring that it
-              is backed 1:1 with it's ERC20 token. We ensure that when you wrap
-              your token in exchange for an NFT that you will always be able to
-              trade the exact amount of tokens back for another NFT from that
+              We provide a trusted bridge between your NFT and an ERC20 token,
+              ensuring that it is always backed 1:1. We ensure that when you wrap your
+              token in exchange for an NFT that you will always be able to trade
+              the exact amount of tokens back for an NFT from that
               collection.
             </span>
           </div>

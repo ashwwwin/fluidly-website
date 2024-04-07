@@ -15,11 +15,12 @@ const AboutPage = () => {
         </div>
         <div className="flex flex-col opacity-50 gap-y-5 mt-4 w-full max-w-[720px] mx-auto text-center">
           <span className="text-white">
-            Liquidify v1 is a permissionless protocol built on Base that
-            allows anyone to create ERC20 tokens that are backed 1:1 by their
-            favorite NFTs. These are known as LNFTs (or Liquid NFTs). It lowers
-            the barriers of entry into NFT ownership by bringing liquidity into
-            NFTs and allowing for fractional ownership at scale.
+            Liquidify v1 is a permissionless protocol built on on Ethereum L1,
+            Base, Blast (soon) and Arbitrum (soon) that allows anyone to create
+            ERC20 tokens that are backed 1:1 by their favorite NFTs. These are
+            known as LNFTs (or Liquid NFTs). It lowers the barriers of entry
+            into NFT ownership by bringing liquidity into NFTs and allowing for
+            fractional ownership at scale.
           </span>
 
           <span className="text-white">
