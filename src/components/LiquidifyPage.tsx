@@ -5,6 +5,8 @@ import React, { useEffect, useState } from "react";
 import "../app/globals.css";
 import LiquidERC721Factory from "../app/abi/LiquidERC721Factory.json";
 import { useWriteContract, useReadContract, useAccount } from "wagmi";
+import { switchChain, watchChainId } from "@wagmi/core";
+import { config } from "../app/providers";
 
 const LiquidifyPage = () => {
   const {
@@ -29,11 +31,52 @@ const LiquidifyPage = () => {
   const [tokenSymbol, setTokenSymbol] = useState("");
   const [nftContractAddress, setNftContractAddress] = useState("");
   const [tokensPerNft, setTokensPerNft] = useState<number>(1);
-  const [factoryAddress, setFactoryAddress] = useState<string>(
+  const [factoryAddress, setFactoryAddress] = useState<`0x${string}`>(
     "0x73A630eF4a535Acfe52A2E30a26941E3824d9260"
   );
-  // Mainnet: 0x3650904aa590553111f208DfE159C980b4dcdf8e
-  // Base: 0x73A630eF4a535Acfe52A2E30a26941E3824d9260
+  const [explorer, setExplorer] = useState<string>("https://etherscan.io");
+  const [currentChain, setCurrentChain] = useState<number>(1);
+
+  useEffect(() => {
+    // Mainnet ERC721: 0x3650904aa590553111f208DfE159C980b4dcdf8e
+    // Base ERC721: 0xbb148F822C5Bc97CE56708471CF1E5db4A18167A
+    // Base ERC1155: 0x73A630eF4a535Acfe52A2E30a26941E3824d9260
+    const unwatch = watchChainId(config, {
+      onChange: (chainId: number) => {
+        setCurrentChain(chainId);
+      },
+    });
+
+    // Cleanup function to stop watching the chainId when the component unmounts
+    return () => {
+      unwatch();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (currentChain == 1) setExplorer("https://etherscan.io");
+    if (currentChain === 8453) setExplorer("https://basescan.org");
+
+    if (selectedContract == "ERC721") {
+      if (currentChain === 1) {
+        console.log("Mainnet detected");
+      }
+
+      if (currentChain === 8453) {
+      }
+    }
+
+    if (selectedContract == "ERC1155") {
+      if (currentChain === 1) {
+        console.log("Mainnet ERC115 detected");
+
+        // Add any logic needed for when the chainId is 1 (Ethereum Mainnet)
+      }
+
+      if (currentChain === 8453) {
+      }
+    }
+  }, [currentChain]);
 
   useEffect(() => {
     if (!error) return;
