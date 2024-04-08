@@ -187,7 +187,11 @@ const CollectionPage = ({ collections }: { collections: any }) => {
             abi: LiquidERC721.abi,
             functionName: "unwrapERC721",
             args: [
-              BigInt(parseInt(selectedCollection.tokensPerNft) * 10 ** 18),
+              BigInt(
+                Math.floor(
+                  parseFloat(selectedCollection.tokensPerNft) * 10 ** 18
+                )
+              ),
             ],
           },
           {
@@ -220,7 +224,11 @@ const CollectionPage = ({ collections }: { collections: any }) => {
             address: selectedCollection.liquidifyContract,
             abi: LiquidERC1155.abi,
             functionName: "unwrapERC1155",
-            args: [inputtedERC1155UnwrapAmt],
+            args: [
+              BigInt(
+                Math.floor(parseFloat(inputtedERC1155UnwrapAmt) * 10 ** 18)
+              ),
+            ],
           },
           {
             onSuccess: async (tx: any) => {
@@ -568,7 +576,6 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                             switchChain(config, { chainId: 8453 });
                           }
 
-
                           if (mode == "unwrap") return unwrap();
 
                           if (
@@ -664,9 +671,13 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                   {/* https://magiceden.io/collections/ethereum/0x6740ce1bdbbfad351ec6232faa8c110ebeae36bf */}
                   <div
                     onClick={() => {
-                      window.open(
-                        `${explorer}/token/${collection.liquidifyContract}`
-                      );
+                      let baseUrl =
+                        collection.network == "Ethereum"
+                          ? "https://etherscan.io/token/"
+                          : collection.network === "Base"
+                          ? "https://basescan.org/token/"
+                          : "";
+                      window.open(`${baseUrl}${collection.liquidifyContract}`);
                     }}
                     className="flex w-[70px] max-w-[70px] bg-white transition-all duration-[100ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none border-y-2 border-opacity-10 border-white"
                   >

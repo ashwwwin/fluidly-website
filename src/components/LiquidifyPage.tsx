@@ -4,6 +4,7 @@ import { Droplet, HammerIcon, Image, Info, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import "../app/globals.css";
 import LiquidERC721Factory from "../app/abi/LiquidERC721Factory.json";
+import LiquidERC1155Factory from "../app/abi/LiquidERC1155Factory.json";
 import { useWriteContract, useReadContract, useAccount } from "wagmi";
 import { switchChain, watchChainId } from "@wagmi/core";
 import { config } from "../app/providers";
@@ -35,34 +36,23 @@ const LiquidifyPage = () => {
     "0x73A630eF4a535Acfe52A2E30a26941E3824d9260"
   );
   const [explorer, setExplorer] = useState<string>("https://etherscan.io");
-  const [currentChain, setCurrentChain] = useState<number>(1);
+  const [inputtedERC1155TokenId, setInputtedERC1155TokenId] =
+    useState<string>("");
 
   useEffect(() => {
-    // Mainnet ERC721: 0x3650904aa590553111f208DfE159C980b4dcdf8e
-    // Base ERC721: 0xbb148F822C5Bc97CE56708471CF1E5db4A18167A
-    // Base ERC1155: 0x73A630eF4a535Acfe52A2E30a26941E3824d9260
-    const unwatch = watchChainId(config, {
-      onChange: (chainId: number) => {
-        setCurrentChain(chainId);
-      },
-    });
+    let currentChain = account.chainId;
 
-    // Cleanup function to stop watching the chainId when the component unmounts
-    return () => {
-      unwatch();
-    };
-  }, []);
-
-  useEffect(() => {
     if (currentChain == 1) setExplorer("https://etherscan.io");
     if (currentChain === 8453) setExplorer("https://basescan.org");
 
     if (selectedContract == "ERC721") {
       if (currentChain === 1) {
         console.log("Mainnet detected");
+        setFactoryAddress("0x3650904aa590553111f208DfE159C980b4dcdf8e");
       }
 
       if (currentChain === 8453) {
+        setFactoryAddress("0xbb148F822C5Bc97CE56708471CF1E5db4A18167A");
       }
     }
 
@@ -74,9 +64,10 @@ const LiquidifyPage = () => {
       }
 
       if (currentChain === 8453) {
+        setFactoryAddress("0x73a630ef4a535acfe52a2e30a26941e3824d9260");
       }
     }
-  }, [currentChain]);
+  }, [account.chainId]);
 
   useEffect(() => {
     if (!error) return;
@@ -105,21 +96,46 @@ const LiquidifyPage = () => {
     return alert(errMsg);
   }, [isError]);
 
-  const createNLFT = () => {
-    const tx = writeContract(
-      {
-        address: factoryAddress,
-        abi: LiquidERC721Factory.abi,
-        functionName: "createLiquidERC721",
-        args: [tokenName, tokenSymbol, nftContractAddress, tokensPerNft],
-      },
-      {
-        onSuccess: (tx: any) => {
-          alert("Success, opening a new tab BaseScan with tx");
-          window.open(`https://basescan.org/tx/${tx}`);
+  const createLNFT = () => {
+    if (selectedContract == "ERC721") {
+      const tx = writeContract(
+        {
+          address: factoryAddress,
+          abi: LiquidERC721Factory.abi,
+          functionName: "createLiquidERC721",
+          args: [tokenName, tokenSymbol, nftContractAddress, tokensPerNft],
         },
-      }
-    );
+        {
+          onSuccess: (tx: any) => {
+            alert("Success, opening a new tab BaseScan with tx");
+            window.open(`${explorer}/tx/${tx}`);
+          },
+        }
+      );
+    }
+
+    if (selectedContract == "ERC1155") {
+      const tx = writeContract(
+        {
+          address: factoryAddress,
+          abi: LiquidERC1155Factory.abi,
+          functionName: "createLiquidERC1155",
+          args: [
+            tokenName,
+            tokenSymbol,
+            inputtedERC1155TokenId,
+            nftContractAddress,
+            tokensPerNft,
+          ],
+        },
+        {
+          onSuccess: (tx: any) => {
+            alert("Success, opening a new tab BaseScan with tx");
+            window.open(`${explorer}/tx/${tx}`);
+          },
+        }
+      );
+    }
   };
 
   return (
@@ -148,16 +164,35 @@ const LiquidifyPage = () => {
               >
                 <Image className="mb-2" />
                 ERC721
+                <span className="text-xs">ETH L1 + BASE</span>
               </div>
-              <div
-                onClick={() => {
-                  // setSelectedContract("ERC1155");
-                }}
-                className="flex flex-col cursor-not-allowed shadow-xl opacity-50 hover:shadow-none select-none text-opacity-80 text-white h-[250px] font-mono bg-white bg-opacity-5 transition-all border-white border-opacity-5 flex items-center justify-center w-[250px] border-2 rounded-lg"
-              >
-                <HammerIcon className="mb-2" />
-                <span>ERC1155</span>
-              </div>
+              {account.chainId === 8453 ? (
+                <>
+                  <div
+                    onClick={() => {
+                      setSelectedContract("ERC1155");
+                    }}
+                    className="cursor-pointer flex-col shadow-xl hover:shadow-none select-none hover:bg-opacity-[7.5%] text-opacity-80 hover:text-opacity-100 text-white h-[250px] font-mono bg-white bg-opacity-5 transition-all border-white border-opacity-5 flex items-center justify-center w-[250px] border-2 rounded-lg"
+                  >
+                    <Image className="mb-2" />
+                    ERC1155
+                    <span className="text-xs">BASE ONLY (ATM)</span>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div
+                    onClick={() => {
+                      // setSelectedContract("ERC1155");
+                    }}
+                    className="flex flex-col cursor-not-allowed shadow-xl opacity-50 hover:shadow-none select-none text-opacity-80 text-white h-[250px] font-mono bg-white bg-opacity-5 transition-all border-white border-opacity-5 flex items-center justify-center w-[250px] border-2 rounded-lg"
+                  >
+                    <HammerIcon className="mb-2" />
+                    <span>ERC1155</span>
+                    <span className="text-xs">BASE ONLY (ATM)</span>
+                  </div>
+                </>
+              )}
             </div>
           </>
         )}
@@ -191,6 +226,9 @@ const LiquidifyPage = () => {
                 {selectedContract == "ERC1155" && (
                   <>
                     <input
+                      onChange={(e) => {
+                        setInputtedERC1155TokenId(e.target.value);
+                      }}
                       placeholder={`Token id`}
                       className="text-white bg-white bg-opacity-10 w-[350px] outline-none py-1.5 px-2 rounded-md"
                     />
@@ -243,7 +281,7 @@ const LiquidifyPage = () => {
                   Back
                 </button>
                 <button
-                  onClick={createNLFT}
+                  onClick={createLNFT}
                   className="bg-white w-full select-none hover:bg-opacity-10 transition-all bg-opacity-5 border-2 border-opacity-10 text-white outline-none rounded-md border-white px-3 py-1"
                 >
                   Create LNFT
