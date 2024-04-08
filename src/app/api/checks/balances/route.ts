@@ -9,10 +9,12 @@ export async function GET(request: NextRequest) {
     const contract = url.searchParams.get("contract");
     const network = url.searchParams.get("network");
 
-    if (!wallet || !contract) {
+    console.log("[balances] Network is", network);
+
+    if (!wallet || !contract || !network) {
       return new NextResponse(
         JSON.stringify({
-          message: "Missing account or contractAddress query parameters",
+          message: "Missing wallet, contract or network query parameters",
         }),
         {
           status: 400,
@@ -23,16 +25,29 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const provider = new JsonRpcProvider(
-      `https://eth-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY}`
+    let provider;
+
+    if (network == "Base") {
+      provider = new JsonRpcProvider(
+        `https://base-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY_BASE}`
+      );
+    } else {
+      provider = new JsonRpcProvider(
+        `https://eth-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY}`
+      );
+    }
+
+    const _contract = new ethers.Contract(
+      contract,
+      ["function balanceOf(address _owner) view returns (uint256)"],
+      provider
     );
 
-    const _contract = new ethers.Contract(contract, LiquidERC721.abi, provider);
-    const balance = await _contract.balanceOf(wallet);
+    const balance = (await _contract.balanceOf(wallet)).toString();
 
     console.log(balance);
 
-    return new NextResponse(JSON.stringify({ balance: balance.toString() }), {
+    return new NextResponse(JSON.stringify({ balance: balance }), {
       status: 200,
       headers: {
         "Content-Type": "application/json",

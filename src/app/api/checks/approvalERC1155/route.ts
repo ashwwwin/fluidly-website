@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ethers, JsonRpcProvider, Interface } from "ethers";
-import LiquidERC721 from "../../../../../src/app/abi/LiquidERC721.json";
+import LiquidERC721 from "../../../abi/LiquidERC721.json";
 
 export async function GET(request: NextRequest) {
   try {
@@ -28,23 +28,20 @@ export async function GET(request: NextRequest) {
     }
     let provider;
     if (network == "Base") {
-      `base://base-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY_BASE}`;
+      provider = new JsonRpcProvider(`https://base-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY_BASE}`);
     } else {
-      provider = new JsonRpcProvider(
-        `https://eth-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY}`
-      );
+      provider = new JsonRpcProvider(`https://eth-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY}`);
     }
-
-    const isApprovedForAllInterface = new Interface([
-      "function isApprovedForAll(address owner, address operator) view returns (bool)",
-    ]);
-
+    console.log(contract, operator);
     const _contract = new ethers.Contract(
       contract,
-      isApprovedForAllInterface,
+      ["function isApprovedForAll(address owner, address operator) view returns (bool)"],
       provider
     );
+
     const isApproved = await _contract.isApprovedForAll(wallet, operator);
+
+    console.log(isApproved);
 
     return new NextResponse(JSON.stringify({ isApproved }), {
       status: 200,

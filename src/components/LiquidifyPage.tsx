@@ -29,8 +29,11 @@ const LiquidifyPage = () => {
   const [tokenSymbol, setTokenSymbol] = useState("");
   const [nftContractAddress, setNftContractAddress] = useState("");
   const [tokensPerNft, setTokensPerNft] = useState<number>(1);
-
-  const factoryAddress = "0x3650904aa590553111f208DfE159C980b4dcdf8e";
+  const [factoryAddress, setFactoryAddress] = useState<string>(
+    "0x73A630eF4a535Acfe52A2E30a26941E3824d9260"
+  );
+  // Mainnet: 0x3650904aa590553111f208DfE159C980b4dcdf8e
+  // Base: 0x73A630eF4a535Acfe52A2E30a26941E3824d9260
 
   useEffect(() => {
     if (!error) return;
@@ -50,10 +53,6 @@ const LiquidifyPage = () => {
       )
     ) {
       return alert("Insufficient ETH balance for transaction and gas");
-    }
-
-    if (errMsg.includes("Pixel is owned")) {
-      return alert("Pixel is owned");
     }
 
     if (errMsg.includes("Listing expired")) {

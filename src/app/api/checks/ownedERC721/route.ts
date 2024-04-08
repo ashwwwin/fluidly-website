@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
+import { ethers, JsonRpcProvider } from "ethers";
 import { connectToDatabase } from "../../../../libs/database";
 
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
   const wallet = url.searchParams.get("wallet");
   const contract = url.searchParams.get("contract");
+  const network = url.searchParams.get("network");
 
   try {
     const db = await connectToDatabase();
@@ -30,7 +32,13 @@ export async function GET(request: NextRequest) {
     // }
 
     const alchemyKey = process.env.ALCHEMY_KEY;
-    const alchemyUrl = `https://eth-mainnet.g.alchemy.com/nft/v2/${alchemyKey}/getNFTs?owner=${wallet}&contractAddresses[]=${contract}&withMetadata=false&pageSize=100`;
+
+    let alchemyUrl;
+    if (network == "Base") {
+      alchemyUrl = `https://base-mainnet.g.alchemy.com/nft/v2/${alchemyKey}/getNFTs?owner=${wallet}&contractAddresses[]=${contract}&withMetadata=false&pageSize=100`;
+    } else {
+      alchemyUrl = `https://eth-mainnet.g.alchemy.com/nft/v2/${alchemyKey}/getNFTs?owner=${wallet}&contractAddresses[]=${contract}&withMetadata=false&pageSize=100`;
+    }
 
     const alchemyResponse = await fetch(alchemyUrl, {
       method: "GET",

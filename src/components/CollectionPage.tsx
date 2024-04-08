@@ -6,6 +6,7 @@ import {
   BookCheckIcon,
   ChevronLeft,
   Info,
+  RefreshCcw,
   Verified,
   X,
 } from "lucide-react";
@@ -14,7 +15,8 @@ import "../app/globals.css";
 import { useState, useEffect } from "react";
 import { useWriteContract, useAccount, useReadContract } from "wagmi";
 import LiquidERC721 from "../app/abi/LiquidERC721.json";
-import { switchChain } from "@wagmi/core";
+import LiquidERC1155 from "../app/abi/LiquidERC1155.json";
+import { switchChain, watchChainId } from "@wagmi/core";
 import { mainnet, base } from "@wagmi/core/chains";
 // import { config } from '../../src/compone'
 
@@ -25,7 +27,10 @@ const CollectionPage = ({ collections }: { collections: any }) => {
   const [tokenIdList, setTokenIdList] = useState<number[]>([]);
   const [tokenId, setTokenId] = useState<number>();
   const [balance, setBalance] = useState(0);
+  const [ownedERC1155, setOwnedERC1155] = useState(0);
   const [isERC721TransfersApproved, setIsERC721TransfersApproved] =
+    useState(false);
+  const [isERC1155TransfersApproved, setIsERC1155TransfersApproved] =
     useState(false);
   const account = useAccount();
   const {
@@ -36,8 +41,13 @@ const CollectionPage = ({ collections }: { collections: any }) => {
     writeContract,
     error,
   } = useWriteContract();
+  const [explorer, setExplorer] = useState("https://etherscan.io");
+  const [inputtedERC1155Qty, setInputtedERC1155Qty] = useState<string>("0");
+  const [inputtedERC1155UnwrapAmt, setInputtedERC1155UnwrapAmt] =
+    useState<string>("0");
 
-  const approveERC721Transfers = async () => {
+  // Same standard for ERC1155 and ERC721
+  const approveTransfers = async () => {
     if (!selectedCollection || !walletAddress) return;
 
     const liquidifyContractAddress = selectedCollection.liquidifyContract;
@@ -64,7 +74,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
         {
           onSuccess: async (tx: any) => {
             alert("Waiting for approval to confirm");
-            while (!isERC721TransfersApproved) {
+            while (!isERC721TransfersApproved && !isERC1155TransfersApproved) {
               await new Promise((resolve) => setTimeout(resolve, 8000));
               fetchApproval();
             }
@@ -80,83 +90,176 @@ const CollectionPage = ({ collections }: { collections: any }) => {
     setWalletAddress(account.address);
   }, [account?.address]);
 
-  const wrapERC721 = async () => {
+  const wrap = async () => {
     console.log("trying");
-    try {
-      const tx = writeContract(
-        {
-          address: selectedCollection.liquidifyContract,
-          abi: LiquidERC721.abi,
-          functionName: "wrapERC721",
-          args: [`${tokenId}`],
-        },
-        {
-          onSuccess: async (tx: any) => {
-            setTimeout(async () => {
-              await fetchBalance();
-              await fetchTokenIds();
-            }, 15000);
-
-            window.open(`https://etherscan.io/tx/${tx.hash}`);
+    if (selectedCollection.type == "ERC721") {
+      try {
+        const tx = writeContract(
+          {
+            address: selectedCollection.liquidifyContract,
+            abi: LiquidERC721.abi,
+            functionName: "wrapERC721",
+            args: [`${tokenId}`],
           },
-          onError(error, variables, context) {
-            console.log(error);
-          },
-        }
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  };
+          {
+            onSuccess: async (tx: any) => {
+              setTimeout(async () => {
+                await fetchBalance();
+                await fetchNftBalances();
+              }, 8000);
 
-  const unwrapERC721 = async () => {
-    await fetchBalance();
-
-    try {
-      const tx = writeContract(
-        {
-          address: selectedCollection.liquidifyContract,
-          abi: LiquidERC721.abi,
-          functionName: "unwrapERC721",
-          args: [BigInt(parseInt(selectedCollection.tokensPerNft) * 10 ** 18)],
-        },
-        {
-          onSuccess: async (tx: any) => {
-            setTimeout(async () => {
-              await fetchBalance();
-              await fetchTokenIds();
-            }, 15000);
-
-            window.open(`https://etherscan.io/tx/${tx.hash}`);
-          },
-          onError(error, variables, context) {
-            if (error.toString().includes("Insufficient funds to unwrap")) {
-              alert("Insufficient funds to unwrap");
-            }
-          },
-        }
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const fetchTokenIds = async () => {
-    try {
-      const contractAddress = selectedCollection.nftAddress; // Assuming selectedCollection holds the contract address
-      const response = await fetch(
-        `/api/checks/ownedERC721?wallet=${walletAddress}&contract=${contractAddress}`
-      );
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch token IDs: ${response.statusText}`);
+              window.open(`${explorer}/tx/${tx}`);
+            },
+            onError(error, variables, context) {
+              console.log(error);
+            },
+          }
+        );
+      } catch (err) {
+        console.log(err);
       }
+    }
 
-      const data = await response.json();
-      setTokenIdList(data.tokenIds); // Assuming we want to set the first tokenId, adjust as needed
-      setTokenId(data.tokenIds[0]);
-    } catch (error) {
-      console.error("Failed to fetch token IDs:", error);
+    if (selectedCollection.type == "ERC1155") {
+      try {
+        const tx = writeContract(
+          {
+            address: selectedCollection.liquidifyContract,
+            abi: LiquidERC1155.abi,
+            functionName: "wrapERC1155",
+            args: [`${inputtedERC1155Qty}`],
+          },
+          {
+            onSuccess: async (tx: any) => {
+              setTimeout(async () => {
+                await fetchBalance();
+                await fetchNftBalances();
+              }, 8000);
+
+              window.open(`${explorer}/tx/${tx}`);
+            },
+            onError(error, variables, context) {
+              console.log(error);
+            },
+          }
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
+  const unwrap = async () => {
+    // await fetchBalance();
+    console.log("trying unwrap");
+
+    if (selectedCollection.type == "ERC721") {
+      console.log("unwrap erc721");
+      try {
+        const tx = writeContract(
+          {
+            address: selectedCollection.liquidifyContract,
+            abi: LiquidERC721.abi,
+            functionName: "unwrapERC721",
+            args: [
+              BigInt(parseInt(selectedCollection.tokensPerNft) * 10 ** 18),
+            ],
+          },
+          {
+            onSuccess: async (tx: any) => {
+              console.log(tx);
+              setTimeout(async () => {
+                await fetchBalance();
+                await fetchNftBalances();
+              }, 8000);
+
+              window.open(`${explorer}/tx/${tx}`);
+            },
+            onError(error, variables, context) {
+              if (error.toString().includes("Insufficient funds to unwrap")) {
+                alert("Insufficient funds to unwrap");
+              }
+            },
+          }
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    if (selectedCollection.type == "ERC1155") {
+      console.log("unwrap erc1155");
+      try {
+        const tx = writeContract(
+          {
+            address: selectedCollection.liquidifyContract,
+            abi: LiquidERC1155.abi,
+            functionName: "unwrapERC1155",
+            args: [inputtedERC1155UnwrapAmt],
+          },
+          {
+            onSuccess: async (tx: any) => {
+              console.log(tx);
+              setTimeout(async () => {
+                await fetchBalance();
+                await fetchNftBalances();
+              }, 8000);
+
+              window.open(`${explorer}/tx/${tx}`);
+            },
+            onError(error, variables, context) {
+              if (error.toString().includes("Insufficient funds to unwrap")) {
+                alert("Insufficient funds to unwrap");
+              } else {
+                console.log(error.toString());
+              }
+            },
+          }
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
+  const fetchNftBalances = async () => {
+    if (selectedCollection.type === "ERC721") {
+      try {
+        const contractAddress = selectedCollection.nftAddress; // Assuming selectedCollection holds the contract address
+        const response = await fetch(
+          `/api/checks/ownedERC721?wallet=${walletAddress}&contract=${contractAddress}&network=${selectedCollection.network}`
+        );
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch token IDs: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        setTokenIdList(data.tokenIds); // Assuming we want to set the first tokenId, adjust as needed
+        setTokenId(data.tokenIds[0]);
+      } catch (error) {
+        console.error("Failed to fetch token IDs:", error);
+      }
+    }
+
+    if (selectedCollection.type === "ERC1155") {
+      try {
+        const contractAddress = selectedCollection.nftAddress; // Assuming selectedCollection holds the contract address
+        const response = await fetch(
+          `/api/checks/ownedERC1155?wallet=${walletAddress}&tokenId=${selectedCollection.tokenId}&contract=${contractAddress}&network=${selectedCollection.network}`
+        );
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch token IDs: ${response.statusText}`);
+        }
+
+        let data = await response.json();
+        data = await parseInt(data.balance);
+
+        setOwnedERC1155(data);
+      } catch (error) {
+        console.error("Failed to fetch token IDs:", error);
+      }
     }
   };
 
@@ -164,7 +267,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
     try {
       const contractAddress = selectedCollection.nftAddress; // Assuming selectedCollection holds the contract address
       const response = await fetch(
-        `/api/checks/balances?wallet=${walletAddress}&contract=${contractAddress}`
+        `/api/checks/balances?wallet=${walletAddress}&contract=${selectedCollection.liquidifyContract}&network=${selectedCollection.network}`
       );
 
       if (!response.ok) {
@@ -178,21 +281,42 @@ const CollectionPage = ({ collections }: { collections: any }) => {
   };
 
   const fetchApproval = async () => {
-    try {
-      const contractAddress = selectedCollection.nftAddress; // Assuming selectedCollection holds the contract address
-      const liquidifyContractAddress = selectedCollection.liquidifyContract; // Replace with your actual Liquidify contract address
-      const response = await fetch(
-        `/api/checks/approvalERC721?wallet=${walletAddress}&contract=${contractAddress}&operator=${liquidifyContractAddress}`
-      );
+    if (selectedCollection.type === "ERC721") {
+      try {
+        const contractAddress = selectedCollection.nftAddress; // Assuming selectedCollection holds the contract address
+        const liquidifyContractAddress = selectedCollection.liquidifyContract; // Replace with your actual Liquidify contract address
+        const response = await fetch(
+          `/api/checks/approvalERC721?wallet=${walletAddress}&contract=${contractAddress}&operator=${liquidifyContractAddress}&network=${selectedCollection.network}`
+        );
 
-      if (!response.ok) {
-        throw new Error(`Failed to check approval: ${response.statusText}`);
+        if (!response.ok) {
+          throw new Error(`Failed to check approval: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        setIsERC721TransfersApproved(data.isApproved);
+      } catch (error) {
+        console.error("Failed to check approval:", error);
       }
+    }
 
-      const data = await response.json();
-      setIsERC721TransfersApproved(data.isApproved);
-    } catch (error) {
-      console.error("Failed to check approval:", error);
+    if (selectedCollection.type === "ERC1155") {
+      try {
+        const contractAddress = selectedCollection.nftAddress; // Assuming selectedCollection holds the contract address
+        const liquidifyContractAddress = selectedCollection.liquidifyContract; // Replace with your actual Liquidify contract address
+        const response = await fetch(
+          `/api/checks/approvalERC1155?wallet=${walletAddress}&contract=${contractAddress}&tokenId=${selectedCollection.tokenId}&operator=${liquidifyContractAddress}&network=${selectedCollection.network}`
+        );
+
+        if (!response.ok) {
+          throw new Error(`Failed to check approval: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        setIsERC1155TransfersApproved(data.isApproved);
+      } catch (error) {
+        console.error("Failed to check approval:", error);
+      }
     }
   };
 
@@ -201,7 +325,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
 
     fetchBalance();
     fetchApproval();
-    fetchTokenIds();
+    fetchNftBalances();
   }, [selectedCollection, walletAddress]);
 
   return (
@@ -275,29 +399,61 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                   {mode == "wrap" && (
                     <>
                       <div className="flex group mt-3.5">
-                        <div className="cursor-pointer items-center relative rounded-lg flex flex-grow select-none hover:bg-opacity-20 bg-white bg-opacity-10 px-3 py-2">
-                          <div className="text-white flex flex-grow">
-                            {tokenId || "Loading"}
-                          </div>
-                          <ChevronLeft className="group-hover:rotate-[-90deg] h-[15px] transition-all" />
-                        </div>
-                        {tokenIdList.length >= 1 && (
+                        {selectedCollection.type === "ERC721" && (
                           <>
-                            <div className="flex pt-[50px] absolute rounded-lg group-hover:block hidden w-[317px]  ">
-                              <div className="flex flex-col bg-[#272727] rounded-lg shadow-xl z-[999] p-1 w-full">
-                                {tokenIdList.map((_tokenId) => {
-                                  return (
-                                    <div
-                                      onClick={() => {
-                                        setTokenId(_tokenId);
-                                      }}
-                                      className="px-3 w-full cursor-pointer bg-white bg-opacity-0 hover:bg-opacity-5 py-1.5 rounded-md"
-                                    >
-                                      {_tokenId}
-                                    </div>
-                                  );
-                                })}
+                            <div className="cursor-pointer items-center relative rounded-lg flex flex-grow select-none hover:bg-opacity-20 bg-white bg-opacity-10 px-3 py-2">
+                              <div className="text-white flex flex-grow">
+                                {tokenId || "Loading"}
                               </div>
+                              <ChevronLeft className="group-hover:rotate-[-90deg] h-[15px] transition-all" />
+                            </div>
+
+                            {tokenIdList.length >= 1 && (
+                              <>
+                                <div className="flex pt-[50px] absolute rounded-lg group-hover:block hidden w-[317px]  ">
+                                  <div className="flex flex-col bg-[#272727] rounded-lg shadow-xl z-[999] p-1 w-full">
+                                    {tokenIdList.map((_tokenId) => {
+                                      return (
+                                        <div
+                                          onClick={() => {
+                                            setTokenId(_tokenId);
+                                          }}
+                                          className="px-3 w-full cursor-pointer bg-white bg-opacity-0 hover:bg-opacity-5 py-1.5 rounded-md"
+                                        >
+                                          {_tokenId}
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
+                              </>
+                            )}
+                          </>
+                        )}
+
+                        {selectedCollection.type === "ERC1155" && (
+                          <>
+                            <div className="flex mt-1 w-full">
+                              <input
+                                className="px-3 py-2 bg-white rounded-l-md outline-none bg-opacity-10 w-full"
+                                value={inputtedERC1155Qty}
+                                onChange={async (e) => {
+                                  try {
+                                    setInputtedERC1155Qty(e.target.value);
+                                  } catch (err) {
+                                    console.log(err);
+                                  }
+                                }}
+                              />
+                              <button
+                                onClick={() => {
+                                  setInputtedERC1155Qty(`${ownedERC1155}`);
+                                }}
+                                className="px-3 py-2 bg-white hover:text-opacity-100 text-sm text-opacity-70 transition-all items-center text-white hover:bg-opacity-[18.5%] flex text-center rounded-r-md outline-none bg-opacity-[15%] flex"
+                              >
+                                <span className="mr-1 opacity-70">Max</span>
+                                <span>{ownedERC1155}</span>
+                              </button>
                             </div>
                           </>
                         )}
@@ -316,29 +472,81 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                     <>
                       <div className="flex flex-col">
                         <span className="mt-4">
-                          {selectedCollection.tokensPerNft} for 1 NFT
+                          {new Intl.NumberFormat().format(
+                            selectedCollection.tokensPerNft
+                          )}{" "}
+                          ${selectedCollection.tokenSymbol}/NFT
                         </span>
+                        {selectedCollection.type === "ERC1155" && (
+                          <>
+                            <div className="flex mt-1 w-full">
+                              <input
+                                className="px-3 py-2 bg-white rounded-l-md outline-none bg-opacity-10 w-full"
+                                value={inputtedERC1155UnwrapAmt}
+                                onChange={async (e) => {
+                                  try {
+                                    setInputtedERC1155UnwrapAmt(e.target.value);
+                                  } catch (err) {
+                                    console.log(err);
+                                  }
+                                }}
+                              />
+                              <button
+                                onClick={() => {
+                                  setInputtedERC1155UnwrapAmt(`${balance}`);
+                                }}
+                                className="px-3 py-2 bg-white hover:text-opacity-100 text-sm text-opacity-70 transition-all items-center text-white hover:bg-opacity-[18.5%] flex text-center rounded-r-md outline-none bg-opacity-[15%] flex"
+                              >
+                                <span className="mr-1 opacity-70">Max</span>
+                                <span>
+                                  {new Intl.NumberFormat().format(balance)}
+                                </span>
+                              </button>
+                            </div>
+                          </>
+                        )}
+                        {/* <div className="mt-1 flex items-center text-sm">
+                          <span className="flex cursor-pointer flex">
+                            Balance: {new Intl.NumberFormat().format(balance)}{" "}
+                            {selectedCollection.tokenSymbol}
+                          </span>
+                          <RefreshCcw
+                            className="p-1.5 cursor-pointer ml-3 rounded-md hover:bg-opacity-10 bg-white bg-opacity-5 transition-all"
+                            onClick={fetchBalance}
+                          />
+                        </div> */}
                       </div>
                     </>
                   )}
-                  {mode == "unwrap" && <></>}
+                  {/* {mode == "unwrap" && (
+                    <>
+                      <div className="flex mt-4">
+                        <input className="px-3 py-2 bg-white rounded-l-md"/>
+                      </div>
+                    </>
+                  )} */}
                   {mode !== "summary" && (
                     <>
                       <button
                         onClick={() => {
-                          if (mode == "unwrap") return unwrapERC721();
+                          if (mode == "unwrap") return unwrap();
 
-                          if (!isERC721TransfersApproved)
-                            return approveERC721Transfers();
+                          if (
+                            !isERC721TransfersApproved &&
+                            !isERC1155TransfersApproved
+                          )
+                            return approveTransfers();
 
-                          wrapERC721();
+                          wrap();
+
                           // Wrap ERC721
                         }}
                         className="bg-blue-500 mt-4 outline-none py-2 rounded-md select-none cursor-pointer transition-all bg-opacity-80 w-full hover:bg-opacity-100"
                       >
                         {mode == "wrap" ? (
                           <>
-                            {!isERC721TransfersApproved
+                            {!isERC721TransfersApproved &&
+                            !isERC1155TransfersApproved
                               ? "Approve transfer"
                               : "Wrap"}
                           </>
@@ -374,7 +582,11 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                     <div className="flex flex-col w-full">
                       <span className="flex items-center">
                         {collection.nftName}{" "}
-                        <Verified className="h-[13.9px] ml-1" />
+                        {collection.liquidifyVerified && (
+                          <>
+                            <Verified className="h-[13.9px] ml-1" />
+                          </>
+                        )}
                       </span>
                       {/* <span>{collection.tokenName}</span> */}
                       <span>
@@ -413,7 +625,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                   <div
                     onClick={() => {
                       window.open(
-                        `https://etherscan.io/token/${collection.liquidifyContract}`
+                        `${explorer}/token/${collection.liquidifyContract}`
                       );
                     }}
                     className="flex w-[70px] max-w-[70px] bg-white transition-all duration-[100ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none border-y-2 border-opacity-10 border-white"
