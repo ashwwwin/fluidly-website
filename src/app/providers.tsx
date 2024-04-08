@@ -25,7 +25,7 @@ import { WagmiProvider } from "wagmi";
 
 const { wallets } = getDefaultWallets();
 
-const config = getDefaultConfig({
+export const config = getDefaultConfig({
   appName: "Liquidify",
   projectId: process.env.WC_PROJECT_ID || "YOUR_PROJECT_ID",
   wallets: [

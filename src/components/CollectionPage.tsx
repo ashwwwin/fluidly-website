@@ -18,10 +18,11 @@ import LiquidERC721 from "../app/abi/LiquidERC721.json";
 import LiquidERC1155 from "../app/abi/LiquidERC1155.json";
 import { switchChain, watchChainId } from "@wagmi/core";
 import { mainnet, base } from "@wagmi/core/chains";
-// import { config } from '../../src/compone'
+import { config } from "../app/providers";
 
 const CollectionPage = ({ collections }: { collections: any }) => {
   const [walletAddress, setWalletAddress] = useState<string>("");
+  const [currentChain, setCurrentChain] = useState<number>(0);
   const [selectedCollection, setSelectedCollection] = useState<any>(undefined);
   const [mode, setMode] = useState<"wrap" | "unwrap" | "summary">("wrap");
   const [tokenIdList, setTokenIdList] = useState<number[]>([]);
@@ -46,6 +47,30 @@ const CollectionPage = ({ collections }: { collections: any }) => {
   const [inputtedERC1155UnwrapAmt, setInputtedERC1155UnwrapAmt] =
     useState<string>("0");
 
+  useEffect(() => {
+    const unwatch = watchChainId(config, {
+      onChange: (chainId: number) => {
+        setCurrentChain(chainId);
+        console.log(`Chain ID changed to: ${chainId}`);
+        // Perform actions based on the chainId if necessary
+        if (chainId === 1) {
+          console.log("Mainnet detected");
+          setExplorer("https://etherscan.io");
+          // Add any logic needed for when the chainId is 1 (Ethereum Mainnet)
+        }
+
+        if (chainId === 8453) {
+          console.log("Base detected");
+          setExplorer("https://basescan.org");
+        }
+      },
+    });
+
+    // Cleanup function to stop watching the chainId when the component unmounts
+    return () => {
+      unwatch();
+    };
+  }, []);
   // Same standard for ERC1155 and ERC721
   const approveTransfers = async () => {
     if (!selectedCollection || !walletAddress) return;
@@ -529,6 +554,21 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                     <>
                       <button
                         onClick={() => {
+                          if (
+                            selectedCollection.network == "Ethereum" &&
+                            currentChain != 1
+                          ) {
+                            switchChain(config, { chainId: 1 });
+                          }
+
+                          if (
+                            selectedCollection.network == "Base" &&
+                            currentChain != 8453
+                          ) {
+                            switchChain(config, { chainId: 8453 });
+                          }
+
+
                           if (mode == "unwrap") return unwrap();
 
                           if (
@@ -581,7 +621,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                     />
                     <div className="flex flex-col w-full">
                       <span className="flex items-center">
-                        {collection.nftName}{" "}
+                        {collection.nftName || collection.tokenName}{" "}
                         {collection.liquidifyVerified && (
                           <>
                             <Verified className="h-[13.9px] ml-1" />

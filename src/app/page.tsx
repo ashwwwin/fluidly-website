@@ -104,7 +104,7 @@ export default function Home() {
               <Droplet className="h-[15px] mr-1" />
               Liquidify
             </button>
-            <button className="outline-none flex items-center bg-white mr-2 text-white rounded-sm py-1 bg-opacity-0 transition-all hover:text-opacity-100 px-3 rounded-md select-none text-opacity-50">
+            <button className="outline-none text-white flex items-center bg-white mr-2 rounded-sm py-1 bg-opacity-0 transition-all hover:text-opacity-100 px-3 rounded-md select-none text-opacity-50">
               <ConnectButton.Custom>
                 {({
                   account,
