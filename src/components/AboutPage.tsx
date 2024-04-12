@@ -47,11 +47,11 @@ const AboutPage = () => {
           <span className="text-white">
             Liquidify earns a 0.5% fee from token sales and will use 50% of that
             to buy & burn $LIQ, our native token (if the LNFT's ERC20 is paired
-            with an LP).
+            with an LP). $LIQ has not been launched yet. It's launch is conditional on
+            protocol revenue.
           </span>
           <span className="text-white">
-            $LIQ has not been launched yet. It's launch is conditional on
-            protocol revenue. Allocations will be reserved for those who
+            Allocations will be reserved for those who
             create an LNFT with an LP, trade any LNFT or wrap and unwrap on the
             Liquidify protocol. A seperate allocation will be for past Codechain
             holders. A seperate allocation will be reserved for those who own an{" "}
