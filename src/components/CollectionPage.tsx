@@ -202,6 +202,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                 await fetchNftBalances();
               }, 8000);
 
+              await new Promise(resolve => setTimeout(resolve, 2000));
               window.open(`${explorer}/tx/${tx}`);
             },
             onError(error, variables, context) {
@@ -238,6 +239,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                 await fetchNftBalances();
               }, 8000);
 
+              await new Promise(resolve => setTimeout(resolve, 2000));
               window.open(`${explorer}/tx/${tx}`);
             },
             onError(error, variables, context) {

@@ -55,8 +55,8 @@ const FaqPage = () => {
               Why are royalties not working on my collection?
             </span>
             <span className="text-md mt-1 opacity-50">
-              You can enable royalties by entering the LP address into your
-              collection's management tab.
+              Please reach out to us on Twitter and we'll enable them for you
+              once we verify that you are the collection owner.
             </span>
           </div>
           <div className="text-white flex flex-col">
