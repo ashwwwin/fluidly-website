@@ -33,10 +33,10 @@ const FaqPage = () => {
             <span className="text-md mt-1 opacity-50">
               This is a standard procedure that all ERC721s go through when they
               need to be 'traded'. When you trade a collection you haven't
-              before on Magic Eden, Blur, Opensea, etc - this is a required
-              approval. Liquidify's LNFT contract only utilizes this once, and
-              it is only to grant you the power to transfer of your NFT into the
-              contract (when you use the wrapping function) if you choose to.
+              before on any NFT marketplace, this is a standard procedure.
+              Liquidify's LNFT contract only utilizes this once, and it is only
+              to grant you the power to transfer of your NFT into the contract
+              (when you use the wrapping function) if you choose to.
             </span>
           </div>
           <div className="text-white flex flex-col">
