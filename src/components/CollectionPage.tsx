@@ -100,7 +100,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
           onSuccess: async (tx: any) => {
             alert("Waiting for approval to confirm");
             while (!isERC721TransfersApproved && !isERC1155TransfersApproved) {
-              await new Promise((resolve) => setTimeout(resolve, 8000));
+              await new Promise((resolve) => setTimeout(resolve, 3000));
               fetchApproval();
             }
           },
