@@ -39,7 +39,23 @@ export default function Home() {
 
   return (
     <>
-      <main className="flex min-h-screen flex-col items-center">
+      <main className="flex h-screen w-full items-center justify-center flex-col items-center xs:block hidden">
+        <div className="flex flex-col items-center justify-center h-screen">
+          {" "}
+          <img
+            src="/logo.png"
+            className="h-[35px] mt-5 select-none pointer-events-none"
+          />
+          <span className="text-white mt-2 px-5 text-center text-sm font-bold">
+            Liquidify is a protocol that allows anyone to create ERC20 tokens
+            that are backed 1:1 with their NFTs.
+          </span>
+          <span className="text-white mt-10 px-5 text-center text-sm">
+            Smaller screens are not support at this moment.
+          </span>
+        </div>
+      </main>
+      <main className="flex min-h-screen flex-col items-center xs:hidden">
         <link rel="icon" href="/icon.png" />
         <title>Liquidify.gg</title>
 
@@ -92,11 +108,11 @@ export default function Home() {
             </button>
             <button
               onClick={() => {
-                alert(
-                  "Creating LNFTs on demand is coming soon, dm @Liquidify_gg on Twitter."
-                );
+                // alert(
+                //   "Creating LNFTs on demand is coming soon, dm @Liquidify_gg on Twitter to create one in the meanwhile."
+                // );
 
-                return;
+                // return;
                 setPage("liquidify");
               }}
               className={

@@ -47,7 +47,7 @@ const FaqPage = () => {
               Yes, as long as it meets the required tokens. The required tokens
               are exactly the amount that the NFT was traded for initially. The
               token to nft amount and the nft to token amount will always be
-              equal are immutable for each LNFT pair.
+              equal and are immutable for each LNFT pair.
             </span>
           </div>
           <div className="text-white flex flex-col">
