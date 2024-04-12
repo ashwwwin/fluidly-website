@@ -82,7 +82,7 @@ const FaqPage = () => {
               us if you find an issue, we offer whitehat bounties.
             </span>
           </div>
-          <div className="text-white flex flex-col">
+          {/* <div className="text-white flex flex-col">
             <span className="font-semibold select-none">
               What is the safeguard on the contract?
             </span>
@@ -92,7 +92,7 @@ const FaqPage = () => {
               in the event of an exploit to protect your NFTs. Collection owners
               can ask us to revoke access permanently at anytime.
             </span>
-          </div>
+          </div> */}
 
           {/* Future idea: on an availability basis return the user the exact
          NFT they wrapped however, if a new user buys the required tokens to
