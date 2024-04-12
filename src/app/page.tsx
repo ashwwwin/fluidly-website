@@ -92,6 +92,11 @@ export default function Home() {
             </button>
             <button
               onClick={() => {
+                alert(
+                  "Creating LNFTs on demand is coming soon, dm @Liquidify_gg on Twitter."
+                );
+
+                return;
                 setPage("liquidify");
               }}
               className={

@@ -13,14 +13,21 @@ const AboutPage = () => {
             <Info className="h-[18px] mr-1.5" /> About Liquidify
           </div>
         </div>
-        <div className="flex flex-col opacity-50 gap-y-5 mt-4 w-full max-w-[720px] mx-auto text-center">
+        <div className="flex flex-col opacity-50 gap-y-5 mt-4 w-full max-w-[770px] mx-auto text-center">
           <span className="text-white">
-            Liquidify v1 is a permissionless protocol built on on Ethereum L1,
-            Base, Blast (soon) and Arbitrum (soon) that allows anyone to create
-            ERC20 tokens that are backed 1:1 by their favorite NFTs. These are
-            known as LNFTs (or Liquid NFTs). It lowers the barriers of entry
-            into NFT ownership by bringing liquidity into NFTs and allowing for
-            fractional ownership at scale.
+            Liquidify v2 is a permissionless protocol built on Base (L1 + other
+            layers on request) that allows anyone to create ERC20 tokens that
+            are backed 1:1 by their favorite NFTs. These are known as LNFTs (or
+            Liquid NFTs). It lowers the barriers of entry into NFT ownership by
+            bringing liquidity into NFTs by allowing for fractional ownership at
+            scale while providing instant liquidity for collectors.
+          </span>
+
+          <span className="text-white">
+            Creators have full control of their LNFTs, they can set a royalty
+            fee of up to 15% which automatically gets sent to them when a
+            collector or trader makes a sale. Increased royalties allow creators
+            to work on their next big idea!
           </span>
 
           <span className="text-white">
@@ -38,15 +45,16 @@ const AboutPage = () => {
             unwrapped.
           </span>
           <span className="text-white">
-            Liquidify earns a 0.5% fee from transfers and uses 50% of that to
-            buy & burn $LIQ, our native token (if the LNFT's ERC20 is paired
+            Liquidify earns a 0.5% fee from token sales and will use 50% of that
+            to buy & burn $LIQ, our native token (if the LNFT's ERC20 is paired
             with an LP).
           </span>
           <span className="text-white">
             $LIQ has not been launched yet and an allocation will be reserved
             for those who create an LNFT with an LP, trade any LNFT or wrap and
-            unwrap on the Liquidify protocol. A seperate allocation will be
-            reserved for those who own an{" "}
+            unwrap on the Liquidify protocol. A seperate allocation will be for
+            past Codechain holders. A seperate allocation will be reserved for
+            those who own an{" "}
             <span
               className="hover:text-blue-300 cursor-pointer"
               onClick={() => {

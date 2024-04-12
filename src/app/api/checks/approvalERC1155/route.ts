@@ -28,14 +28,21 @@ export async function GET(request: NextRequest) {
     }
     let provider;
     if (network == "Base") {
-      provider = new JsonRpcProvider(`https://base-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY_BASE}`);
+      provider = new JsonRpcProvider(
+        `https://base-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY_BASE}`
+      );
     } else {
-      provider = new JsonRpcProvider(`https://eth-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY}`);
+      provider = new JsonRpcProvider(
+        `https://eth-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY}`
+      );
     }
+    
     console.log(contract, operator);
     const _contract = new ethers.Contract(
       contract,
-      ["function isApprovedForAll(address owner, address operator) view returns (bool)"],
+      [
+        "function isApprovedForAll(address owner, address operator) view returns (bool)",
+      ],
       provider
     );
 

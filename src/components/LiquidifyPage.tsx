@@ -33,7 +33,7 @@ const LiquidifyPage = () => {
   const [nftContractAddress, setNftContractAddress] = useState("");
   const [tokensPerNft, setTokensPerNft] = useState<number>(1);
   const [factoryAddress, setFactoryAddress] = useState<`0x${string}`>(
-    "0x73A630eF4a535Acfe52A2E30a26941E3824d9260"
+    "0xc896df224e7fc527b793033d7df3bdce4031eb2b"
   );
   const [explorer, setExplorer] = useState<string>("https://etherscan.io");
   const [inputtedERC1155TokenId, setInputtedERC1155TokenId] =
@@ -48,11 +48,11 @@ const LiquidifyPage = () => {
     if (selectedContract == "ERC721") {
       if (currentChain === 1) {
         console.log("Mainnet detected");
-        setFactoryAddress("0x3650904aa590553111f208DfE159C980b4dcdf8e");
+        // setFactoryAddress("0x3650904aa590553111f208DfE159C980b4dcdf8e");
       }
 
       if (currentChain === 8453) {
-        setFactoryAddress("0xbb148F822C5Bc97CE56708471CF1E5db4A18167A");
+        setFactoryAddress("0xc896df224e7fc527b793033d7df3bdce4031eb2b");
       }
     }
 
@@ -64,7 +64,7 @@ const LiquidifyPage = () => {
       }
 
       if (currentChain === 8453) {
-        setFactoryAddress("0x73a630ef4a535acfe52a2e30a26941e3824d9260");
+        // setFactoryAddress("0x78f99f2dc59f49B50544d06533cb2513675aaF6c");
       }
     }
   }, [account.chainId]);

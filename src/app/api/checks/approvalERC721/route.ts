@@ -28,7 +28,9 @@ export async function GET(request: NextRequest) {
     }
     let provider;
     if (network == "Base") {
-      `base://base-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY_BASE}`;
+      provider = new JsonRpcProvider(
+        `https://base-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY_BASE}`
+      );
     } else {
       provider = new JsonRpcProvider(
         `https://eth-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY}`

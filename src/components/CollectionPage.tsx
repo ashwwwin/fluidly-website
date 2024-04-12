@@ -392,19 +392,69 @@ const CollectionPage = ({ collections }: { collections: any }) => {
               </div>
 
               <div className="flex h-[170px] min-h-[170px] max-h-[170px] w-full items-center justify-center w-[340px] max-w-[340px]">
-                <div className="p-3 w-full rounded-lg bg-white bg-opacity-10 ">
+                <div className="p-3 w-full flex flex-col rounded-lg bg-white bg-opacity-10 ">
+                  <div className="flex ">
+                    <img
+                      className="mr-3 h-[110px] w-[110px] select-none bg-white bg-opacity-10 min-h-[110px] max-h-[110px ]object-cover rounded-md outline-none overflow-hidden pointer-events-none"
+                      src={selectedCollection.nftProjectImage || "/temp.png"}
+                    />
+                    <div className="flex flex-col">
+                      <span className="select-none text-xl font-semibold flex text-center items-center justify-left">
+                        ${selectedCollection.tokenSymbol}
+                      </span>
+                      <span className="select-none mb-1 text-left ">
+                        {selectedCollection.nftName ||
+                          selectedCollection.tokenName}
+                      </span>
+                      <span className="mb-3 select-none flex text-sm item-center justify-left flex">
+                        {new Intl.NumberFormat().format(
+                          selectedCollection.tokensPerNft
+                        )}{" "}
+                        ${selectedCollection.tokenSymbol} = 1 NFT
+                      </span>
+                      <div className="flex items-center gap-x-3.5 justify-left h-[20px] mb-4">
+                        <img
+                          src="/magiceden.png"
+                          onClick={() => {
+                            window.open(
+                              `https://magiceden.io/collections/${selectedCollection.network.toLowerCase()}/${
+                                selectedCollection.nftAddress
+                              }`
+                            );
+                          }}
+                          className="min-h-[20px] select-none cursor-pointer opacity-70 hover:opacity-100 transition-all min-w-[20px] max-h-[20px] max-w-[20px] rounded-md overflow-none"
+                        />
+
+                        <img
+                          src="/etherscan.svg"
+                          className="min-h-[20px] select-none cursor-pointer opacity-70 hover:opacity-100 transition-all min-w-[20px] max-h-[20px] max-w-[20px] rounded-md overflow-none"
+                          onClick={() => {
+                            let baseUrl =
+                              selectedCollection.network == "Ethereum"
+                                ? "https://etherscan.io/token/"
+                                : selectedCollection.network === "Base"
+                                ? "https://basescan.org/token/"
+                                : "";
+                            window.open(
+                              `${baseUrl}${selectedCollection.liquidifyContract}`
+                            );
+                          }}
+                        />
+
+                        <img
+                          src="/uniswap.png"
+                          onClick={() => {
+                            window.open(
+                              `https://app.uniswap.org/#/swap?theme=dark&inputCurrency=ETH&outputCurrency=${selectedCollection.liquidifyContract}`
+                            );
+                          }}
+                          className="min-h-[20px] select-none cursor-pointer opacity-70 hover:opacity-100 transition-all min-w-[20px] max-h-[20px] max-w-[20px] rounded-md overflow-none"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="flex w-full text-white rounded-lg border-2 select-none border-[#535353] bg-[#303030]">
-                    {/* <div
-                      onClick={() => {
-                        setMode("summary");
-                      }}
-                      className={
-                        "cursor-pointer items-center text-center w-full p-0.5 px-1 px-6 bg-white bg-opacity-0 transition-all hover:rounded-md " +
-                        (mode == "summary" && "bg-opacity-10 rounded-md")
-                      }
-                    >
-                      Summary
-                    </div> */}
                     <div
                       onClick={() => {
                         setMode("wrap");
@@ -436,14 +486,18 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                           <>
                             <div className="cursor-pointer items-center relative rounded-lg flex flex-grow select-none hover:bg-opacity-20 bg-white bg-opacity-10 px-3 py-2">
                               <div className="text-white flex flex-grow">
-                                {tokenId || "Loading"}
+                                {tokenId == undefined
+                                  ? "/"
+                                  : tokenId
+                                  ? tokenId
+                                  : "Loading"}
                               </div>
                               <ChevronLeft className="group-hover:rotate-[-90deg] h-[15px] transition-all" />
                             </div>
 
                             {tokenIdList.length >= 1 && (
                               <>
-                                <div className="flex pt-[50px] absolute rounded-lg group-hover:block hidden w-[317px]  ">
+                                <div className="select-none flex pt-[50px] absolute rounded-lg group-hover:block hidden w-[317px]  ">
                                   <div className="flex flex-col bg-[#272727] rounded-lg shadow-xl z-[999] p-1 w-full">
                                     {tokenIdList.map((_tokenId) => {
                                       return (
@@ -504,11 +558,9 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                   {mode == "unwrap" && (
                     <>
                       <div className="flex flex-col">
-                        <span className="mt-4">
-                          {new Intl.NumberFormat().format(
-                            selectedCollection.tokensPerNft
-                          )}{" "}
-                          ${selectedCollection.tokenSymbol}/NFT
+                        <span className="select-none mt-6 mb-2 text-center items-center justify-center flex">
+                          <span className="select-none mr-2">Balance:</span>
+                          {balance} ${selectedCollection.tokenSymbol}
                         </span>
                         {selectedCollection.type === "ERC1155" && (
                           <>
@@ -528,7 +580,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                                 onClick={() => {
                                   setInputtedERC1155UnwrapAmt(`${balance}`);
                                 }}
-                                className="px-3 py-2 bg-white hover:text-opacity-100 text-sm text-opacity-70 transition-all items-center text-white hover:bg-opacity-[18.5%] flex text-center rounded-r-md outline-none bg-opacity-[15%] flex"
+                                className="select-none px-3 py-2 bg-white hover:text-opacity-100 text-sm text-opacity-70 transition-all items-center text-white hover:bg-opacity-[18.5%] flex text-center rounded-r-md outline-none bg-opacity-[15%] flex"
                               >
                                 <span className="mr-1 opacity-70">Max</span>
                                 <span>
@@ -623,7 +675,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                     className="flex flex-grow bg-white transition-all duration-[100ms] hover:bg-opacity-[17.5%] cursor-pointer select-none flex flex-grow w-full bg-opacity-10 border-l-2 rounded-l-lg select-none border-y-2 border-opacity-10 border-white w-full px-3 py-2"
                   >
                     <img
-                      className="mr-3 h-[70px] w-[70px] bg-white bg-opacity-10 min-h-[70px] max-h-[70px] object-contain rounded-md outline-none overflow-hidden pointer-events-none"
+                      className="mr-3 h-[70px] w-[70px] bg-white bg-opacity-10 min-h-[70px] max-h-[70px] object-cover rounded-md outline-none overflow-hidden pointer-events-none"
                       src={collection.nftProjectImage || "/temp.png"}
                     />
                     <div className="flex flex-col w-full">
@@ -640,7 +692,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                         {new Intl.NumberFormat().format(
                           collection.tokensPerNft
                         )}{" "}
-                        ${collection.tokenSymbol}/NFT
+                        ${collection.tokenSymbol} = 1 NFT
                       </span>
                       <span>Chain: {collection.network}</span>
                     </div>
@@ -658,7 +710,9 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                   <div
                     onClick={() => {
                       window.open(
-                        `https://magiceden.io/collections/ethereum/${collection.nftAddress}`
+                        `https://magiceden.io/collections/${collection.network.toLowerCase()}/${
+                          collection.nftAddress
+                        }`
                       );
                     }}
                     className="flex w-[70px] max-w-[70px] bg-white transition-all duration-[100ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none border-y-2 border-opacity-10 border-white"
