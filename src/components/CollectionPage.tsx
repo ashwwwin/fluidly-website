@@ -431,9 +431,9 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                           onClick={() => {
                             let baseUrl =
                               selectedCollection.network == "Ethereum"
-                                ? "https://etherscan.io/token/"
+                                ? "https://etherscan.io/address/"
                                 : selectedCollection.network === "Base"
-                                ? "https://basescan.org/token/"
+                                ? "https://basescan.org/address/"
                                 : "";
                             window.open(
                               `${baseUrl}${selectedCollection.liquidifyContract}`
@@ -727,9 +727,9 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                     onClick={() => {
                       let baseUrl =
                         collection.network == "Ethereum"
-                          ? "https://etherscan.io/token/"
+                          ? "https://etherscan.io/address/"
                           : collection.network === "Base"
-                          ? "https://basescan.org/token/"
+                          ? "https://basescan.org/address/"
                           : "";
                       window.open(`${baseUrl}${collection.liquidifyContract}`);
                     }}
