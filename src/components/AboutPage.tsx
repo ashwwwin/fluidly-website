@@ -50,11 +50,11 @@ const AboutPage = () => {
             with an LP).
           </span>
           <span className="text-white">
-            $LIQ has not been launched yet and an allocation will be reserved
-            for those who create an LNFT with an LP, trade any LNFT or wrap and
-            unwrap on the Liquidify protocol. A seperate allocation will be for
-            past Codechain holders. A seperate allocation will be reserved for
-            those who own an{" "}
+            $LIQ has not been launched yet. It's launch is conditional on
+            protocol revenue. Allocations will be reserved for those who
+            create an LNFT with an LP, trade any LNFT or wrap and unwrap on the
+            Liquidify protocol. A seperate allocation will be for past Codechain
+            holders. A seperate allocation will be reserved for those who own an{" "}
             <span
               className="hover:text-blue-300 cursor-pointer"
               onClick={() => {
