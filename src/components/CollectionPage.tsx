@@ -370,9 +370,9 @@ const CollectionPage = ({ collections }: { collections: any }) => {
             Collections
           </span>
           <span className="text-sm text-center text-white opacity-50 w-[650px]">
-            Verified collections are ones that we've supplied liquidity for,
-            liquidity supplied by a lot of community members or a burned
-            liquidity pool.
+            Verified collections are to indicate where liquidity for the token
+            has been supplied by a lot of community members or by the team
+            behind the project.
           </span>
         </div>
 
