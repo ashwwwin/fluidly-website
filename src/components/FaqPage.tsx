@@ -32,11 +32,11 @@ const FaqPage = () => {
             </span>
             <span className="text-md mt-1 opacity-50">
               When you trade a collection you haven't before on any NFT
-              marketplace. This is a standard procedure that all NFTs go
-              through when they need to be traded on a protocol. Liquidify's
-              LNFT contract only utilizes this once, and it is only to grant you
-              the power to transfer of your NFT into the contract (when you use
-              the wrapping function) if you choose to.
+              marketplace. This is a standard procedure that all NFTs go through
+              when they need to be traded on a protocol. Liquidify's LNFT
+              contract only utilizes this once, and it is only to grant you the
+              power to transfer of your NFT into the contract (when you use the
+              wrapping function) if you choose to.
             </span>
           </div>
           <div className="text-white flex flex-col">
@@ -84,15 +84,13 @@ const FaqPage = () => {
           </div>
           <div className="text-white flex flex-col">
             <span className="font-semibold select-none">
-              Doomsday failsafes
+              What is the safeguard on the contract?
             </span>
             <span className="text-md mt-1 opacity-50">
               Even though Liquidify has been thoroughly reviewed. Smart contract
               risks happen and while highly unlikely, we have failsafes in place
-              in the event of an exploit to ensure that your NFTs and Tokens
-              will always be backed 1:1. This however, gives us certain admin
-              access to rescue your NFT, collection owners can ask us to revoke
-              access permanently at anytime.
+              in the event of an exploit to protect your NFTs. Collection owners
+              can ask us to revoke access permanently at anytime.
             </span>
           </div>
 
