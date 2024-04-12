@@ -1,6 +1,6 @@
 "use client";
 
-import { Info } from "lucide-react";
+import { HelpCircle, Info } from "lucide-react";
 import React from "react";
 import "../app/globals.css";
 
@@ -10,7 +10,7 @@ const FaqPage = () => {
       <div className="w-full flex flex-col items-center ">
         <div className="items-center bg-white text-white mt-1 rounded-sm py-1 bg-opacity-0 transition-all text-2xl rounded-md select-none text-opacity-100">
           <div className="flex items-center font-medium">
-            <Info className="h-[18px] mr-1.5" /> FAQ
+            <HelpCircle className="h-[18px] mr-1.5" /> FAQ
           </div>
         </div>
         <div className="flex flex-col gap-y-8 gap-y-5 w-full max-w-[750px] mx-auto text-center mb-12">
