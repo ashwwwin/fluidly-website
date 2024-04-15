@@ -24,10 +24,10 @@ const AboutPage = () => {
           </span>
 
           <span className="text-white">
-            Creators have full control of their LNFTs, they can set a royalty
-            fee of up to 15% which automatically gets sent to them when a
-            collector or trader makes a sale. Increased royalties allow creators
-            to work on their next big idea!
+            Pair creators have full control of their LNFT pairs, they can set a
+            royalty fee of up to 15% which automatically gets sent to them when
+            a collector or trader makes a sale. Increased royalties allow
+            creators to work on their next big idea!
           </span>
 
           <span className="text-white">
@@ -45,16 +45,16 @@ const AboutPage = () => {
             unwrapped.
           </span>
           <span className="text-white">
-            Liquidify earns a 0.5% fee from token sales and will use 50% of that
-            to buy & burn $LIQ, our native token (if the LNFT's ERC20 is paired
-            with an LP). $LIQ has not been launched yet. It's launch is conditional on
+            Liquidify earns a 0.5% fee from token sales that have a liquidity
+            pool. We will use 50% of that revenue to buy & burn $LIQ, our native
+            token. $LIQ has not been launched yet. It's launch is conditional on
             protocol revenue.
           </span>
           <span className="text-white">
-            Allocations will be reserved for those who
-            create an LNFT with an LP, trade any LNFT or wrap and unwrap on the
-            Liquidify protocol. A seperate allocation will be for past Codechain
-            holders. A seperate allocation will be reserved for those who own an{" "}
+            Allocations will be reserved for those who create an LNFT with an
+            LP, trade any LNFT or wrap and unwrap on the Liquidify protocol. A
+            seperate allocation will be for past Codechain holders. A seperate
+            allocation will be reserved for those who own an{" "}
             <span
               className="hover:text-blue-300 cursor-pointer"
               onClick={() => {

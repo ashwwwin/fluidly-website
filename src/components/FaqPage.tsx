@@ -28,6 +28,17 @@ const FaqPage = () => {
           </div>
           <div className="text-white flex flex-col">
             <span className="font-semibold select-none">
+              Do you provide liquidity?
+            </span>
+            <span className="text-md mt-1 opacity-50">
+              No, we provide a way to convert your NFTs into ERC20s. The LP
+              relies on the founder/team behind the project or the community to
+              do so. We reccommend using a Uniswap v2 pool with Liquidify v2 for
+              full functionality such as royalties.
+            </span>
+          </div>
+          <div className="text-white flex flex-col">
+            <span className="font-semibold select-none">
               Why do I have to approve my NFTs?
             </span>
             <span className="text-md mt-1 opacity-50">
@@ -37,6 +48,15 @@ const FaqPage = () => {
               contract only utilizes this once, and it is only to grant you the
               power to transfer of your NFT into the contract (when you use the
               wrapping function) if you choose to.
+            </span>
+          </div>
+          <div className="text-white flex flex-col">
+            <span className="font-semibold select-none">
+              I created an LNFT pair, now what?
+            </span>
+            <span className="text-md mt-1 opacity-50">
+              Once you've liquidified your collection, just start wrapping the
+              amount of NFTs you'd like to fund for the LP.
             </span>
           </div>
           <div className="text-white flex flex-col">
@@ -55,8 +75,9 @@ const FaqPage = () => {
               Why are royalties not working on my collection?
             </span>
             <span className="text-md mt-1 opacity-50">
-              Please reach out to us on Twitter and we'll enable them for you
-              once we verify that you are the collection owner.
+              Once you've set up your Uniswap v2 Pool with a Liquidify v2 Token,
+              copy the Uniswap pool address and then head to the Liquidify tab
+              in order to register your LP.
             </span>
           </div>
           <div className="text-white flex flex-col">
