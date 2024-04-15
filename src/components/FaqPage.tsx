@@ -56,7 +56,10 @@ const FaqPage = () => {
             </span>
             <span className="text-md mt-1 opacity-50">
               Once you've liquidified your collection, just start wrapping the
-              amount of NFTs you'd like to fund for the LP.
+              amount of NFTs you'd like to fund for the LP. When you're done
+              wrapping the NFTs, just head over to Uniswap and create a v2 pool.
+              To enable royalties, make sure to go to the manage section on
+              Liquidify and add the Uniswap v2 liquidity pool's address for your token.
             </span>
           </div>
           <div className="text-white flex flex-col">
