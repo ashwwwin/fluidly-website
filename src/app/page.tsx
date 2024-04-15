@@ -51,7 +51,7 @@ export default function Home() {
             that are backed 1:1 with their NFTs.
           </span>
           <span className="text-white mt-10 px-5 text-center text-sm">
-            Smaller screens are not support at this moment.
+            Smaller screens are not supported atm.
           </span>
         </div>
       </main>
