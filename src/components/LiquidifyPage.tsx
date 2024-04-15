@@ -75,6 +75,7 @@ const LiquidifyPage = () => {
 
     if (currentChain === 1) {
       console.log("Mainnet detected");
+      setFactoryAddress("0x05dD8dcC71FD01E6f1E486E8997e369a57E11218")
       // setFactoryAddress("0x3650904aa590553111f208DfE159C980b4dcdf8e");
     }
 
