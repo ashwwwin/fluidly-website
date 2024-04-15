@@ -127,7 +127,9 @@ const LiquidifyPage = () => {
         },
         {
           onSuccess: (tx: any) => {
-            alert("Success, opening a new tab BaseScan with tx");
+            alert(
+              "Success, opening a new tab with tx data. If you're creating an LP with this token, make sure to use Uniswap V2 for full functionality."
+            );
             window.open(`${explorer}/tx/${tx}`);
           },
         }
@@ -151,7 +153,7 @@ const LiquidifyPage = () => {
         },
         {
           onSuccess: (tx: any) => {
-            alert("Success, opening a new tab BaseScan with tx");
+            alert("Success, opening a new tab with tx data. If you're creating an LP with this token, make sure to use Uniswap V2 for full functionality.");
             window.open(`${explorer}/tx/${tx}`);
           },
         }
@@ -201,7 +203,7 @@ const LiquidifyPage = () => {
         },
         {
           onSuccess: (tx: any) => {
-            alert("Success, opening a new tab BaseScan with tx");
+            alert("Success, opening a new tab with tx data");
             setTimeout(() => {
               console.log("Transaction successful, redirecting...");
               window.open(`${explorer}/tx/${tx.transactionHash}`);
@@ -236,7 +238,7 @@ const LiquidifyPage = () => {
         },
         {
           onSuccess: (tx: any) => {
-            alert("Success, opening a new tab BaseScan with tx");
+            alert("Success, opening a new tab with tx data");
             setTimeout(() => {
               console.log("Transaction successful, redirecting...");
               window.open(`${explorer}/tx/${tx.transactionHash}`);
