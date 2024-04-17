@@ -690,7 +690,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                             {collection.nftName || collection.tokenName}{" "}
                             {collection.liquidifyVerified && (
                               <>
-                                <Verified className="h-[13.9px] ml-1" />
+                                <Verified className="h-[13.9px] ml-0" />
                               </>
                             )}
                           </span>
