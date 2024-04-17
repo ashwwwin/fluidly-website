@@ -75,7 +75,7 @@ const LiquidifyPage = () => {
 
     if (currentChain === 1) {
       console.log("Mainnet detected");
-      setFactoryAddress("0x05dD8dcC71FD01E6f1E486E8997e369a57E11218")
+      setFactoryAddress("0x05dD8dcC71FD01E6f1E486E8997e369a57E11218");
       // setFactoryAddress("0x3650904aa590553111f208DfE159C980b4dcdf8e");
     }
 
@@ -154,7 +154,9 @@ const LiquidifyPage = () => {
         },
         {
           onSuccess: (tx: any) => {
-            alert("Success, opening a new tab with tx data. If you're creating an LP with this token, make sure to use Uniswap V2 for full functionality.");
+            alert(
+              "Success, opening a new tab with tx data. If you're creating an LP with this token, make sure to use Uniswap V2 for full functionality."
+            );
             window.open(`${explorer}/tx/${tx}`);
           },
         }
@@ -651,7 +653,7 @@ const LiquidifyPage = () => {
                       onClick={() => {
                         setSelectedContract(undefined);
                       }}
-                      className="bg-white select-none hover:bg-opacity-10 transition-all bg-opacity-5 border-2 border-opacity-10 text-white outline-none rounded-md border-white px-3 py-1"
+                      className="bg-white select-none hover:bg-opacity-10 transition-all bg-opacity-5 border-2 border-opacity-5 text-white outline-none rounded-md border-white px-3 py-1"
                     >
                       Back
                     </button>
