@@ -684,9 +684,9 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                         className="mr-3 h-[145px] mt-0.5 w-[143px] max-w-[143px] min-w-[143px] bg-white bg-opacity-10 min-h-[143px] max-h-[143px] object-cover rounded-md outline-none overflow-hidden pointer-events-none"
                         src={collection.nftProjectImage || "/temp.png"}
                       />
-                      <div className="text-left w-full flex mt-3 items-start justify-start">
+                      <div className="text-left w-full flex mt-3 max-w-[150px] items-start justify-start">
                         <div className="flex flex-col w-full">
-                          <span className="flex items-center truncate ...">
+                          <span className="flex items-center truncate ... max-w-[138px] ">
                             {collection.nftName || collection.tokenName}{" "}
                             {collection.liquidifyVerified && (
                               <>
