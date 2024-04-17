@@ -47,7 +47,7 @@ const LiquidifyPage = () => {
   const [nftContractAddress, setNftContractAddress] = useState("");
   const [tokensPerNft, setTokensPerNft] = useState<number>(1);
   const [factoryAddress, setFactoryAddress] = useState<`0x${string}`>(
-    "0x7E8e356D146cD2f9f3835189C27491Bfe036126B"
+    "0xdA2f6eE23101CDCAa7247BA6fc942F0A48CaEbF7"
   );
   const [explorer, setExplorer] = useState<string>("https://etherscan.io");
   const [inputtedERC1155TokenId, setInputtedERC1155TokenId] =
@@ -80,7 +80,7 @@ const LiquidifyPage = () => {
     }
 
     if (currentChain === 8453) {
-      setFactoryAddress("0x7E8e356D146cD2f9f3835189C27491Bfe036126B");
+      setFactoryAddress("0xdA2f6eE23101CDCAa7247BA6fc942F0A48CaEbF7");
     }
   }, [account.chainId]);
 
