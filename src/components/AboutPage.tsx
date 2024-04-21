@@ -13,7 +13,7 @@ const AboutPage = () => {
             <Info className="h-[18px] mr-1.5" /> About Liquidify
           </div>
         </div>
-        <div className="flex flex-col opacity-50 gap-y-5 mt-4 w-full max-w-[770px] mx-auto text-center">
+        <div className="flex flex-col opacity-50 gap-y-5 mt-4 w-full xs:pb-[100px] max-w-[770px] mx-auto text-center">
           <span className="text-white">
             Liquidify v2 is a permissionless protocol built on Base (L1 + other
             layers on request) that allows anyone to create ERC20 tokens that
@@ -56,7 +56,7 @@ const AboutPage = () => {
             seperate allocation will be for past Codechain holders. A seperate
             allocation will be reserved for those who own an{" "}
             <span
-              className="hover:text-blue-300 cursor-pointer"
+              className="hover:text-blue-500 text-blue-300 cursor-pointer"
               onClick={() => {
                 window.open("https://etherpixels.com");
               }}

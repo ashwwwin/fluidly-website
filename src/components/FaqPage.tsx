@@ -13,7 +13,7 @@ const FaqPage = () => {
             <HelpCircle className="h-[18px] mr-1.5" /> FAQ
           </div>
         </div>
-        <div className="flex flex-col gap-y-8 gap-y-5 w-full max-w-[750px] mx-auto text-center mb-12">
+        <div className="flex flex-col gap-y-8 gap-y-5 w-full max-w-[750px] mx-auto text-center mb-12 xs:pb-[100px]">
           <div className="text-white flex flex-col mt-6">
             <span className="font-semibold select-none">
               What is Liquidify?

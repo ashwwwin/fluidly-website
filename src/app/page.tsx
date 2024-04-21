@@ -5,6 +5,7 @@ import {
   Droplet,
   HelpCircle,
   Info,
+  InfoIcon,
   Wallet,
   X,
 } from "lucide-react";
@@ -39,34 +40,18 @@ export default function Home() {
 
   return (
     <>
-      <main className="flex h-screen w-full items-center justify-center flex-col items-center xs:block hidden">
-        <div className="flex flex-col items-center justify-center h-screen">
-          {" "}
-          <img
-            src="/logo.png"
-            className="h-[35px] mt-5 select-none pointer-events-none"
-          />
-          <span className="text-white mt-2 px-5 text-center text-sm font-bold">
-            Liquidify is a protocol that allows anyone to create ERC20 tokens
-            that are backed 1:1 with their NFTs.
-          </span>
-          <span className="text-white mt-10 px-5 text-center text-sm">
-            Smaller screens are not supported atm.
-          </span>
-        </div>
-      </main>
-      <main className="flex min-h-screen flex-col items-center xs:hidden">
+      <main className="flex min-h-screen flex-col items-center">
         <link rel="icon" href="/icon.png" />
         <title>Liquidify.gg</title>
 
-        <div className="w-full items-center px-3 shadow-xl border-b-2 border-white border-opacity-5 py-3.5 flex bg-white bg-opacity-5">
+        <div className="w-full xs:items-center xs:justify-center items-center px-3 shadow-xl border-b-2 border-white border-opacity-5 py-3.5 flex bg-white bg-opacity-5">
           <img src="/icon.png" className="h-[35px] mr-2 select-none" />
           <img
             src="/logo.png"
             className="h-[30px] select-none pointer-events-none"
           />
-          <div className="flex flex-grow" />
-          <div className="flex mr-1.5 items-center gap-x-5">
+          <div className="flex flex-grow xs:hidden" />
+          <div className="flex mr-1.5 items-center gap-x-5 xs:hidden">
             <button
               onClick={() => {
                 setPage("about");
@@ -188,34 +173,6 @@ export default function Home() {
 
                         return (
                           <div style={{ display: "flex", gap: 12 }}>
-                            {/* <button
-                          onClick={openChainModal}
-                          style={{ display: "flex", alignItems: "center" }}
-                          type="button"
-                        >
-                          {chain.hasIcon && (
-                            <div
-                              style={{
-                                background: chain.iconBackground,
-                                width: 12,
-                                height: 12,
-                                borderRadius: 999,
-                                overflow: "hidden",
-                                marginRight: 4,
-                              }}
-                            >
-                              {chain.iconUrl && (
-                                <img
-                                  alt={chain.name ?? "Chain icon"}
-                                  src={chain.iconUrl}
-                                  style={{ width: 12, height: 12 }}
-                                />
-                              )}
-                            </div>
-                          )}
-                          {chain.name}
-                        </button> */}
-
                             <button
                               className="flex items-center"
                               onClick={openAccountModal}
@@ -259,6 +216,101 @@ export default function Home() {
               <LiquidifyPage />
             </>
           )}
+        </div>
+        <div className="xs:block hidden text-white justify-center flex items-center w-full fixed bottom-0 py-3 h-[70px] px-2 bg-black border-t-2 border-white border-opacity-[15%]">
+          <ConnectButton.Custom>
+            {({
+              account,
+              chain,
+              openAccountModal,
+              openChainModal,
+              openConnectModal,
+              authenticationStatus,
+              mounted,
+            }) => {
+              // Note: If your app doesn't use authentication, you
+              // can remove all 'authenticationStatus' checks
+              const ready = mounted && authenticationStatus !== "loading";
+              const connected =
+                ready &&
+                account &&
+                chain &&
+                (!authenticationStatus ||
+                  authenticationStatus === "authenticated");
+
+              return (
+                <div
+                  {...(!ready && {
+                    "aria-hidden": true,
+                    style: {
+                      opacity: 0,
+                      pointerEvents: "none",
+                      userSelect: "none",
+                    },
+                  })}
+                >
+                  {(() => {
+                    return (
+                      <div style={{ display: "flex", gap: 12 }}>
+                        <button
+                          className={
+                            "flex items-center h-[43px] w-full items-center justify-center opacity-50 hover:opacity-100 transition-all " +
+                            (page == "about" && "opacity-100")
+                          }
+                          onClick={() => {
+                            setPage("about");
+                          }}
+                          type="button"
+                        >
+                          <InfoIcon className="h-[35px] mr-1" />
+                        </button>
+                        <button
+                          className={
+                            "flex items-center h-[43px] w-full items-center justify-center opacity-50 hover:opacity-100 transition-all " +
+                            (page == "faq" && "opacity-100")
+                          }
+                          onClick={() => {
+                            setPage("faq");
+                          }}
+                          type="button"
+                        >
+                          <HelpCircle className="h-[35px] mr-1" />
+                        </button>
+
+                        <button
+                          className={
+                            "flex items-center h-[43px] w-full items-center justify-center opacity-50 hover:opacity-100 transition-all " +
+                            (page == "collection" && "opacity-100")
+                          }
+                          onClick={() => {
+                            setPage("collection");
+                          }}
+                          type="button"
+                        >
+                          <BookCheckIcon className="h-[35px] mr-1" />
+                        </button>
+
+                        <button
+                          className={
+                            "flex items-center h-[43px] w-full items-center justify-center opacity-50 hover:opacity-100 transition-all"
+                          }
+                          onClick={() => {
+                            if (!connected) return openConnectModal();
+                            if (chain.unsupported) return openChainModal();
+
+                            return openAccountModal();
+                          }}
+                          type="button"
+                        >
+                          <Wallet className="h-[35px] mr-1" />
+                        </button>
+                      </div>
+                    );
+                  })()}
+                </div>
+              );
+            }}
+          </ConnectButton.Custom>
         </div>
       </main>
     </>

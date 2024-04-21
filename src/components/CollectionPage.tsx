@@ -371,7 +371,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
             <BookCheckIcon className="h-[18px] mr-1.5" />
             Collections
           </span>
-          <span className="text-sm text-center text-white opacity-50 w-[650px]">
+          <span className="text-sm xs:w-[390px] text-center text-white opacity-50 w-[650px]">
             Verified collections are to indicate where liquidity for the token
             has been supplied by a lot of community members or by the team
             behind the project and are by no means an endorsement.
@@ -666,50 +666,53 @@ const CollectionPage = ({ collections }: { collections: any }) => {
           </>
         )}
 
-        <div className="flex text-white mt-5 gap-3.5 flex-wrap min-w-screen mx-10">
-          {collections?.liquidNfts?.map((collection: any) => {
-            return (
-              <>
-                <div className="flex w-fit flex flex-col">
-                  <div
-                    onClick={() => {
-                      if (!walletAddress)
-                        return alert("Please connect your wallet");
-                      setSelectedCollection(collection);
-                    }}
-                    className="flex flex-grow bg-white w-[170px] max-w-[170px] transition-all duration-[100ms] hover:bg-opacity-[17.5%] border-b-0 cursor-pointer select-none flex flex-grow w-full bg-opacity-10 border-t-2 border-x-2 rounded-t-lg select-none border-y-2 border-opacity-10 border-white w-full px-3 py-2"
-                  >
-                    <div className="flex flex-col items-center justify-center">
-                      <img
-                        className="mr-3 h-[145px] mt-0.5 w-[143px] max-w-[143px] min-w-[143px] bg-white bg-opacity-10 min-h-[143px] max-h-[143px] object-cover rounded-md outline-none overflow-hidden pointer-events-none"
-                        src={collection.nftProjectImage || "/temp.png"}
-                      />
-                      <div className="text-left w-full flex mt-3 max-w-[150px] items-start justify-start">
-                        <div className="flex flex-col w-full">
-                          <span className="flex items-center truncate ... max-w-[138px] ">
-                            {collection.nftName || collection.tokenName}{" "}
-                            {collection.liquidifyVerified && (
-                              <>
-                                <Verified className="h-[13.9px] ml-0" />
-                              </>
-                            )}
-                          </span>
-                          {/* <span>{collection.tokenName}</span> */}
-                          <span className="text-xs truncate ...">
-                            {new Intl.NumberFormat().format(
-                              collection.tokensPerNft
-                            )}{" "}
-                            ${collection.tokenSymbol} = 1 NFT
-                          </span>
-                          <span className="text-xs mb-1 truncate ...">
-                            Chain: {collection.network}
-                          </span>
+        {collections?.liquidNfts.length > 0 &&
+          selectedCollection === undefined && (
+            <>
+              <div className="flex text-white mt-5 gap-3.5 xs:flex-col xs:items-center xs:pb-[100px] flex-wrap min-w-screen mx-10">
+                {collections?.liquidNfts?.map((collection: any) => {
+                  return (
+                    <>
+                      <div className="flex w-fit xs:w-full flex flex-col">
+                        <div
+                          onClick={() => {
+                            if (!walletAddress)
+                              return alert("Please connect your wallet");
+                            setSelectedCollection(collection);
+                          }}
+                          className="flex flex-grow bg-white xs:w-full sm:w-[170px] sm:max-w-[170px] transition-all duration-[100ms] hover:bg-opacity-[17.5%] border-b-0 cursor-pointer select-none flex flex-grow w-full bg-opacity-10 border-t-2 border-x-2 rounded-t-lg select-none border-y-2 border-opacity-10 border-white w-full px-3 py-2"
+                        >
+                          <div className="flex flex-col xs:flex-row items-center justify-center">
+                            <img
+                              className="mr-3 h-[145px] mt-0.5 w-[143px] max-w-[143px] min-w-[143px] bg-white bg-opacity-10 min-h-[143px] max-h-[143px] object-cover rounded-md outline-none overflow-hidden pointer-events-none"
+                              src={collection.nftProjectImage || "/temp.png"}
+                            />
+                            <div className="text-left w-full flex mt-3 max-w-[150px] items-start justify-start">
+                              <div className="flex flex-col w-full">
+                                <span className="flex items-center sm:truncate sm:max-w-[138px] xs:w-full ">
+                                  {collection.nftName || collection.tokenName}{" "}
+                                  {collection.liquidifyVerified && (
+                                    <>
+                                      <Verified className="h-[13.9px] ml-0" />
+                                    </>
+                                  )}
+                                </span>
+                                {/* <span>{collection.tokenName}</span> */}
+                                <span className="text-xs truncate ...">
+                                  {new Intl.NumberFormat().format(
+                                    collection.tokensPerNft
+                                  )}{" "}
+                                  ${collection.tokenSymbol} = 1 NFT
+                                </span>
+                                <span className="text-xs mb-1 truncate ...">
+                                  Chain: {collection.network}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex w-full">
-                    {/* <div
+                        <div className="flex w-full">
+                          {/* <div
                     onClick={() => {
                       window.open(
                         `https://etherscan.io/token/${collection.liquidifyContract}`
@@ -719,56 +722,56 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                   >
                     <Blocks className="h-[18px]" />
                   </div> */}
-                    <div
-                      onClick={() => {
-                        window.open(
-                          `https://magiceden.io/collections/${collection.network.toLowerCase()}/${
-                            collection.nftAddress
-                          }`
-                        );
-                      }}
-                      className="flex bg-white border-white border-opacity-10 border-l-2 border-b-2 rounded-bl-lg w-full h-[39px] transition-all duration-[100ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none"
-                    >
-                      <img
-                        src="/magiceden.png"
-                        className="min-h-[15px] min-w-[15px] max-h-[15px] max-w-[15px] rounded-md overflow-none"
-                      />
-                    </div>
-                    {/* https://magiceden.io/collections/ethereum/0x6740ce1bdbbfad351ec6232faa8c110ebeae36bf */}
-                    <div
-                      onClick={() => {
-                        let baseUrl =
-                          collection.network == "Ethereum"
-                            ? "https://etherscan.io/address/"
-                            : collection.network === "Base"
-                            ? "https://basescan.org/address/"
-                            : "";
-                        window.open(
-                          `${baseUrl}${collection.liquidifyContract}`
-                        );
-                      }}
-                      className="flex w-full bg-white transition-all border-white border-opacity-10 border-b-2 duration-[100ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none"
-                    >
-                      <img
-                        src="/etherscan.svg"
-                        className="min-h-[15px] min-w-[15px] max-h-[15px] max-w-[15px] rounded-md overflow-none"
-                      />
-                    </div>
-                    <div
-                      onClick={() => {
-                        window.open(
-                          `https://app.uniswap.org/#/swap?theme=dark&inputCurrency=ETH&outputCurrency=${collection.liquidifyContract}`
-                        );
-                      }}
-                      className="flex w-full bg-white border-white border-opacity-10 border-b-2 border-r-2 rounded-br-lg  transition-all duration-[100ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none"
-                    >
-                      <img
-                        src="/uniswap.png"
-                        className="min-h-[15px] min-w-[15px] max-h-[15px] max-w-[15px] rounded-md overflow-none"
-                      />
-                    </div>
-                  </div>
-                  {/* <div
+                          <div
+                            onClick={() => {
+                              window.open(
+                                `https://magiceden.io/collections/${collection.network.toLowerCase()}/${
+                                  collection.nftAddress
+                                }`
+                              );
+                            }}
+                            className="flex bg-white border-white border-opacity-10 border-l-2 border-b-2 rounded-bl-lg w-full h-[39px] transition-all duration-[100ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none"
+                          >
+                            <img
+                              src="/magiceden.png"
+                              className="min-h-[15px] min-w-[15px] max-h-[15px] max-w-[15px] rounded-md overflow-none"
+                            />
+                          </div>
+                          {/* https://magiceden.io/collections/ethereum/0x6740ce1bdbbfad351ec6232faa8c110ebeae36bf */}
+                          <div
+                            onClick={() => {
+                              let baseUrl =
+                                collection.network == "Ethereum"
+                                  ? "https://etherscan.io/address/"
+                                  : collection.network === "Base"
+                                  ? "https://basescan.org/address/"
+                                  : "";
+                              window.open(
+                                `${baseUrl}${collection.liquidifyContract}`
+                              );
+                            }}
+                            className="flex w-full bg-white transition-all border-white border-opacity-10 border-b-2 duration-[100ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none"
+                          >
+                            <img
+                              src="/etherscan.svg"
+                              className="min-h-[15px] min-w-[15px] max-h-[15px] max-w-[15px] rounded-md overflow-none"
+                            />
+                          </div>
+                          <div
+                            onClick={() => {
+                              window.open(
+                                `https://app.uniswap.org/#/swap?theme=dark&inputCurrency=ETH&outputCurrency=${collection.liquidifyContract}`
+                              );
+                            }}
+                            className="flex w-full bg-white border-white border-opacity-10 border-b-2 border-r-2 rounded-br-lg  transition-all duration-[100ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none"
+                          >
+                            <img
+                              src="/uniswap.png"
+                              className="min-h-[15px] min-w-[15px] max-h-[15px] max-w-[15px] rounded-md overflow-none"
+                            />
+                          </div>
+                        </div>
+                        {/* <div
                     onClick={() => {
                       window.open(
                         "https://www.dextools.io/app/en/ether/token/0x74fb648e0a76831d5a18bf08333603450da7c221"
@@ -778,11 +781,13 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                   >
                     <img src="/dextools.svg" className="h-[20px]" />
                   </div> */}
-                </div>
-              </>
-            );
-          })}
-        </div>
+                      </div>
+                    </>
+                  );
+                })}
+              </div>
+            </>
+          )}
       </div>
     </>
   );
