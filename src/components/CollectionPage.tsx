@@ -371,7 +371,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
             <BookCheckIcon className="h-[18px] mr-1.5" />
             Collections
           </span>
-          <span className="text-sm xs:w-full text-center text-white opacity-50 w-[650px]">
+          <span className="text-sm xs:w-[380px] text-center text-white opacity-50 w-[650px]">
             Verified collections are to indicate where liquidity for the token
             has been supplied by a lot of community members or by the team
             behind the project and are by no means an endorsement.
@@ -380,7 +380,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
 
         {selectedCollection !== undefined && (
           <>
-            <div className="absolute text-white  h-[calc(100vh-165px)] w-full flex items-center justify-center bg-black z-[999]">
+            <div className="absolute text-white h-[calc(100vh-165px)] w-full flex items-center justify-center bg-black z-[999]">
               <div
                 onClick={() => {
                   setTokenIdList([]);
@@ -684,18 +684,28 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                         >
                           <div className="flex flex-col xs:flex-row items-center justify-center">
                             <img
-                              className="mr-3 h-[145px] mt-0.5 w-[143px] max-w-[143px] min-w-[143px] bg-white bg-opacity-10 min-h-[143px] max-h-[143px] object-cover rounded-md outline-none overflow-hidden pointer-events-none"
+                              className="xs:mr-3 h-[143px] mt-1 w-[143px] max-w-[143px] min-w-[143px] min-h-[143px] max-h-[143px] bg-white bg-opacity-10 object-cover rounded-md outline-none overflow-hidden pointer-events-none"
                               src={collection.nftProjectImage || "/temp.png"}
                             />
                             <div className="text-left w-full flex mt-3 max-w-[150px] items-start justify-start">
                               <div className="flex flex-col w-full">
-                                <span className="flex items-center sm:truncate sm:max-w-[138px] xs:w-full ">
-                                  {collection.nftName || collection.tokenName}{" "}
+                                <span className="block xs:hidden flex items-center truncate ... max-w-[138px] sm:w-[138px]">
+                                  {collection.nftName || collection.tokenName}
                                   {collection.liquidifyVerified && (
                                     <>
                                       <Verified className="h-[13.9px] ml-0" />
                                     </>
                                   )}
+                                </span>
+                                <span className="hidden xs:block flex items-center">
+                                  <span className="flex items-center">
+                                    {collection.nftName || collection.tokenName}
+                                    {collection.liquidifyVerified && (
+                                      <>
+                                        <Verified className="h-[13.9px] ml-0" />
+                                      </>
+                                    )}
+                                  </span>
                                 </span>
                                 {/* <span>{collection.tokenName}</span> */}
                                 <span className="text-xs truncate ...">
