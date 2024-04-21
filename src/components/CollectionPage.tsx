@@ -371,7 +371,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
             <BookCheckIcon className="h-[18px] mr-1.5" />
             Collections
           </span>
-          <span className="text-sm xs:w-[390px] text-center text-white opacity-50 w-[650px]">
+          <span className="text-sm xs:w-full text-center text-white opacity-50 w-[650px]">
             Verified collections are to indicate where liquidity for the token
             has been supplied by a lot of community members or by the team
             behind the project and are by no means an endorsement.
