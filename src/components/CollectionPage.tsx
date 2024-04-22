@@ -680,7 +680,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                               return alert("Please connect your wallet");
                             setSelectedCollection(collection);
                           }}
-                          className="flex flex-grow bg-white xs:w-full sm:w-[170px] sm:max-w-[170px] transition-all duration-[100ms] hover:bg-opacity-[17.5%] border-b-0 cursor-pointer select-none flex flex-grow w-full bg-opacity-10 border-t-2 border-x-2 rounded-t-lg select-none border-y-2 border-opacity-10 border-white w-full px-3 py-2"
+                          className="flex flex-grow bg-white xs:w-full sm:w-[170px] sm:max-w-[170px] transition-all duration-[75ms] hover:bg-opacity-[17.5%] border-b-0 cursor-pointer select-none flex flex-grow w-full bg-opacity-10 border-t-2 border-x-2 rounded-t-lg select-none border-y-2 border-opacity-10 border-white w-full px-3 py-2"
                         >
                           <div className="flex flex-col xs:flex-row items-center justify-center">
                             <img
@@ -740,7 +740,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                                 }`
                               );
                             }}
-                            className="flex bg-white border-white border-opacity-10 border-l-2 border-b-2 rounded-bl-lg w-full h-[39px] transition-all duration-[100ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none"
+                            className="flex bg-white border-white border-opacity-10 border-l-2 border-b-2 rounded-bl-lg w-full h-[39px] transition-all duration-[75ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none"
                           >
                             <img
                               src="/magiceden.png"
@@ -760,7 +760,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                                 `${baseUrl}${collection.liquidifyContract}`
                               );
                             }}
-                            className="flex w-full bg-white transition-all border-white border-opacity-10 border-b-2 duration-[100ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none"
+                            className="flex w-full bg-white transition-all border-white border-opacity-10 border-b-2 duration-[75ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none"
                           >
                             <img
                               src="/etherscan.svg"
@@ -773,7 +773,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                                 `https://app.uniswap.org/#/swap?theme=dark&inputCurrency=ETH&outputCurrency=${collection.liquidifyContract}`
                               );
                             }}
-                            className="flex w-full bg-white border-white border-opacity-10 border-b-2 border-r-2 rounded-br-lg  transition-all duration-[100ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none"
+                            className="flex w-full bg-white border-white border-opacity-10 border-b-2 border-r-2 rounded-br-lg  transition-all duration-[75ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none"
                           >
                             <img
                               src="/uniswap.png"
