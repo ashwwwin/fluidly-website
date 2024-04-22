@@ -254,8 +254,8 @@ export default function Home() {
                       <div style={{ display: "flex", gap: 12 }}>
                         <button
                           className={
-                            "flex items-center h-[43px] w-full items-center justify-center opacity-50 hover:opacity-100 transition-all " +
-                            (page == "about" && "opacity-100")
+                            "flex items-center h-[43px] w-full items-center justify-center hover:opacity-100 transition-all " +
+                            (page == "about" ? "opacity-100":"opacity-50")
                           }
                           onClick={() => {
                             setPage("about");
@@ -266,8 +266,8 @@ export default function Home() {
                         </button>
                         <button
                           className={
-                            "flex items-center h-[43px] w-full items-center justify-center opacity-50 hover:opacity-100 transition-all " +
-                            (page == "faq" && "opacity-100")
+                            "flex items-center h-[43px] w-full items-center justify-center hover:opacity-100 transition-all " +
+                            (page == "faq" ? "opacity-100":"opacity-50")
                           }
                           onClick={() => {
                             setPage("faq");
@@ -279,8 +279,8 @@ export default function Home() {
 
                         <button
                           className={
-                            "flex items-center h-[43px] w-full items-center justify-center opacity-50 hover:opacity-100 transition-all " +
-                            (page == "collection" && "opacity-100")
+                            "flex items-center h-[43px] w-full items-center justify-center hover:opacity-100 transition-all " +
+                            (page == "collection" ? "opacity-100":"opacity-50")
                           }
                           onClick={() => {
                             setPage("collection");
