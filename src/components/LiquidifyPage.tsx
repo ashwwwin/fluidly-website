@@ -6,6 +6,7 @@ import {
   CircleDollarSign,
   Copy,
   Droplet,
+  FileWarning,
   Hammer,
   HammerIcon,
   Image,
@@ -124,7 +125,7 @@ const LiquidifyPage = () => {
             nftContractAddress,
             tokensPerNft,
             sellFees * 100,
-            account.address
+            account.address,
           ],
         },
         {
@@ -151,7 +152,7 @@ const LiquidifyPage = () => {
             inputtedERC1155TokenId,
             tokensPerNft,
             sellFees * 100,
-            account.address
+            account.address,
           ],
         },
         {
@@ -295,32 +296,49 @@ const LiquidifyPage = () => {
 
             {!manage && (
               <>
-                {ownedPairs?.map((pair: any) => (
+                {ownedPairs.length >= 1 ? (
                   <>
-                    <div
-                      onClick={() => {
-                        setManage(pair);
-                      }}
-                      className="flex py-2 cursor-pointer px-3.5 transition-all duration-[100ms] items-center bg-white bg-opacity-10 hover:bg-opacity-[15%] rounded-lg"
-                    >
-                      <img
-                        className="border-[1px] object-cover rounded-lg select-none overflow-none border-opacity-10 border-white h-[55px] mr-2 w-[55px] min-w-[55px] min-h-[55px] max-w-[55px] max-h-[55px]"
-                        src={pair?.nftProjectImage || "/temp.png"}
-                      />
-                      <div className="flex flex-col">
-                        <span className="text-white">
-                          {pair?.tokenName} / ${pair.tokenSymbol}
-                        </span>
-                        <span className="text-white text-sm">
-                          {pair?.liquidifyContract}
-                        </span>
-                        <span className="text-white text-sm">
-                          {pair.type} on {pair.network}
-                        </span>
-                      </div>
+                    {ownedPairs?.map((pair: any) => (
+                      <>
+                        <div
+                          onClick={() => {
+                            setManage(pair);
+                          }}
+                          className="flex py-2 cursor-pointer px-3.5 transition-all duration-[100ms] items-center bg-white bg-opacity-10 hover:bg-opacity-[15%] rounded-lg"
+                        >
+                          <img
+                            className="border-[1px] object-cover rounded-lg select-none overflow-none border-opacity-10 border-white h-[55px] mr-2 w-[55px] min-w-[55px] min-h-[55px] max-w-[55px] max-h-[55px]"
+                            src={pair?.nftProjectImage || "/temp.png"}
+                          />
+                          <div className="flex flex-col">
+                            <span className="text-white">
+                              {pair?.tokenName} / ${pair.tokenSymbol}
+                            </span>
+                            <span className="text-white text-sm">
+                              {pair?.liquidifyContract}
+                            </span>
+                            <span className="text-white text-sm">
+                              {pair.type} on {pair.network}
+                            </span>
+                          </div>
+                        </div>
+                      </>
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    <div className="flex flex-col items-center pt-[50px]">
+                      <FileWarning className="text-white mb-2 opacity-80"/>
+                      <span className="text-white opacity-80">
+                        No created pairs found
+                      </span>
+                      <span className="text-white text-sm opacity-50 items-center text-center w-[350px]">
+                        Create a pair to get started, if you just created a pair
+                        and don't see it here, try refreshing.
+                      </span>
                     </div>
                   </>
-                ))}
+                )}
               </>
             )}
 
