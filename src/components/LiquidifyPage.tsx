@@ -333,7 +333,7 @@ const LiquidifyPage = () => {
                         No created pairs found
                       </span>
                       <span className="text-white text-sm opacity-50 items-center text-center w-[350px]">
-                        Create a pair to get started, if you just created a pair
+                        Create a pair to get started. If you just created a pair
                         and don't see it here, try refreshing.
                       </span>
                     </div>
