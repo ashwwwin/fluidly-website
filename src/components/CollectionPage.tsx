@@ -447,7 +447,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                           src="/uniswap.png"
                           onClick={() => {
                             window.open(
-                              `https://app.uniswap.org/#/swap?theme=dark&inputCurrency=ETH&outputCurrency=${selectedCollection.liquidifyContract}`
+                              `https://app.uniswap.org/tokens/${selectedCollection.network.toLowerCase()}/${selectedCollection.liquidifyContract}`
                             );
                           }}
                           className="min-h-[20px] select-none cursor-pointer opacity-70 hover:opacity-100 transition-all min-w-[20px] max-h-[20px] max-w-[20px] rounded-md overflow-none"
@@ -770,7 +770,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                           <div
                             onClick={() => {
                               window.open(
-                                `https://app.uniswap.org/#/swap?theme=dark&inputCurrency=ETH&outputCurrency=${collection.liquidifyContract}`
+                                `https://app.uniswap.org/tokens/${selectedCollection.network.toLowerCase()}/${selectedCollection.liquidifyContract}`
                               );
                             }}
                             className="flex w-full bg-white border-white border-opacity-10 border-b-2 border-r-2 rounded-br-lg  transition-all duration-[75ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none"

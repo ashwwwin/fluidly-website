@@ -132,16 +132,7 @@ export default function Home() {
                       authenticationStatus === "authenticated");
 
                   return (
-                    <div
-                      {...(!ready && {
-                        "aria-hidden": true,
-                        style: {
-                          opacity: 0,
-                          pointerEvents: "none",
-                          userSelect: "none",
-                        },
-                      })}
-                    >
+                    <div>
                       {(() => {
                         if (!connected) {
                           return (
@@ -255,7 +246,7 @@ export default function Home() {
                         <button
                           className={
                             "flex items-center h-[43px] w-full items-center justify-center hover:opacity-100 transition-all " +
-                            (page == "about" ? "opacity-100":"opacity-50")
+                            (page == "about" ? "opacity-100" : "opacity-50")
                           }
                           onClick={() => {
                             setPage("about");
@@ -267,7 +258,7 @@ export default function Home() {
                         <button
                           className={
                             "flex items-center h-[43px] w-full items-center justify-center hover:opacity-100 transition-all " +
-                            (page == "faq" ? "opacity-100":"opacity-50")
+                            (page == "faq" ? "opacity-100" : "opacity-50")
                           }
                           onClick={() => {
                             setPage("faq");
@@ -280,7 +271,9 @@ export default function Home() {
                         <button
                           className={
                             "flex items-center h-[43px] w-full items-center justify-center hover:opacity-100 transition-all " +
-                            (page == "collection" ? "opacity-100":"opacity-50")
+                            (page == "collection"
+                              ? "opacity-100"
+                              : "opacity-50")
                           }
                           onClick={() => {
                             setPage("collection");
