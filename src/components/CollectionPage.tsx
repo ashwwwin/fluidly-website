@@ -770,7 +770,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                           <div
                             onClick={() => {
                               window.open(
-                                `https://app.uniswap.org/tokens/${selectedCollection.network.toLowerCase()}/${selectedCollection.liquidifyContract}`
+                                `https://app.uniswap.org/tokens/${collection.network.toLowerCase()}/${collection.liquidifyContract}`
                               );
                             }}
                             className="flex w-full bg-white border-white border-opacity-10 border-b-2 border-r-2 rounded-br-lg  transition-all duration-[75ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none"
