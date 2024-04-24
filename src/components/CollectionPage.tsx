@@ -416,10 +416,10 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                       </span>
                       <div className="flex items-center gap-x-3.5 justify-left h-[20px] mb-4">
                         <img
-                          src="/magiceden.png"
+                          src="/opensea.png"
                           onClick={() => {
                             window.open(
-                              `https://magiceden.io/collections/${selectedCollection.network.toLowerCase()}/${
+                              `https://opensea.io/assets/${selectedCollection.network.toLowerCase()}/${
                                 selectedCollection.nftAddress
                               }`
                             );
@@ -735,7 +735,8 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                           <div
                             onClick={() => {
                               window.open(
-                                `https://magiceden.io/collections/${collection.network.toLowerCase()}/${
+                                // https://opensea.io/assets/base/0x13dc8261fce63499aa25deb512bb1827b411b83b/6630
+                                `https://opensea.io/assets/${collection.network.toLowerCase()}/${
                                   collection.nftAddress
                                 }`
                               );
@@ -743,7 +744,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                             className="flex bg-white border-white border-opacity-10 border-l-2 border-b-2 rounded-bl-lg w-full h-[39px] transition-all duration-[75ms] px-3.5 items-center justify-center hover:bg-opacity-[17.5%] cursor-pointer select-none flex bg-opacity-10 select-none"
                           >
                             <img
-                              src="/magiceden.png"
+                              src="/opensea.png"
                               className="min-h-[15px] min-w-[15px] max-h-[15px] max-w-[15px] rounded-md overflow-none"
                             />
                           </div>
