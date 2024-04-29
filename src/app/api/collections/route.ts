@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
     const db = await connectToDatabase();
     const collection = db.collection("liquidNfts");
 
-    let liquidNfts = await collection.find({}).toArray();
+    let liquidNfts = await collection.find({ pairEnabled: true }).toArray();
 
     console.log(liquidNfts);
     return new NextResponse(JSON.stringify({ liquidNfts }), {
