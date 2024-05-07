@@ -25,6 +25,21 @@ export async function GET(request: NextRequest) {
 
     const db = await connectToDatabase();
     const collection = db.collection("liquidNfts");
+    
+    const liquidifyContract = await collection.findOne({ contractAddress: contract });
+    if (liquidifyContract?.pairEnabled == true) {
+      return new NextResponse(
+        JSON.stringify({
+          message: "Pairing is already enabled",
+        }),
+        {
+          status: 403,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
 
     let alchemyBase = await getAlchemyBase(network);
 
