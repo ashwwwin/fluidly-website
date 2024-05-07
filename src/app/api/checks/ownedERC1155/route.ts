@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ethers, JsonRpcProvider } from "ethers";
 import { connectToDatabase } from "../../../../libs/database";
+import { getAlchemyBase } from "@/libs/alchemyBase";
 
 export async function GET(request: NextRequest) {
   try {
@@ -28,16 +29,11 @@ export async function GET(request: NextRequest) {
     const db = await connectToDatabase();
     const collection = db.collection("liquidNfts");
 
-    let provider;
-    if (network == "Base") {
-      provider = new JsonRpcProvider(
-        `https://base-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY_BASE}`
-      );
-    } else {
-      provider = new JsonRpcProvider(
-        `https://eth-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY}`
-      );
-    }
+    let alchemyUrl = await getAlchemyBase(network);
+
+    let provider = new JsonRpcProvider(
+      `${alchemyUrl}/v2/${process.env.ALCHEMY_KEY}`
+    );
 
     const _contract = new ethers.Contract(
       contract,
@@ -46,7 +42,7 @@ export async function GET(request: NextRequest) {
       ],
       provider
     );
-    
+
     const balance = (await _contract.balanceOf(wallet, tokenId)).toString();
 
     console.log(balance);

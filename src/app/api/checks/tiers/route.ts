@@ -34,18 +34,35 @@ export async function GET(request: NextRequest) {
 
     const _contract = new ethers.Contract(
       contract,
-      ["function creatorSellFee() view returns (uint256)"],
+      [
+        "function getTiersCount() external view returns (uint256)",
+        "function tiers(uint256 index) external view returns (uint256)",
+      ],
       provider
     );
 
-    const salesFee = (await _contract.creatorSellFee()).toString();
+    const tiersCount = await _contract.getTiersCount();
+
+    let tiers = [];
+    for (let i = 0; i < tiersCount; i++) {
+      const tier = await _contract.tiers(i);
+      tiers.push(parseInt(tier.toString()) / 10 ** 18);
+    }
+
+    tiers.sort((a, b) => a - b);
+    tiers = tiers.map((tier, index) => ({
+      name: `Tier ${index + 1}`,
+      amount: Math.ceil(tier),
+    }));
 
     await collection.updateOne(
       { liquidifyContract: { $regex: new RegExp(`^${contract}$`, "i") } },
-      { $set: { creatorSellFee: salesFee } }
+      { $set: { tiers: tiers } }
     );
 
-    return new NextResponse(JSON.stringify({ royalty: salesFee }), {
+    console.log(tiers);
+
+    return new NextResponse(JSON.stringify({ tiers: tiers }), {
       status: 200,
       headers: {
         "Content-Type": "application/json",

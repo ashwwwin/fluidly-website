@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import "../app/globals.css";
-import LiquidifyV2Factory from "../app/abi/LiquidifyV2Factory.json";
+import LiquidifyV3Factory from "../app/abi/LiquidifyV3Factory.json";
 import { useWriteContract, useReadContract, useAccount } from "wagmi";
 import { switchChain, watchChainId } from "@wagmi/core";
 import { config } from "../app/providers";
@@ -48,7 +48,7 @@ const LiquidifyPage = () => {
   const [nftContractAddress, setNftContractAddress] = useState("");
   const [tokensPerNft, setTokensPerNft] = useState<number>(1);
   const [factoryAddress, setFactoryAddress] = useState<`0x${string}`>(
-    "0xdA2f6eE23101CDCAa7247BA6fc942F0A48CaEbF7"
+    "0xB7BBBFEd84D648B8658903d64aE90D7d2C757b1e"
   );
   const [explorer, setExplorer] = useState<string>("https://etherscan.io");
   const [inputtedERC1155TokenId, setInputtedERC1155TokenId] =
@@ -67,6 +67,14 @@ const LiquidifyPage = () => {
     managePage_liquidityPoolAddressInput,
     managePage_setLiquidityPoolAddressInput,
   ] = useState("");
+  const [managePage_pairEnabled, managePage_setPairEnabled] =
+    useState<boolean>(false);
+  const [managePage_pairEnabledTab, managePage_setPairEnabledTab] = useState<
+    "setTiers" | "enablePair"
+  >("setTiers");
+  const [managePage_nftTiersInput, managePage_setNftTiersInput] = useState<
+    [number[], number[]]
+  >([[], []]);
 
   useEffect(() => {
     let currentChain = account.chainId;
@@ -81,7 +89,7 @@ const LiquidifyPage = () => {
     }
 
     if (currentChain === 8453) {
-      setFactoryAddress("0xdA2f6eE23101CDCAa7247BA6fc942F0A48CaEbF7");
+      setFactoryAddress("0xB7BBBFEd84D648B8658903d64aE90D7d2C757b1e");
     }
   }, [account.chainId]);
 
@@ -117,7 +125,7 @@ const LiquidifyPage = () => {
       const tx = writeContract(
         {
           address: factoryAddress,
-          abi: LiquidifyV2Factory.abi,
+          abi: LiquidifyV3Factory.abi,
           functionName: "createLiquidERC721",
           args: [
             tokenName,
@@ -130,10 +138,12 @@ const LiquidifyPage = () => {
         },
         {
           onSuccess: (tx: any) => {
-            alert(
-              "Success, opening a new tab with tx data. If you're creating an LP with this token, make sure to use Uniswap V2 for full functionality."
-            );
-            window.open(`${explorer}/tx/${tx}`);
+            setTimeout(() => {
+              alert(
+                "Success, opening a new tab with tx data. If you're creating an LP with this token, make sure to use Uniswap V2 for full functionality."
+              );
+              window.open(`${explorer}/tx/${tx}`);
+            }, 2000);
           },
         }
       );
@@ -143,7 +153,7 @@ const LiquidifyPage = () => {
       const tx = writeContract(
         {
           address: factoryAddress,
-          abi: LiquidifyV2Factory.abi,
+          abi: LiquidifyV3Factory.abi,
           functionName: "createLiquidERC1155",
           args: [
             tokenName,
@@ -157,10 +167,12 @@ const LiquidifyPage = () => {
         },
         {
           onSuccess: (tx: any) => {
-            alert(
-              "Success, opening a new tab with tx data. If you're creating an LP with this token, make sure to use Uniswap V2 for full functionality."
-            );
-            window.open(`${explorer}/tx/${tx}`);
+            setTimeout(() => {
+              alert(
+                "Success, opening a new tab with tx data. If you're creating an LP with this token, make sure to use Uniswap V2 for full functionality."
+              );
+              window.open(`${explorer}/tx/${tx}`);
+            }, 2000);
           },
         }
       );
@@ -183,6 +195,12 @@ const LiquidifyPage = () => {
   useEffect(() => {
     loadOwnedPairs();
   }, [account.address]);
+
+  useEffect(() => {
+    if (tab == "manage") {
+      loadOwnedPairs();
+    }
+  }, [tab]);
 
   const loadRoyalty = async () => {
     let _royalties = await fetch(
@@ -212,7 +230,7 @@ const LiquidifyPage = () => {
             alert("Success, opening a new tab with tx data");
             setTimeout(() => {
               console.log("Transaction successful, redirecting...");
-              window.open(`${explorer}/tx/${tx.transactionHash}`);
+              window.open(`${explorer}/tx/${tx}`);
               loadRoyalty();
             }, 2000);
           },
@@ -247,7 +265,81 @@ const LiquidifyPage = () => {
             alert("Success, opening a new tab with tx data");
             setTimeout(() => {
               console.log("Transaction successful, redirecting...");
-              window.open(`${explorer}/tx/${tx.transactionHash}`);
+              window.open(`${explorer}/tx/${tx}`);
+            }, 2000);
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const isPairEnabled = async () => {
+    let _pairEnabled = await fetch(
+      `/api/checks/pairEnabled?contract=${manage.liquidifyContract}&network=${manage.network}`
+    );
+
+    let item = await _pairEnabled.json();
+
+    console.log(item);
+
+    if (item?.pairEnabled == false || !item)
+      return managePage_setPairEnabled(false);
+
+    managePage_setPairEnabled(true);
+    loadRoyalty();
+    loadPairOwner();
+  };
+
+  const enablePair = async () => {
+    fetch(
+      `/api/checks/tiers?contract=${manage.liquidifyContract}&network=${manage.network}`
+    );
+
+    try {
+      const tx = writeContract(
+        {
+          address: manage.liquidifyContract,
+          abi: LiquidERC721.abi,
+          functionName: "enablePair",
+        },
+        {
+          onSuccess: (tx: any) => {
+            alert("Success, opening a new tab with tx data");
+            setTimeout(() => {
+              console.log("Transaction successful, redirecting...");
+              window.open(`${explorer}/tx/${tx}`);
+            }, 2000);
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const setTiers = async () => {
+    try {
+      const tx = writeContract(
+        {
+          address: manage.liquidifyContract,
+          abi: LiquidERC721.abi,
+          functionName: "setTiers",
+          args: [managePage_nftTiersInput[0], managePage_nftTiersInput[1]],
+        },
+        {
+          onSuccess: (tx: any) => {
+            setTimeout(async () => {
+              alert("Success, opening a new tab with tx data");
+              console.log("Transaction successful, redirecting...");
+              window.open(`${explorer}/tx/${tx}`);
+
+              while (!managePage_pairEnabled) {
+                console.log("Waiting for pair to enable");
+                await isPairEnabled();
+                await new Promise((r) => setTimeout(r, 1000));
+              }
             }, 2000);
           },
         }
@@ -259,8 +351,7 @@ const LiquidifyPage = () => {
 
   useEffect(() => {
     if (!manage) return;
-    loadRoyalty();
-    loadPairOwner();
+    isPairEnabled();
   }, [manage]);
 
   return (
@@ -273,7 +364,7 @@ const LiquidifyPage = () => {
               Manage pairs
             </span>
             <span className="text-sm text-white text-opacity-50 w-[450px] text-center">
-              Manage royalties and set the liquidity pools for your LNFT pairs.
+              Manage royalties, royalty receipent, contract ownership and more.
             </span>
           </div>
 
@@ -328,11 +419,11 @@ const LiquidifyPage = () => {
                 ) : (
                   <>
                     <div className="flex flex-col items-center pt-[50px]">
-                      <FileWarning className="text-white mb-2 opacity-80"/>
+                      <FileWarning className="text-white mb-2 opacity-80" />
                       <span className="text-white opacity-80">
                         No created pairs found
                       </span>
-                      <span className="text-white text-sm opacity-50 items-center text-center w-[350px]">
+                      <span className="text-white text-sm opacity-50 select-text items-center text-center w-[350px]">
                         Create a pair to get started. If you just created a pair
                         and don't see it here, try refreshing.
                       </span>
@@ -344,11 +435,11 @@ const LiquidifyPage = () => {
 
             {manage && (
               <>
-                <div className="flex flex-col text-white p-3 bg-white bg-opacity-5 rounded-xl shadow-2xl">
-                  <span className="font-medium text-xl">
+                <div className="flex flex-col text-white p-3 bg-white bg-opacity-5 rounded-xl shadow-xl h-[430px] max-h-[430px] min-h-[430px]">
+                  <span className="font-medium text-lg">
                     {manage.tokenName} / ${manage.tokenSymbol}
                   </span>
-                  <div className="flex gap-x-2 items-center justify-start w-full text-left">
+                  <div className="flex gap-x-2 items-center text-sm justify-start w-full text-left">
                     <span className="mr-1.5">{manage?.liquidifyContract}</span>
                     <img
                       onClick={() => {
@@ -374,33 +465,143 @@ const LiquidifyPage = () => {
                       <Copy className="h-4 opacity-70 hover:opacity-100 transition-all cursor-pointer" />
                     </button>
                   </div>
+                  {!managePage_pairEnabled && (
+                    <>
+                      {managePage_pairEnabledTab == "setTiers" && (
+                        <div className="flex flex-col h-full items-center justify-center ">
+                          <span className="text-xl font-semibold mb-0">
+                            Set Rarity Tiers
+                          </span>
+                          <span className="text-sm opacity-70 mb-1.5 -mt-0.5 text-center select-text text-wrap flex w-[425px]">
+                            If you'd like to set custom NFT {`<>`} Token swap
+                            tiers to support rarity traits enter them below, you
+                            can repeat this process multiple times but, you
+                            cannot change an NFT's token swap tier once it has
+                            been set. Any token id's that are not set will
+                            default to the base tier.
+                          </span>
+                          <textarea
+                            onChange={(e) => {
+                              const inputLines = e.target.value.split("\n");
+                              console.log(inputLines);
+                              if (inputLines[0] === "") {
+                                managePage_setNftTiersInput([[], []]);
+                                return;
+                              }
 
-                  <div className="flex w-full bg-white bg-opacity-5 p-1 gap-x-1.5 rounded-md mt-3.5">
-                    <div
-                      className={`flex bg-white items-center w-full p-1 pl-3 pr-5 text-white ${
-                        manageTab === "liquiditypool"
-                          ? "text-opacity-100 bg-opacity-10"
-                          : "text-opacity-70 bg-opacity-5"
-                      } rounded-md hover:bg-opacity-10 transition-all cursor-pointer whitespace-nowrap`}
-                      onClick={() => setManageTab("liquiditypool")}
-                    >
-                      <Repeat className="h-[15px] mr-1" />
-                      Liquidity pool
-                    </div>
-                    <div
-                      className={`flex bg-white items-center w-full p-1 px-3 text-white ${
-                        manageTab === "royalties"
-                          ? "text-opacity-100 bg-opacity-10"
-                          : "text-opacity-70 bg-opacity-5"
-                      } rounded-md hover:bg-opacity-10 transition-all cursor-pointer`}
-                      onClick={() => {
-                        setManageTab("royalties");
-                      }}
-                    >
-                      <CircleDollarSign className="h-[15px] mr-1" />
-                      Royalties
-                    </div>
-                    {/* <div
+                              const tokenIds = inputLines.map((line) =>
+                                parseInt(line.split(" ")[0])
+                              );
+
+                              const tokenAmounts = inputLines.map((line) =>
+                                parseInt(line.split(" ")[1])
+                              );
+
+                              if (
+                                tokenIds.some((id) => isNaN(id)) ||
+                                tokenAmounts.some((amount) => isNaN(amount)) ||
+                                tokenIds.length !== tokenAmounts.length
+                              ) {
+                                return;
+                              }
+
+                              managePage_setNftTiersInput([
+                                tokenIds,
+                                tokenAmounts,
+                              ]);
+
+                              console.log(managePage_nftTiersInput);
+                            }}
+                            className="w-full text-sm min-h-[115px] max-h-[115px] mt-1 outline-none bg-white bg-opacity-10 px-2 py-1.5 rounded-md"
+                            placeholder="Token Id      Token amount"
+                          />
+                          <div className="flex justify-between w-full items-center">
+                            <span className="pl-2 font-mono opacity-50 text-sm">
+                              {managePage_nftTiersInput[0].length}
+                            </span>
+                            <div className="flex gap-x-2">
+                              <button
+                                onClick={() => {
+                                  return setTiers();
+                                }}
+                                className="mt-3 bg-green-500 opacity-90 hover:opacity-100 cursor-pointer select none px-3 py-1.5 rounded-md transition-all"
+                              >
+                                Confirm
+                              </button>
+                              <button
+                                onClick={() => {
+                                  return managePage_setPairEnabledTab(
+                                    "enablePair"
+                                  );
+                                }}
+                                className="mt-3 bg-blue-500 opacity-90 hover:opacity-100 cursor-pointer select none px-3 py-1.5 rounded-md transition-all"
+                              >
+                                Continue
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                      {managePage_pairEnabledTab == "enablePair" && (
+                        <div className="flex flex-col pb-3 h-full items-center justify-center ">
+                          <span className="text-xl font-semibold mb-0">
+                            You're almost done
+                          </span>
+                          <span className="text-sm opacity-70 mb-1.5 -mt-0.5 select-text text-center text-wrap flex w-[350px]">
+                            Enable trading for your pair. This will be
+                            permanent, you will not be able to edit nft rarities
+                            anymore.
+                          </span>
+                          <div className="flex flex-col justify-center items-end">
+                            <div className="flex gap-x-2">
+                              <button
+                                onClick={() => {
+                                  managePage_setPairEnabledTab("setTiers");
+                                }}
+                                className="mt-3 bg-white bg-opacity-10 border-2 border-opacity-[3.5%] border-white hover:bg-opacity-[12.5%] cursor-pointer select none px-3 py-1 rounded-md transition-all"
+                              >
+                                Back
+                              </button>
+                              <button
+                                onClick={enablePair}
+                                className="mt-3 bg-green-600 opacity-90 hover:opacity-100 cursor-pointer select none px-5 py-1 rounded-md transition-all"
+                              >
+                                Enable pair
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  )}
+                  {managePage_pairEnabled && (
+                    <>
+                      <div className="flex w-full bg-white bg-opacity-5 p-1 gap-x-1.5 rounded-md mt-3.5">
+                        <div
+                          className={`flex bg-white items-center w-full p-1 pl-3 pr-5 text-white ${
+                            manageTab === "liquiditypool"
+                              ? "text-opacity-100 bg-opacity-10"
+                              : "text-opacity-70 bg-opacity-5"
+                          } rounded-md hover:bg-opacity-10 transition-all cursor-pointer whitespace-nowrap`}
+                          onClick={() => setManageTab("liquiditypool")}
+                        >
+                          <Repeat className="h-[15px] mr-1" />
+                          Liquidity pool
+                        </div>
+                        <div
+                          className={`flex bg-white items-center w-full p-1 px-3 text-white ${
+                            manageTab === "royalties"
+                              ? "text-opacity-100 bg-opacity-10"
+                              : "text-opacity-70 bg-opacity-5"
+                          } rounded-md hover:bg-opacity-10 transition-all cursor-pointer`}
+                          onClick={() => {
+                            setManageTab("royalties");
+                          }}
+                        >
+                          <CircleDollarSign className="h-[15px] mr-1" />
+                          Royalties
+                        </div>
+                        {/* <div
                       className={`flex bg-white items-center w-full p-1 px-3 text-white ${
                         manageTab === "transfer"
                           ? "text-opacity-100 bg-opacity-10"
@@ -413,112 +614,118 @@ const LiquidifyPage = () => {
                       <AlertTriangle className="h-[15px] mr-1" />
                       Transfer
                     </div> */}
-                  </div>
-                  <div className="p-1.5 flex h-[300px] w-full items-center justify-center flex-col">
-                    {manageTab == "liquiditypool" && (
-                      <>
-                        <div className="flex flex-col pb-3">
-                          <span className="text-xl font-semibold mb-0">
-                            Activate royalties
-                          </span>
-                          <span className="text-sm opacity-70 mb-2.5 -mt-1 text-wrap flex w-[330px]">
-                            In order to receive royalties, please enter the
-                            Uniswap v2 pool address for your token.
-                          </span>
-                          <div className="flex flex-col justify-end items-end">
-                            <input
-                              placeholder="Liquidity pool address"
-                              onChange={(e) => {
-                                managePage_setLiquidityPoolAddressInput(
-                                  e.target.value
-                                );
-                              }}
-                              className="text-white bg-white bg-opacity-10 w-[350px] outline-none py-1.5 px-2 rounded-md"
-                            />
-                            <button
-                              onClick={addAddressToLP}
-                              className="mt-3 bg-blue-500 opacity-90 hover:opacity-100 cursor-pointer select none px-3 py-1 rounded-md transition-all"
-                            >
-                              Confirm
-                            </button>
-                          </div>
-                        </div>
-                      </>
-                    )}
-
-                    {manageTab == "royalties" && (
-                      <>
-                        <div className="flex flex-col pb-3">
-                          <span className="text-xl font-semibold mb-0">
-                            Royalties
-                          </span>
-                          <span className="text-sm opacity-70 mb-2.5 -mt-1 text-wrap flex w-[330px]">
-                            These will automatically get sent to your wallet on
-                            every sell, royalties are currently set at{" "}
-                            {parseInt(
-                              `${managePage_royalty?.toString() || 0}`
-                            ) / 100 || "0"}
-                            %
-                          </span>
-                          <div className="flex flex-col justify-end items-end">
-                            <div className="flex">
-                              <input
-                                placeholder="New royalty rate"
-                                onChange={(e) => {
-                                  managePage_setRoyaltyInput(e.target.value);
-                                }}
-                                className="text-white bg-white bg-opacity-10 w-[320px] outline-none py-1.5 px-2 rounded-l-md"
-                              />
-                              <div className="rounded-r-md flex h-full px-2 bg-white bg-opacity-10 w-[30px] items-center">
-                                %
+                      </div>
+                      <div className="p-1.5 flex h-[300px] w-full items-center justify-center flex-col">
+                        {manageTab == "liquiditypool" && (
+                          <>
+                            <div className="flex flex-col pb-3">
+                              <span className="text-xl font-semibold mb-0">
+                                Activate royalties
+                              </span>
+                              <span className="text-sm opacity-70 mb-2.5 -mt-0.5 text-wrap flex w-[330px]">
+                                In order to receive royalties, please enter the
+                                Uniswap v2 pool address for your token.
+                              </span>
+                              <div className="flex flex-col justify-end items-end">
+                                <input
+                                  placeholder="Liquidity pool address"
+                                  onChange={(e) => {
+                                    managePage_setLiquidityPoolAddressInput(
+                                      e.target.value
+                                    );
+                                  }}
+                                  className="text-white bg-white bg-opacity-10 w-[350px] outline-none py-1.5 px-2 rounded-md"
+                                />
+                                <button
+                                  onClick={addAddressToLP}
+                                  className="mt-3 bg-blue-500 opacity-90 hover:opacity-100 cursor-pointer select none px-3 py-1 rounded-md transition-all"
+                                >
+                                  Confirm
+                                </button>
                               </div>
                             </div>
-                            <button
-                              onClick={updateRoyalty}
-                              className="mt-3 bg-blue-500 opacity-90 hover:opacity-100 cursor-pointer select none px-3 py-1 rounded-md transition-all"
-                            >
-                              Confirm
-                            </button>
-                          </div>
-                        </div>
-                      </>
-                    )}
+                          </>
+                        )}
 
-                    {manageTab == "transfer" && (
-                      <>
-                        <div className="flex flex-col pb-3">
-                          <span className="text-xl font-semibold mb-0">
-                            Transfer ownership
-                          </span>
-                          <span className="text-sm opacity-70 mb-2.5 -mt-1 text-wrap flex w-[330px]">
-                            By transfering ownership, you are also sending any
-                            new royalties and royalty management to this
-                            address. This is a permanent action.
-                          </span>
-                          <div className="flex flex-col justify-end items-end">
-                            <div className="flex">
-                              <input
-                                placeholder="New royalty rate"
-                                onChange={(e) => {
-                                  managePage_setRoyaltyInput(e.target.value);
-                                }}
-                                className="text-white bg-white bg-opacity-10 w-[320px] outline-none py-1.5 px-2 rounded-l-md"
-                              />
-                              <div className="rounded-r-md flex h-full px-2 bg-white bg-opacity-10 w-[30px] items-center">
+                        {manageTab == "royalties" && (
+                          <>
+                            <div className="flex flex-col pb-3">
+                              <span className="text-xl font-semibold mb-0">
+                                Royalties
+                              </span>
+                              <span className="text-sm opacity-70 mb-2.5 -mt-0.5 text-wrap flex w-[330px]">
+                                These will automatically get sent to your wallet
+                                on every sell, royalties are currently set at{" "}
+                                {parseInt(
+                                  `${managePage_royalty?.toString() || 0}`
+                                ) / 100 || "0"}
                                 %
+                              </span>
+                              <div className="flex flex-col justify-end items-end">
+                                <div className="flex">
+                                  <input
+                                    placeholder="New royalty rate"
+                                    onChange={(e) => {
+                                      managePage_setRoyaltyInput(
+                                        e.target.value
+                                      );
+                                    }}
+                                    className="text-white bg-white bg-opacity-10 w-[320px] outline-none py-1.5 px-2 rounded-l-md"
+                                  />
+                                  <div className="rounded-r-md flex h-full px-2 bg-white bg-opacity-10 w-[30px] items-center">
+                                    %
+                                  </div>
+                                </div>
+                                <button
+                                  onClick={updateRoyalty}
+                                  className="mt-3 bg-blue-500 opacity-90 hover:opacity-100 cursor-pointer select none px-3 py-1 rounded-md transition-all"
+                                >
+                                  Confirm
+                                </button>
                               </div>
                             </div>
-                            <button
-                              onClick={updateRoyalty}
-                              className="mt-3 bg-blue-500 opacity-90 hover:opacity-100 cursor-pointer select none px-3 py-1 rounded-md transition-all"
-                            >
-                              Confirm
-                            </button>
-                          </div>
-                        </div>
-                      </>
-                    )}
-                  </div>
+                          </>
+                        )}
+
+                        {manageTab == "transfer" && (
+                          <>
+                            <div className="flex flex-col pb-3">
+                              <span className="text-xl font-semibold mb-0">
+                                Transfer ownership
+                              </span>
+                              <span className="text-sm opacity-70 mb-2.5 -mt-0.5 text-wrap flex w-[330px]">
+                                By transfering ownership, you are also sending
+                                any new royalties and royalty management to this
+                                address. This is a permanent action.
+                              </span>
+                              <div className="flex flex-col justify-end items-end">
+                                <div className="flex">
+                                  <input
+                                    placeholder="New royalty rate"
+                                    onChange={(e) => {
+                                      managePage_setRoyaltyInput(
+                                        e.target.value
+                                      );
+                                    }}
+                                    className="text-white bg-white bg-opacity-10 w-[320px] outline-none py-1.5 px-2 rounded-l-md"
+                                  />
+                                  <div className="rounded-r-md flex h-full px-2 bg-white bg-opacity-10 w-[30px] items-center">
+                                    %
+                                  </div>
+                                </div>
+                                <button
+                                  onClick={updateRoyalty}
+                                  className="mt-3 bg-blue-500 opacity-90 hover:opacity-100 cursor-pointer select none px-3 py-1 rounded-md transition-all"
+                                >
+                                  Confirm
+                                </button>
+                              </div>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </div>
               </>
             )}

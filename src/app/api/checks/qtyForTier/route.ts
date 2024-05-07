@@ -8,11 +8,12 @@ export async function GET(request: NextRequest) {
     const url = new URL(request.url);
     const contract = url.searchParams.get("contract");
     const network = url.searchParams.get("network");
+    const tier = url.searchParams.get("tier");
 
-    if (!contract || !network) {
+    if (!contract || !network || !tier) {
       return new NextResponse(
         JSON.stringify({
-          message: "Missing contract or network",
+          message: "Missing contract, network or tier",
         }),
         {
           status: 400,
@@ -23,9 +24,6 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const db = await connectToDatabase();
-    const collection = db.collection("liquidNfts");
-
     let alchemyBase = await getAlchemyBase(network);
 
     let provider = new JsonRpcProvider(
@@ -34,18 +32,19 @@ export async function GET(request: NextRequest) {
 
     const _contract = new ethers.Contract(
       contract,
-      ["function creatorSellFee() view returns (uint256)"],
+      [
+        "function getQtyForTier(uint256 amount) external view returns (uint256)",
+      ],
       provider
     );
 
-    const salesFee = (await _contract.creatorSellFee()).toString();
+    let _tier: string | number = parseInt(tier) * 10 ** 18;
+    _tier = _tier.toLocaleString("fullwide", { useGrouping: false });
 
-    await collection.updateOne(
-      { liquidifyContract: { $regex: new RegExp(`^${contract}$`, "i") } },
-      { $set: { creatorSellFee: salesFee } }
-    );
+    const qty = await _contract.getQtyForTier(_tier);
+    console.log("qty", qty);
 
-    return new NextResponse(JSON.stringify({ royalty: salesFee }), {
+    return new NextResponse(JSON.stringify({ quantity: qty.toString() }), {
       status: 200,
       headers: {
         "Content-Type": "application/json",

@@ -5,6 +5,7 @@ import {
   Blocks,
   BookCheckIcon,
   ChevronLeft,
+  Copy,
   Info,
   RefreshCcw,
   Verified,
@@ -27,6 +28,9 @@ const CollectionPage = ({ collections }: { collections: any }) => {
   const [mode, setMode] = useState<"wrap" | "unwrap" | "summary">("wrap");
   const [tokenIdList, setTokenIdList] = useState<number[]>([]);
   const [tokenId, setTokenId] = useState<number>();
+  const [v3_tokenId, v3_setTokenId] = useState<number[]>([]);
+  const [selectedTier, setSelectedTier] = useState<any>({});
+  const [tierQty, setTierQty] = useState(0);
   const [balance, setBalance] = useState(0);
   const [ownedERC1155, setOwnedERC1155] = useState(0);
   const [isERC721TransfersApproved, setIsERC721TransfersApproved] =
@@ -124,7 +128,8 @@ const CollectionPage = ({ collections }: { collections: any }) => {
             address: selectedCollection.liquidifyContract,
             abi: LiquidERC721.abi,
             functionName: "wrapERC721",
-            args: [`${tokenId}`],
+            args:
+              selectedCollection.version === 3 ? [v3_tokenId] : [`${tokenId}`],
           },
           {
             onSuccess: async (tx: any) => {
@@ -188,9 +193,12 @@ const CollectionPage = ({ collections }: { collections: any }) => {
             functionName: "unwrapERC721",
             args: [
               BigInt(
-                Math.floor(
-                  parseFloat(selectedCollection.tokensPerNft) * 10 ** 18
-                )
+                selectedCollection.version === 3 &&
+                  selectedCollection.type === "ERC721"
+                  ? BigInt(selectedTier.amount) * BigInt(10 ** 18)
+                  : Math.floor(
+                      parseFloat(selectedCollection.tokensPerNft) * 10 ** 18
+                    )
               ),
             ],
           },
@@ -209,6 +217,8 @@ const CollectionPage = ({ collections }: { collections: any }) => {
               if (error.toString().includes("Insufficient funds to unwrap")) {
                 alert("Insufficient funds to unwrap");
               }
+
+              console.log(error);
             },
           }
         );
@@ -272,6 +282,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
         const data = await response.json();
         setTokenIdList(data.tokenIds); // Assuming we want to set the first tokenId, adjust as needed
         setTokenId(data.tokenIds[0]);
+        v3_setTokenId([data.tokenIds[0]]);
       } catch (error) {
         console.error("Failed to fetch token IDs:", error);
       }
@@ -355,8 +366,26 @@ const CollectionPage = ({ collections }: { collections: any }) => {
     }
   };
 
+  const getQtyForTier = async () => {
+    const response = await fetch(
+      `/api/checks/qtyForTier?wallet=${walletAddress}&contract=${selectedCollection.liquidifyContract}&network=${selectedCollection.network}&tier=${selectedTier.amount}`
+    );
+
+    const data = await response.json();
+    console.log(data);
+    setTierQty((data.quantity as number) || 0);
+  };
+
+  useEffect(() => {
+    getQtyForTier();
+  }, [selectedTier]);
+
   useEffect(() => {
     if (selectedCollection == undefined) return;
+
+    if (selectedCollection?.tiers) {
+      setSelectedTier(selectedCollection.tiers[0]);
+    }
 
     fetchBalance();
     fetchApproval();
@@ -426,7 +455,6 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                           }}
                           className="min-h-[20px] select-none cursor-pointer opacity-70 hover:opacity-100 transition-all min-w-[20px] max-h-[20px] max-w-[20px] rounded-md overflow-none"
                         />
-
                         <img
                           src="/etherscan.svg"
                           className="min-h-[20px] select-none cursor-pointer opacity-70 hover:opacity-100 transition-all min-w-[20px] max-h-[20px] max-w-[20px] rounded-md overflow-none"
@@ -442,7 +470,6 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                             );
                           }}
                         />
-
                         <img
                           src="/uniswap.png"
                           onClick={() => {
@@ -491,7 +518,11 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                                 {tokenId == undefined
                                   ? "/"
                                   : tokenId
-                                  ? tokenId
+                                  ? selectedCollection.version === 2
+                                    ? tokenId
+                                    : v3_tokenId.length > 0
+                                    ? `${v3_tokenId.length} NFTs selected`
+                                    : tokenId
                                   : "Loading"}
                               </div>
                               <ChevronLeft className="group-hover:rotate-[-90deg] h-[15px] transition-all" />
@@ -500,18 +531,51 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                             {tokenIdList.length >= 1 && (
                               <>
                                 <div className="select-none flex pt-[50px] absolute rounded-lg group-hover:block hidden w-[317px]  ">
-                                  <div className="flex flex-col bg-[#272727] rounded-lg shadow-xl z-[999] p-1 w-full">
+                                  <div className="flex flex-col bg-[#272727] rounded-lg shadow-xl z-[999] p-1 w-full max-h-[280px] overflow-y-auto">
                                     {tokenIdList.map((_tokenId) => {
-                                      return (
-                                        <div
-                                          onClick={() => {
-                                            setTokenId(_tokenId);
-                                          }}
-                                          className="px-3 w-full cursor-pointer bg-white bg-opacity-0 hover:bg-opacity-5 py-1.5 rounded-md"
-                                        >
-                                          {_tokenId}
-                                        </div>
-                                      );
+                                      if (selectedCollection.version === 2) {
+                                        return (
+                                          <div
+                                            onClick={() => {
+                                              setTokenId(_tokenId);
+                                            }}
+                                            className="px-3 w-full cursor-pointer bg-white bg-opacity-0 hover:bg-opacity-5 py-1 my-0.5 rounded-md"
+                                          >
+                                            {_tokenId}
+                                          </div>
+                                        );
+                                      }
+
+                                      if (selectedCollection.version === 3) {
+                                        return (
+                                          <div
+                                            onClick={() => {
+                                              if (
+                                                !v3_tokenId.includes(_tokenId)
+                                              ) {
+                                                return v3_setTokenId([
+                                                  ...v3_tokenId,
+                                                  _tokenId,
+                                                ]);
+                                              }
+
+                                              const newV3TokenIds =
+                                                v3_tokenId.filter(
+                                                  (id) => id !== _tokenId
+                                                );
+                                              v3_setTokenId(newV3TokenIds);
+                                            }}
+                                            className={
+                                              "px-3 w-full cursor-pointer bg-white bg-opacity-0 py-1 my-0.5 rounded-md " +
+                                              (v3_tokenId.includes(_tokenId)
+                                                ? "bg-opacity-10"
+                                                : "hover:bg-opacity-5")
+                                            }
+                                          >
+                                            {_tokenId}
+                                          </div>
+                                        );
+                                      }
                                     })}
                                   </div>
                                 </div>
@@ -590,31 +654,63 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                         )}
 
                         {selectedCollection.type == "ERC721" && (
-                          <span className="select-none mt-6 mb-2 text-center items-center justify-center flex">
-                            <span className="select-none mr-2">Balance:</span>
-                            {balance} ${selectedCollection.tokenSymbol}
-                          </span>
+                          <>
+                            <div className="flex flex-col group">
+                              {selectedCollection.version == 3 && (
+                                <>
+                                  <div className="cursor-pointer mt-[14px] mb-[2px] items-center relative rounded-lg flex flex-grow select-none hover:bg-opacity-20 bg-white bg-opacity-10 px-3 py-2">
+                                    <div className="text-white flex flex-grow">
+                                      {selectedTier.name}
+                                    </div>
+                                    <ChevronLeft className="group-hover:rotate-[-90deg] h-[15px] transition-all" />
+                                  </div>
+                                  {selectedCollection.tiers && (
+                                    <>
+                                      <div className="z-[100] mt-3.5 select-none flex pt-[50px] absolute rounded-lg group-hover:block hidden w-[317px]">
+                                        <div className="flex flex-col bg-[#272727] rounded-lg shadow-xl z-[999] p-1 w-full max-h-[280px] overflow-y-auto">
+                                          {selectedCollection?.tiers?.map(
+                                            (tier: any) => {
+                                              return (
+                                                <div
+                                                  onClick={() => {
+                                                    setSelectedTier(tier);
+                                                  }}
+                                                  className={
+                                                    "px-3 w-full cursor-pointer bg-white bg-opacity-0 hover:bg-opacity-5 py-1 my-0.5 rounded-md " +
+                                                    (selectedTier.name ==
+                                                    tier.name
+                                                      ? "bg-opacity-5"
+                                                      : "")
+                                                  }
+                                                >
+                                                  {tier.name}
+                                                </div>
+                                              );
+                                            }
+                                          )}
+                                        </div>
+                                      </div>
+                                    </>
+                                  )}
+                                </>
+                              )}
+                            </div>
+                            {(selectedCollection.version == 2 ||
+                              selectedCollection.type == "ERC1155") && (
+                              <>
+                                <span className="select-none mt-6 mb-2 text-center items-center justify-center flex">
+                                  <span className="select-none mr-2">
+                                    Balance:
+                                  </span>
+                                  {balance} ${selectedCollection.tokenSymbol}
+                                </span>
+                              </>
+                            )}
+                          </>
                         )}
-                        {/* <div className="mt-1 flex items-center text-sm">
-                          <span className="flex cursor-pointer flex">
-                            Balance: {new Intl.NumberFormat().format(balance)}{" "}
-                            {selectedCollection.tokenSymbol}
-                          </span>
-                          <RefreshCcw
-                            className="p-1.5 cursor-pointer ml-3 rounded-md hover:bg-opacity-10 bg-white bg-opacity-5 transition-all"
-                            onClick={fetchBalance}
-                          />
-                        </div> */}
                       </div>
                     </>
                   )}
-                  {/* {mode == "unwrap" && (
-                    <>
-                      <div className="flex mt-4">
-                        <input className="px-3 py-2 bg-white rounded-l-md"/>
-                      </div>
-                    </>
-                  )} */}
                   {mode !== "summary" && (
                     <>
                       <button
@@ -642,20 +738,50 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                             return approveTransfers();
 
                           wrap();
-
-                          // Wrap ERC721
                         }}
-                        className="bg-blue-500 mt-4 outline-none py-2 rounded-md select-none cursor-pointer transition-all bg-opacity-80 w-full hover:bg-opacity-100"
+                        className="bg-blue-500 px-3 mt-4 outline-none py-2 rounded-md select-none cursor-pointer transition-all bg-opacity-80 w-full justify-between items-center flex hover:bg-opacity-100"
                       >
                         {mode == "wrap" ? (
-                          <>
+                          <span className="w-full flex items-center text-center justify-center">
                             {!isERC721TransfersApproved &&
                             !isERC1155TransfersApproved
                               ? "Approve transfer"
                               : "Wrap"}
-                          </>
+                          </span>
                         ) : (
-                          "Unwrap"
+                          <>
+                            {tierQty == 0 &&
+                              selectedCollection.version == 3 &&
+                              selectedCollection.type == "ERC721" && (
+                                <>
+                                  <span className="w-full items-center justify-center">
+                                    No NFTs to unwrap in this tier
+                                  </span>
+                                </>
+                              )}
+                            {(tierQty != 0 ||
+                              selectedCollection.version == 2 ||
+                              selectedCollection.type == "ERC1155") && (
+                              <>
+                                <span
+                                  className={
+                                    selectedCollection.version == 2
+                                      ? "w-full text-center"
+                                      : ""
+                                  }
+                                >
+                                  Unwrap
+                                </span>
+                                {selectedCollection.version != 2 && (
+                                  <>
+                                    <span className="text-sm opacity-70">
+                                      {selectedTier.amount.toLocaleString()}
+                                    </span>
+                                  </>
+                                )}
+                              </>
+                            )}
+                          </>
                         )}
                       </button>
                     </>

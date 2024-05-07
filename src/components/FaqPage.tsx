@@ -10,12 +10,12 @@ const FaqPage = () => {
       <div className="w-full flex flex-col items-center ">
         <div className="items-center bg-white text-white mt-1 rounded-sm py-1 bg-opacity-0 transition-all text-2xl rounded-md select-none text-opacity-100">
           <div className="flex items-center font-medium">
-            <HelpCircle className="h-[18px] mr-1.5" /> FAQ
+            <HelpCircle className="h-[18px] mr-1.5" /> Frequently asked questions
           </div>
         </div>
-        <div className="flex flex-col gap-y-8 gap-y-5 w-full max-w-[750px] mx-auto text-center mb-12 xs:pb-[100px]">
+        <div className="flex flex-col gap-y-8 w-full max-w-[750px] mx-auto text-center mb-12 xs:pb-[100px]">
           <div className="text-white flex flex-col mt-5">
-            <span className="font-semibold select-none">
+            <span className="font-semibold select-none opacity-[85%]">
               What is Liquidify?
             </span>
             <span className="text-md mt-1 opacity-50">
@@ -27,7 +27,7 @@ const FaqPage = () => {
             </span>
           </div>
           <div className="text-white flex flex-col">
-            <span className="font-semibold select-none">
+            <span className="font-semibold select-none opacity-[85%]">
               Do you provide liquidity?
             </span>
             <span className="text-md mt-1 opacity-50">
@@ -38,7 +38,7 @@ const FaqPage = () => {
             </span>
           </div>
           <div className="text-white flex flex-col">
-            <span className="font-semibold select-none">
+            <span className="font-semibold select-none opacity-[85%]">
               Why do I have to approve my NFTs?
             </span>
             <span className="text-md mt-1 opacity-50">
@@ -51,7 +51,7 @@ const FaqPage = () => {
             </span>
           </div>
           <div className="text-white flex flex-col">
-            <span className="font-semibold select-none">
+            <span className="font-semibold select-none opacity-[85%]">
               I created an LNFT pair, now what?
             </span>
             <span className="text-md mt-1 opacity-50">
@@ -63,7 +63,7 @@ const FaqPage = () => {
             </span>
           </div>
           <div className="text-white flex flex-col">
-            <span className="font-semibold select-none">
+            <span className="font-semibold select-none opacity-[85%]">
               Will I always be able to trade my tokens for an NFT?
             </span>
             <span className="text-md mt-1 opacity-50">
@@ -74,7 +74,7 @@ const FaqPage = () => {
             </span>
           </div>
           <div className="text-white flex flex-col">
-            <span className="font-semibold select-none">
+            <span className="font-semibold select-none opacity-[85%]">
               Why are royalties not working on my collection?
             </span>
             <span className="text-md mt-1 opacity-50">
@@ -84,7 +84,7 @@ const FaqPage = () => {
             </span>
           </div>
           <div className="text-white flex flex-col">
-            <span className="font-semibold select-none">
+            <span className="font-semibold select-none opacity-[85%]">
               Why do I see more than one of the same collection?
             </span>
             <span className="text-md mt-1 opacity-50">
@@ -96,7 +96,7 @@ const FaqPage = () => {
             </span>
           </div>
           <div className="text-white flex flex-col">
-            <span className="font-semibold select-none">
+            <span className="font-semibold select-none opacity-[85%]">
               What are the risks?
             </span>
             <span className="text-md mt-1 opacity-50">

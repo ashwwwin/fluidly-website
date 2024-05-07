@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ethers, JsonRpcProvider } from "ethers";
 import { connectToDatabase } from "../../../../libs/database";
+import { getAlchemyBase } from "@/libs/alchemyBase";
 
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
@@ -13,6 +14,11 @@ export async function GET(request: NextRequest) {
     const collection = db.collection("liquidNfts");
 
     console.log(contract);
+
+    if (!wallet || !contract || !network) {
+      return;
+    }
+    
     // let isExists = await collection.findOne({
     //   nftAddress: contract,
     // });
@@ -32,13 +38,9 @@ export async function GET(request: NextRequest) {
     // }
 
     const alchemyKey = process.env.ALCHEMY_KEY;
+    let alchemyUrl = await getAlchemyBase(network);
 
-    let alchemyUrl;
-    if (network == "Base") {
-      alchemyUrl = `https://base-mainnet.g.alchemy.com/nft/v2/${alchemyKey}/getNFTs?owner=${wallet}&contractAddresses[]=${contract}&withMetadata=false&pageSize=100`;
-    } else {
-      alchemyUrl = `https://eth-mainnet.g.alchemy.com/nft/v2/${alchemyKey}/getNFTs?owner=${wallet}&contractAddresses[]=${contract}&withMetadata=false&pageSize=100`;
-    }
+    alchemyUrl = `${alchemyUrl}/nft/v2/${alchemyKey}/getNFTs?owner=${wallet}&contractAddresses[]=${contract}&withMetadata=false&pageSize=100`;
 
     const alchemyResponse = await fetch(alchemyUrl, {
       method: "GET",

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ethers, JsonRpcProvider, Interface } from "ethers";
 import LiquidERC721 from "../../../../../src/app/abi/LiquidERC721.json";
+import { getAlchemyBase } from "@/libs/alchemyBase";
 
 export async function GET(request: NextRequest) {
   try {
@@ -26,16 +27,12 @@ export async function GET(request: NextRequest) {
         }
       );
     }
-    let provider;
-    if (network == "Base") {
-      provider = new JsonRpcProvider(
-        `https://base-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY_BASE}`
-      );
-    } else {
-      provider = new JsonRpcProvider(
-        `https://eth-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY}`
-      );
-    }
+
+    let alchemyUrl = await getAlchemyBase(network);
+
+    let provider = new JsonRpcProvider(
+      `${alchemyUrl}/v2/${process.env.ALCHEMY_KEY}`
+    );
 
     const isApprovedForAllInterface = new Interface([
       "function isApprovedForAll(address owner, address operator) view returns (bool)",
