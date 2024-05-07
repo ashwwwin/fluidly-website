@@ -26,13 +26,13 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const db = await connectToDatabase();
-    const collection = db.collection("liquidNfts");
+    // const db = await connectToDatabase();
+    // const collection = db.collection("liquidNfts");
 
-    let alchemyUrl = await getAlchemyBase(network);
+    let alchemyBase = await getAlchemyBase(network);
 
     let provider = new JsonRpcProvider(
-      `${alchemyUrl}/v2/${process.env.ALCHEMY_KEY}`
+      `${alchemyBase.url}/v2/${alchemyBase.key}`
     );
 
     const _contract = new ethers.Contract(

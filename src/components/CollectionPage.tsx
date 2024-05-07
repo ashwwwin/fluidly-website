@@ -676,14 +676,15 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                                                     setSelectedTier(tier);
                                                   }}
                                                   className={
-                                                    "px-3 w-full cursor-pointer bg-white bg-opacity-0 hover:bg-opacity-5 py-1 my-0.5 rounded-md " +
+                                                    "px-3 w-full cursor-pointer items-center flex justify-between bg-white bg-opacity-0 hover:bg-opacity-5 py-1 my-0.5 rounded-md " +
                                                     (selectedTier.name ==
                                                     tier.name
                                                       ? "bg-opacity-5"
                                                       : "")
                                                   }
                                                 >
-                                                  {tier.name}
+                                                  <span>{tier.name}</span>
+                                                  <span className="text-xs font-mono text-white opacity-50">{tier.amount}</span>
                                                 </div>
                                               );
                                             }
@@ -702,7 +703,8 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                                   <span className="select-none mr-2">
                                     Balance:
                                   </span>
-                                  {balance} ${selectedCollection.tokenSymbol}
+                                  {parseFloat(balance.toFixed(5)).toString()} $
+                                  {selectedCollection.tokenSymbol}
                                 </span>
                               </>
                             )}
@@ -774,7 +776,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                                 </span>
                                 {selectedCollection.version != 2 && (
                                   <>
-                                    <span className="text-sm opacity-70">
+                                    <span className="text-xs opacity-70">
                                       {selectedTier.amount.toLocaleString()}
                                     </span>
                                   </>

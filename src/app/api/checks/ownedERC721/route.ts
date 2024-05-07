@@ -37,10 +37,9 @@ export async function GET(request: NextRequest) {
     //   );
     // }
 
-    const alchemyKey = process.env.ALCHEMY_KEY;
-    let alchemyUrl = await getAlchemyBase(network);
+    let alchemyBase = await getAlchemyBase(network);
 
-    alchemyUrl = `${alchemyUrl}/nft/v2/${alchemyKey}/getNFTs?owner=${wallet}&contractAddresses[]=${contract}&withMetadata=false&pageSize=100`;
+    let alchemyUrl = `${alchemyBase.url}/nft/v2/${alchemyBase.key}/getNFTs?owner=${wallet}&contractAddresses[]=${contract}&withMetadata=false&pageSize=100`;
 
     const alchemyResponse = await fetch(alchemyUrl, {
       method: "GET",

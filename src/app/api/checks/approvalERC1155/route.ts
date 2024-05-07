@@ -28,10 +28,10 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    let alchemyUrl = await getAlchemyBase(network);
-    
+    let alchemyBase = await getAlchemyBase(network);
+
     let provider = new JsonRpcProvider(
-      `${alchemyUrl}/v2/${process.env.ALCHEMY_KEY}`
+      `${alchemyBase.url}/v2/${alchemyBase.key}`
     );
 
     console.log(contract, operator);
