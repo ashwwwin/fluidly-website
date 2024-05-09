@@ -52,7 +52,7 @@ const AboutPage = () => {
           </span>
           <span className="text-white">
             Allocations will be reserved for those who create an LNFT with an
-            LP, trade any LNFT or wrap and unwrap on the Liquidify protocol. A
+            LP and wrap/unwrap on the Liquidify protocol. A
             seperate allocation will be for past Codechain holders. A seperate
             allocation will be reserved for those who own an{" "}
             <span
