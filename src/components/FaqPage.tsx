@@ -146,13 +146,13 @@ const FaqPage = () => {
           </span>
           <div
             onClick={() => {
-              setTab("uniswapV2Guide");
+              // setTab("uniswapV2Guide");
             }}
             className={
-              "flex items-center text-opacity-80 text-white select-none bg-white px-3 py-1 rounded-md cursor-pointer transition-all duration-[100ms] " +
+              "flex items-center text-opacity-80 text-white select-none bg-white px-3 py-1 rounded-md cursor-not-allowed transition-all duration-[100ms] " +
               (tab == "uniswapV2Guide"
                 ? "bg-opacity-10"
-                : "bg-opacity-5 hover:bg-opacity-[7.5%]")
+                : "bg-opacity-5")
             }
           >
             <CandlestickChart className="h-[15px] mr-0.5" />
@@ -160,13 +160,13 @@ const FaqPage = () => {
           </div>
           <div
             onClick={() => {
-              setTab("uniswapV3Guide");
+              // setTab("uniswapV3Guide");
             }}
             className={
-              "flex items-center text-opacity-80 text-white select-none bg-white px-3 py-1 rounded-md cursor-pointer transition-all duration-[100ms] " +
+              "flex items-center text-opacity-80 text-white select-none bg-white px-3 py-1 cursor-not-allowed rounded-md transition-all duration-[100ms] " +
               (tab == "uniswapV3Guide"
                 ? "bg-opacity-10"
-                : "bg-opacity-5 hover:bg-opacity-[7.5%]")
+                : "bg-opacity-5")
             }
           >
             <PieChart className="h-[15px] mr-0.5" />
