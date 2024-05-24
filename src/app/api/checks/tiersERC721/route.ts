@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
     const db = await connectToDatabase();
     const collection = db.collection("liquidNfts");
     
-    const liquidifyContract = await collection.findOne({ contractAddress: contract });
+    const liquidifyContract = await collection.findOne({ liquidifyContract: contract });
     if (liquidifyContract?.pairEnabled == true) {
       return new NextResponse(
         JSON.stringify({
@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
       contract,
       [
         "function getTiersCount() external view returns (uint256)",
-        "function tiers(uint256 index) external view returns (uint256)",
+        "function tiersList(uint256 index) external view returns (uint256)",
       ],
       provider
     );
@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
 
     let tiers = [];
     for (let i = 0; i < tiersCount; i++) {
-      const tier = await _contract.tiers(i);
+      const tier = await _contract.tiersList(i);
       tiers.push(parseInt(tier.toString()) / 10 ** 18);
     }
 

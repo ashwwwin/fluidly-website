@@ -9,11 +9,13 @@ export async function GET(request: NextRequest) {
     const contract = url.searchParams.get("contract");
     const network = url.searchParams.get("network");
     const tier = url.searchParams.get("tier");
+    const type = url.searchParams.get("type");
+    const tokenId = url.searchParams.get("tokenId");
 
-    if (!contract || !network || !tier) {
+    if (!contract || !network) {
       return new NextResponse(
         JSON.stringify({
-          message: "Missing contract, network or tier",
+          message: "Missing contract or network",
         }),
         {
           status: 400,
@@ -34,11 +36,59 @@ export async function GET(request: NextRequest) {
       contract,
       [
         "function getQtyForTier(uint256 amount) external view returns (uint256)",
+        "function storedNfts(uint256 amount) external view returns (uint256)",
       ],
       provider
     );
 
-    let _tier: string | number = parseInt(tier) * 10 ** 18;
+    if (type == "ERC1155") {
+      if (!tokenId) {
+        return new NextResponse(
+          JSON.stringify({
+            message: "Missing tokenId",
+          }),
+          {
+            status: 400,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      }
+
+      console.log("> ERC1155 Storage Check <");
+
+      let _tokenId: string | number = parseInt(tokenId);
+      _tokenId = _tokenId.toLocaleString("fullwide", { useGrouping: false });
+
+      const qty = await _contract.storedNfts(_tokenId);
+      console.log(`qty for #`, _tokenId);
+
+      return new NextResponse(JSON.stringify({ quantity: qty.toString() }), {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    }
+
+    console.log("> ERC721 Storage Check <");
+
+    if (!tier) {
+      return new NextResponse(
+        JSON.stringify({
+          message: "Missing tier",
+        }),
+        {
+          status: 400,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+
+    let _tier: string | number = parseInt(tier);
     _tier = _tier.toLocaleString("fullwide", { useGrouping: false });
 
     const qty = await _contract.getQtyForTier(_tier);
@@ -51,6 +101,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (e: any) {
+    console.log(e);
     return new NextResponse(
       JSON.stringify({
         message: "Failed",

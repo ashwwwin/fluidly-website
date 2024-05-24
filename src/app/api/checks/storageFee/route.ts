@@ -6,13 +6,15 @@ import { getAlchemyBase } from "@/libs/alchemyBase";
 export async function GET(request: NextRequest) {
   try {
     const url = new URL(request.url);
+    const factoryAddress = url.searchParams.get("factoryAddress");
     const contract = url.searchParams.get("contract");
+    const quantity = url.searchParams.get("quantity");
     const network = url.searchParams.get("network");
 
-    if (!contract || !network) {
+    if (!contract || !network || !factoryAddress || !quantity) {
       return new NextResponse(
         JSON.stringify({
-          message: "Missing contract or network",
+          message: "Missing contract, factoryAddress, quantity or network",
         }),
         {
           status: 400,
@@ -23,9 +25,6 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const db = await connectToDatabase();
-    const collection = db.collection("liquidNfts");
-
     let alchemyBase = await getAlchemyBase(network);
 
     let provider = new JsonRpcProvider(
@@ -33,27 +32,32 @@ export async function GET(request: NextRequest) {
     );
 
     const _contract = new ethers.Contract(
-      contract,
-      ["function owner() view returns (address)"],
+      factoryAddress,
+      [
+        "function storageFee(address liquidifyContract, uint256 quantity) external view returns (uint256)",
+      ],
       provider
     );
 
-    const pairCreator = (await _contract.owner()).toString();
+    const storageFee = (
+      await _contract.storageFee(contract, quantity)
+    ).toString();
 
-    console.log(pairCreator);
+    console.log("Storage fee:", storageFee);
 
-    await collection.updateOne(
-      { liquidifyContract: { $regex: new RegExp(`^${contract}$`, "i") } },
-      { $set: { lnftPairCreator: pairCreator } }
+    return new NextResponse(
+      JSON.stringify({
+        storageFee: `${(parseInt(storageFee) / 10 ** 18).toString()}`,
+      }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
     );
-
-    return new NextResponse(JSON.stringify({ newPairOwner: pairCreator }), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
   } catch (e: any) {
+    console.log(e);
     return new NextResponse(
       JSON.stringify({
         message: "Failed",

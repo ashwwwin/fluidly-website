@@ -1,127 +1,214 @@
 "use client";
 
-import { HelpCircle, Info } from "lucide-react";
-import React from "react";
+import {
+  CandlestickChart,
+  Crown,
+  HelpCircle,
+  Info,
+  Leaf,
+  LucideMousePointerClick,
+  PieChart,
+  Plug,
+} from "lucide-react";
+import React, { useState } from "react";
 import "../app/globals.css";
+import FaqPage_Faq from "./Docs/Faq";
+import FaqPage_About from "./Docs/About";
+import FaqPage_WrapUnwrap from "./Docs/WrapUnwrap";
+import FaqPage_Tiers from "./Docs/Tiers";
+import FaqPage_Royalties from "./Docs/Royalties";
+import FaqPage_SupportedNetworks from "./Docs/SupportedNetworks";
+import FaqPage_Token from "./Docs/Token";
 
 const FaqPage = () => {
+  const [tab, setTab] = useState<
+    | "faq"
+    | "about"
+    | "token"
+    | "wrapUnwrap"
+    | "tiers"
+    | "royalties"
+    | "supportedNetworks"
+    | "uniswapV2Guide"
+    | "uniswapV3Guide"
+  >("faq");
+
   return (
     <>
-      <div className="w-full flex flex-col items-center ">
-        <div className="items-center bg-white text-white mt-1 rounded-sm py-1 bg-opacity-0 transition-all text-2xl rounded-md select-none text-opacity-100">
-          <div className="flex items-center font-medium">
-            <HelpCircle className="h-[18px] mr-1.5" /> Frequently asked questions
+      <div className="w-full flex">
+        <div className="left-0 -mt-10 gap-y-2 pr-[18px] pt-[35px] pl-[18px] text-white flex bg-white bg-opacity-5 flex-col w-[250px] max-w-[250px] min-w-[250px] fixed min-h-[100vh] max-h-[100vh]">
+          <span className="font-mono text-xs opacity-50 select-none pointer-events-none uppercase">
+            GENERAL
+          </span>
+          <div
+            onClick={() => {
+              setTab("faq");
+            }}
+            className={
+              "flex items-center text-opacity-80 text-white select-none bg-white px-3 py-1 rounded-md cursor-pointer transition-all duration-[100ms] " +
+              (tab == "faq"
+                ? "bg-opacity-10"
+                : "bg-opacity-5 hover:bg-opacity-[7.5%]")
+            }
+          >
+            <HelpCircle className="h-[15px] mr-0.5" />
+            FAQ
+          </div>
+          <div
+            onClick={() => {
+              setTab("about");
+            }}
+            className={
+              "flex items-center text-opacity-80 text-white select-none bg-white px-3 py-1 rounded-md cursor-pointer transition-all duration-[100ms] " +
+              (tab == "about"
+                ? "bg-opacity-10"
+                : "bg-opacity-5 hover:bg-opacity-[7.5%]")
+            }
+          >
+            <Info className="h-[15px] mr-0.5" />
+            Overview
+          </div>
+          <div
+            onClick={() => {
+              setTab("token");
+            }}
+            className={
+              "flex items-center text-opacity-80 text-white select-none bg-white px-3 py-1 rounded-md cursor-pointer transition-all duration-[100ms] " +
+              (tab == "token"
+                ? "bg-opacity-10"
+                : "bg-opacity-5 hover:bg-opacity-[7.5%]")
+            }
+          >
+            <PieChart className="h-[15px] mr-0.5" />
+            $LIQ
+          </div>
+          <span className="font-mono text-xs opacity-50 select-none pointer-events-none uppercase mt-5">
+            LIQUIDIFY
+          </span>
+          <div
+            onClick={() => {
+              setTab("wrapUnwrap");
+            }}
+            className={
+              "flex items-center text-opacity-80 text-white select-none bg-white px-3 py-1 rounded-md cursor-pointer transition-all duration-[100ms] " +
+              (tab == "wrapUnwrap"
+                ? "bg-opacity-10"
+                : "bg-opacity-5 hover:bg-opacity-[7.5%]")
+            }
+          >
+            <LucideMousePointerClick className="h-[15px] mr-0.5" />
+            Wrap/Unwrap
+          </div>
+          <div
+            onClick={() => {
+              setTab("tiers");
+            }}
+            className={
+              "flex items-center text-opacity-80 text-white select-none bg-white px-3 py-1 rounded-md cursor-pointer transition-all duration-[100ms] " +
+              (tab == "tiers"
+                ? "bg-opacity-10"
+                : "bg-opacity-5 hover:bg-opacity-[7.5%]")
+            }
+          >
+            <Crown className="h-[15px] mr-0.5" />
+            Tiers
+          </div>
+          <div
+            onClick={() => {
+              setTab("royalties");
+            }}
+            className={
+              "flex items-center text-opacity-80 text-white select-none bg-white px-3 py-1 rounded-md cursor-pointer transition-all duration-[100ms] " +
+              (tab == "royalties"
+                ? "bg-opacity-10"
+                : "bg-opacity-5 hover:bg-opacity-[7.5%]")
+            }
+          >
+            <Leaf className="h-[15px] mr-0.5" />
+            Royalties
+          </div>
+          <div
+            onClick={() => {
+              setTab("supportedNetworks");
+            }}
+            className={
+              "flex items-center text-opacity-80 text-white select-none bg-white px-3 py-1 rounded-md cursor-pointer transition-all duration-[100ms] " +
+              (tab == "supportedNetworks"
+                ? "bg-opacity-10"
+                : "bg-opacity-5 hover:bg-opacity-[7.5%]")
+            }
+          >
+            <Plug className="h-[15px] mr-0.5 rotate-[45deg]" />
+            Supported networks
+          </div>
+          <span className="font-mono text-xs opacity-50 select-none pointer-events-none uppercase mt-5">
+            CREATE A LIQUIDITY POOL
+          </span>
+          <div
+            onClick={() => {
+              setTab("uniswapV2Guide");
+            }}
+            className={
+              "flex items-center text-opacity-80 text-white select-none bg-white px-3 py-1 rounded-md cursor-pointer transition-all duration-[100ms] " +
+              (tab == "uniswapV2Guide"
+                ? "bg-opacity-10"
+                : "bg-opacity-5 hover:bg-opacity-[7.5%]")
+            }
+          >
+            <CandlestickChart className="h-[15px] mr-0.5" />
+            Uniswap v2
+          </div>
+          <div
+            onClick={() => {
+              setTab("uniswapV3Guide");
+            }}
+            className={
+              "flex items-center text-opacity-80 text-white select-none bg-white px-3 py-1 rounded-md cursor-pointer transition-all duration-[100ms] " +
+              (tab == "uniswapV3Guide"
+                ? "bg-opacity-10"
+                : "bg-opacity-5 hover:bg-opacity-[7.5%]")
+            }
+          >
+            <PieChart className="h-[15px] mr-0.5" />
+            Uniswap v3
           </div>
         </div>
-        <div className="flex flex-col gap-y-8 w-full max-w-[750px] mx-auto text-center mb-12 xs:pb-[100px]">
-          <div className="text-white flex flex-col mt-5">
-            <span className="font-semibold select-none opacity-[85%]">
-              What is Liquidify?
-            </span>
-            <span className="text-md mt-1 opacity-50">
-              We provide a trusted bridge between your NFT and an ERC20 token,
-              ensuring that it is always backed 1:1. We ensure that when you
-              wrap your token in exchange for an NFT that you will always be
-              able to trade the exact amount of tokens back for an NFT from that
-              collection.
-            </span>
-          </div>
-          <div className="text-white flex flex-col">
-            <span className="font-semibold select-none opacity-[85%]">
-              Do you provide liquidity?
-            </span>
-            <span className="text-md mt-1 opacity-50">
-              No, we provide a way to convert your NFTs into ERC20s. The LP
-              relies on the founder/team behind the project or the community to
-              do so. We reccommend using a Uniswap v2 pool with Liquidify v2 for
-              full functionality such as royalties.
-            </span>
-          </div>
-          <div className="text-white flex flex-col">
-            <span className="font-semibold select-none opacity-[85%]">
-              Why do I have to approve my NFTs?
-            </span>
-            <span className="text-md mt-1 opacity-50">
-              When you trade a collection you haven't before on any NFT
-              marketplace. This is a standard procedure that all NFTs go through
-              when they need to be traded on a protocol. Liquidify's LNFT
-              contract only utilizes this once, and it is only to grant you the
-              power to transfer of your NFT into the contract (when you use the
-              wrapping function) if you choose to.
-            </span>
-          </div>
-          <div className="text-white flex flex-col">
-            <span className="font-semibold select-none opacity-[85%]">
-              I created an LNFT pair, now what?
-            </span>
-            <span className="text-md mt-1 opacity-50">
-              Once you've liquidified your collection, just start wrapping the
-              amount of NFTs you'd like to fund for the LP. When you're done
-              wrapping the NFTs, just head over to Uniswap and create a v2 pool.
-              To enable royalties, make sure to go to the manage section on
-              Liquidify and add the Uniswap v2 liquidity pool's address for your token.
-            </span>
-          </div>
-          <div className="text-white flex flex-col">
-            <span className="font-semibold select-none opacity-[85%]">
-              Will I always be able to trade my tokens for an NFT?
-            </span>
-            <span className="text-md mt-1 opacity-50">
-              Yes, as long as it meets the required tokens. The required tokens
-              are exactly the amount that the NFT was traded for initially. The
-              token to nft amount and the nft to token amount will always be
-              equal and are immutable for each LNFT pair.
-            </span>
-          </div>
-          <div className="text-white flex flex-col">
-            <span className="font-semibold select-none opacity-[85%]">
-              Why are royalties not working on my collection?
-            </span>
-            <span className="text-md mt-1 opacity-50">
-              Once you've set up your Uniswap v2 Pool with a Liquidify v2 Token,
-              copy the Uniswap pool address and then head to the Liquidify tab
-              in order to register your LP.
-            </span>
-          </div>
-          <div className="text-white flex flex-col">
-            <span className="font-semibold select-none opacity-[85%]">
-              Why do I see more than one of the same collection?
-            </span>
-            <span className="text-md mt-1 opacity-50">
-              Hundreds of LNFT pairs can be created for the same collection, the
-              question is which one has the most value and safety token-wise if
-              you are looking to trade these tokens. Collections with a verified
-              badge show a certain level of quality and by no means are an
-              endorsement.
-            </span>
-          </div>
-          <div className="text-white flex flex-col">
-            <span className="font-semibold select-none opacity-[85%]">
-              What are the risks?
-            </span>
-            <span className="text-md mt-1 opacity-50">
-              Liquidfy v2 is a permisionless protocol - while our contracts have
-              been thoroughly reviewed and kept minimally complex. It is
-              important to be aware of smart contract risks. Get in touch with
-              us if you find an issue, we offer whitehat bounties.
-            </span>
-          </div>
-          {/* <div className="text-white flex flex-col">
-            <span className="font-semibold select-none">
-              What is the safeguard on the contract?
-            </span>
-            <span className="text-md mt-1 opacity-50">
-              Even though Liquidify has been thoroughly reviewed. Smart contract
-              risks happen and while highly unlikely, we have failsafes in place
-              in the event of an exploit to protect your NFTs. Collection owners
-              can ask us to revoke access permanently at anytime.
-            </span>
-          </div> */}
-
-          {/* Future idea: on an availability basis return the user the exact
-         NFT they wrapped however, if a new user buys the required tokens to
-         unwrap an NFT - the contract will follow a LIFO mechanism (last in,
-         first out). */}
+        <div className="flex flex-col mb-12 w-full justify-left min-w-[100vw] pl-[275px]">
+          {tab == "faq" && (
+            <>
+              <FaqPage_Faq />
+            </>
+          )}
+          {tab == "about" && (
+            <>
+              <FaqPage_About />
+            </>
+          )}
+          {tab == "token" && (
+            <>
+              <FaqPage_Token />
+            </>
+          )}
+          {tab == "wrapUnwrap" && (
+            <>
+              <FaqPage_WrapUnwrap />
+            </>
+          )}
+          {tab == "tiers" && (
+            <>
+              <FaqPage_Tiers />
+            </>
+          )}
+          {tab == "royalties" && (
+            <>
+              <FaqPage_Royalties />
+            </>
+          )}
+          {tab == "supportedNetworks" && (
+            <>
+              <FaqPage_SupportedNetworks />
+            </>
+          )}
         </div>
       </div>
     </>

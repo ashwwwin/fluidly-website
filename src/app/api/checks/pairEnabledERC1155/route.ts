@@ -26,6 +26,21 @@ export async function GET(request: NextRequest) {
     const db = await connectToDatabase();
     const collection = db.collection("liquidNfts");
 
+    const pairEnabledCheck = await collection.findOne({
+      liquidifyContract: { $regex: new RegExp(`^${contract}$`, "i") },
+      pairEnabled: true,
+    });
+
+    // Since it can only be enabled once (and never disabled), just check if true and return
+    if (pairEnabledCheck) {
+      return new NextResponse(JSON.stringify({ pairEnabled: true }), {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    }
+
     let alchemyBase = await getAlchemyBase(network);
 
     let provider = new JsonRpcProvider(
@@ -34,26 +49,41 @@ export async function GET(request: NextRequest) {
 
     const _contract = new ethers.Contract(
       contract,
-      ["function owner() view returns (address)"],
+      ["function getTiersCount() external view returns (uint256)"],
       provider
     );
 
-    const pairCreator = (await _contract.owner()).toString();
-
-    console.log(pairCreator);
-
-    await collection.updateOne(
-      { liquidifyContract: { $regex: new RegExp(`^${contract}$`, "i") } },
-      { $set: { lnftPairCreator: pairCreator } }
+    const pairEnabled = await parseInt(
+      await _contract.getTiersCount()?.toString()
     );
 
-    return new NextResponse(JSON.stringify({ newPairOwner: pairCreator }), {
+    // If false do nothing (bc contract can only be set to enabled)
+    if (pairEnabled < 1) {
+      return new NextResponse(JSON.stringify({ pairEnabled: false }), {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    }
+
+    await collection.updateOne(
+      {
+        liquidifyContract: {
+          $regex: new RegExp(`^${contract}$`, "i"),
+        },
+      },
+      { $set: { pairEnabled: true } }
+    );
+
+    return new NextResponse(JSON.stringify({ pairEnabled: true }), {
       status: 200,
       headers: {
         "Content-Type": "application/json",
       },
     });
   } catch (e: any) {
+    console.log(e);
     return new NextResponse(
       JSON.stringify({
         message: "Failed",

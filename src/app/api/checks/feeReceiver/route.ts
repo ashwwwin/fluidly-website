@@ -23,24 +23,6 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const db = await connectToDatabase();
-    const collection = db.collection("liquidNfts");
-
-    const pairEnabledCheck = await collection.findOne({
-      liquidifyContract: { $regex: new RegExp(`^${contract}$`, "i") },
-      pairEnabled: true,
-    });
-
-    // Since it can only be enabled once (and never disabled), just check if true and return
-    if (pairEnabledCheck) {
-      return new NextResponse(JSON.stringify({ pairEnabled: true }), {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    }
-
     let alchemyBase = await getAlchemyBase(network);
 
     let provider = new JsonRpcProvider(
@@ -49,28 +31,13 @@ export async function GET(request: NextRequest) {
 
     const _contract = new ethers.Contract(
       contract,
-      ["function pairEnabled() view returns (bool)"],
+      ["function feeReceiver() view returns (address)"],
       provider
     );
 
-    const pairEnabled = await _contract.pairEnabled();
+    const feeReceiver = (await _contract.feeReceiver()).toString();
 
-    // If false do nothing (bc contract can only be set to enabled)
-    if (pairEnabled == false) {
-      return new NextResponse(JSON.stringify({ pairEnabled: false }), {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    }
-
-    await collection.updateOne(
-      { liquidifyContract: { $regex: new RegExp(`^${contract}$`, "i") } },
-      { $set: { pairEnabled: pairEnabled } }
-    );
-
-    return new NextResponse(JSON.stringify({ pairEnabled: pairEnabled }), {
+    return new NextResponse(JSON.stringify({ feeReceiver: feeReceiver }), {
       status: 200,
       headers: {
         "Content-Type": "application/json",

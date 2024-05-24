@@ -4,23 +4,29 @@ import {
   BookCheckIcon,
   Droplet,
   HelpCircle,
+  ImageIcon,
+  ImagesIcon,
   Info,
   InfoIcon,
+  MousePointerClickIcon,
+  PencilRuler,
+  StarsIcon,
   Wallet,
   X,
 } from "lucide-react";
 import Image from "next/image";
-import AboutPage from "../components/AboutPage";
 import { useEffect, useState } from "react";
 import CollectionPage from "../components/CollectionPage";
 import LiquidifyPage from "../components/LiquidifyPage";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import FaqPage from "@/components/FaqPage";
+import { Toaster } from "react-hot-toast";
 
 export default function Home() {
   const [page, setPage] = useState<
-    "about" | "collection" | "liquidify" | "faq"
+    "collection" | "faq" | "liquidify" | "manage"
   >("collection");
+
   const [collections, setCollections] = useState<any>(undefined);
 
   useEffect(() => {
@@ -41,39 +47,50 @@ export default function Home() {
   return (
     <>
       <main className="flex min-h-screen flex-col items-center">
+        <Toaster
+          position="bottom-right"
+          toastOptions={{
+            className: "",
+            style: {
+              padding: "5px",
+              color: "white",
+              backgroundColor: "#0d0d0d",
+            },
+          }}
+        />
         <link rel="icon" href="/icon.png" />
         <title>Liquidify.gg</title>
 
-        <div className="w-full xs:items-center xs:justify-center items-center px-3 shadow-xl border-b-2 border-white border-opacity-5 py-3.5 flex bg-white bg-opacity-5">
+        <div className="w-full z-[99999] bg-black shadow-2xl xs:items-center xs:justify-center border-b-[1.75px] border-white border-opacity-10 fixed items-center px-3 py-3.5 flex">
           <img src="/icon.png" className="h-[35px] mr-2 select-none" />
           <img
             src="/logo.png"
             className="h-[30px] select-none pointer-events-none"
           />
           <div className="flex flex-grow xs:hidden" />
-          <div className="flex mr-1.5 items-center gap-x-5 xs:hidden">
+          <div className="flex mr-1.5 items-center gap-x-3 xs:hidden">
             <button
               onClick={() => {
-                setPage("about");
+                window.open("https://x.com/Liquidify_gg");
               }}
-              className={
-                "outline-none flex items-center bg-white text-white rounded-sm py-1 bg-opacity-0 transition-all px-3 rounded-md select-none " +
-                (page == "about"
-                  ? " text-opacity-100"
-                  : " text-opacity-50 hover:text-opacity-100")
-              }
+              className="outline-none flex items-center bg-white text-white duration-[150ms] rounded-md py-2 bg-opacity-0 transition-all px-3 rounded-md select-none text-opacity-50 hover:text-opacity-100 hover:bg-opacity-[7.5%]"
             >
-              <Info className="h-[15px] mr-1" /> About
+              <img
+                src="/x.png"
+                className="h-[15px] opacity-50 pointer-events-none"
+              />
             </button>
+            <div className="bg-white h-full px-[1px] rounded-full opacity-10 py-[12.5px]" />
+
             <button
               onClick={() => {
                 setPage("faq");
               }}
               className={
-                "outline-none flex items-center bg-white text-white rounded-sm py-1 bg-opacity-0 transition-all px-3 rounded-md select-none " +
+                "outline-none flex items-center bg-white text-white duration-[150ms] rounded-md py-1 bg-opacity-0 transition-all pr-3 pl-2 rounded-md select-none " +
                 (page == "faq"
-                  ? " text-opacity-100"
-                  : " text-opacity-50 hover:text-opacity-100")
+                  ? " text-opacity-100 bg-opacity-10"
+                  : " text-opacity-50 hover:text-opacity-100 hover:bg-opacity-[7.5%]")
               }
             >
               <HelpCircle className="h-[15px] mr-1" /> FAQ
@@ -83,33 +100,58 @@ export default function Home() {
                 setPage("collection");
               }}
               className={
-                "outline-none flex items-center bg-white text-white rounded-sm py-1 bg-opacity-0 transition-all px-3 rounded-md select-none " +
+                "outline-none flex items-center bg-white text-white duration-[150ms] rounded-md py-1 bg-opacity-0 transition-all pr-3 pl-2 rounded-md select-none " +
                 (page == "collection"
-                  ? " text-opacity-100"
-                  : " text-opacity-50 hover:text-opacity-100")
+                  ? " text-opacity-100 bg-opacity-10"
+                  : " text-opacity-50 hover:text-opacity-100 hover:bg-opacity-[7.5%]")
               }
             >
               <BookCheckIcon className="h-[15px] mr-1" /> Collections
             </button>
-            <button
-              onClick={() => {
-                // alert(
-                //   "Creating LNFTs on demand is coming soon, dm @Liquidify_gg on Twitter to create one in the meanwhile."
-                // );
-
-                // return;
-                setPage("liquidify");
-              }}
-              className={
-                "outline-none flex items-center bg-white text-white rounded-sm py-1 bg-opacity-0 transition-all px-3 rounded-md select-none " +
-                (page == "liquidify"
-                  ? " text-opacity-100"
-                  : " text-opacity-50 hover:text-opacity-100")
-              }
-            >
-              <Droplet className="h-[15px] mr-1" />
-              Liquidify
-            </button>
+            <div className="flex flex-col group relative">
+              <button
+                className={
+                  "outline-none flex z-[10000] items-center bg-white text-white duration-[150ms] rounded-md py-1 bg-opacity-0 transition-all pr-3 pl-2 rounded-md select-none " +
+                  (page == "manage" || page == "liquidify"
+                    ? " text-opacity-100 bg-opacity-10"
+                    : " text-opacity-50 group-hover:text-opacity-100 group-hover:bg-opacity-[7.5%]")
+                }
+              >
+                <Droplet className="h-[15px] mr-1" />
+                Liquidify
+              </button>
+              <div className="absolute pt-[38px] w-full hidden group-hover:block">
+                <div className="bg-[#0D0D0D] rounded-lg text-sm p-1 select-none flex flex-col gap-y-1 text-white">
+                  <button
+                    onClick={() => {
+                      setPage("manage");
+                    }}
+                    className={
+                      "outline-none flex items-center bg-white text-white duration-[150ms] rounded-md py-1 bg-opacity-0 transition-all pr-3 pl-2 rounded-md select-none " +
+                      (page == "manage"
+                        ? " text-opacity-100 bg-opacity-10"
+                        : " text-opacity-50 hover:text-opacity-100 hover:bg-opacity-[7.5%]")
+                    }
+                  >
+                    <PencilRuler className="h-[15px] mr-1" /> Manage
+                  </button>
+                  <button
+                    onClick={() => {
+                      setPage("liquidify");
+                    }}
+                    className={
+                      "outline-none flex items-center bg-white text-white duration-[150ms] rounded-md py-1 bg-opacity-0 transition-all pr-3 pl-2 rounded-md select-none " +
+                      (page == "liquidify"
+                        ? " text-opacity-100 bg-opacity-10"
+                        : " text-opacity-50 hover:text-opacity-100 hover:bg-opacity-[7.5%]")
+                    }
+                  >
+                    <StarsIcon className="h-[15px] mr-1" /> Create
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="bg-white h-full px-[1px] rounded-full opacity-10 py-[12.5px]" />
             <button className="outline-none text-white flex items-center bg-white mr-2 rounded-sm py-1 bg-opacity-0 transition-all hover:text-opacity-100 px-3 rounded-md select-none text-opacity-50">
               <ConnectButton.Custom>
                 {({
@@ -186,12 +228,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex items-center flex-col gap-y-5 h-full mx-5 mt-5 opacity-80">
-          {page == "about" && (
-            <>
-              <AboutPage />
-            </>
-          )}
+        <div className="flex items-center flex-col gap-y-5 h-full mx-5 mt-[85px] opacity-90">
           {page == "faq" && (
             <>
               <FaqPage />
@@ -202,9 +239,9 @@ export default function Home() {
               <CollectionPage collections={collections} />
             </>
           )}
-          {page == "liquidify" && (
+          {(page == "liquidify" || page == "manage") && (
             <>
-              <LiquidifyPage />
+              <LiquidifyPage tab={page} />
             </>
           )}
         </div>
@@ -243,31 +280,6 @@ export default function Home() {
                   {(() => {
                     return (
                       <div style={{ display: "flex", gap: 12 }}>
-                        <button
-                          className={
-                            "flex items-center h-[43px] w-full items-center justify-center hover:opacity-100 transition-all " +
-                            (page == "about" ? "opacity-100" : "opacity-50")
-                          }
-                          onClick={() => {
-                            setPage("about");
-                          }}
-                          type="button"
-                        >
-                          <InfoIcon className="h-[35px] mr-1" />
-                        </button>
-                        <button
-                          className={
-                            "flex items-center h-[43px] w-full items-center justify-center hover:opacity-100 transition-all " +
-                            (page == "faq" ? "opacity-100" : "opacity-50")
-                          }
-                          onClick={() => {
-                            setPage("faq");
-                          }}
-                          type="button"
-                        >
-                          <HelpCircle className="h-[35px] mr-1" />
-                        </button>
-
                         <button
                           className={
                             "flex items-center h-[43px] w-full items-center justify-center hover:opacity-100 transition-all " +

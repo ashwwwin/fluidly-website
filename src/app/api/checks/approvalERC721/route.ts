@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ethers, JsonRpcProvider, Interface } from "ethers";
-import LiquidERC721 from "../../../../../src/app/abi/LiquidERC721.json";
 import { getAlchemyBase } from "@/libs/alchemyBase";
 
 export async function GET(request: NextRequest) {
