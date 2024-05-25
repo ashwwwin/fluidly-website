@@ -195,42 +195,50 @@ const CollectionPage = ({ collections }: { collections: any }) => {
 
     if (selectedCollection.type == "ERC1155") {
       try {
-        const tx = writeContract(
-          {
+        let data;
+
+        if (selectedCollection.version == 2) {
+          data = {
             address: selectedCollection.liquidifyContract,
-            abi:
-              selectedCollection.version === 2
-                ? LiquidERC1155v2.abi
-                : LiquidERC1155v3.abi,
-            functionName: "wrapERC1155",
+            abi: LiquidERC1155v2.abi,
+            functionName: "wrapERC721",
+            args: [`${inputtedERC1155Qty}`],
+          };
+        }
+
+        if (selectedCollection.version == 3) {
+          data = {
+            address: selectedCollection.liquidifyContract,
+            abi: LiquidERC1155v3.abi,
+            functionName: "wrapERC721",
+            args: [
+              `${selectedERC1155v3TokenId}`,
+              `${selectedERC1155v3NftQuantity}`,
+            ],
             value: parseEther(
               (await getStorageFee(parseInt(selectedERC1155v3NftQuantity))) || 0
             ),
-            args:
-              selectedCollection.version == 2
-                ? [`${inputtedERC1155Qty}`]
-                : [
-                    `${selectedERC1155v3TokenId}`,
-                    `${selectedERC1155v3NftQuantity}`,
-                  ],
-          },
-          {
-            onSuccess: async (tx: any) => {
-              toastTx(tx);
+          };
+        }
 
-              setTimeout(async () => {
-                await fetchBalance();
-                await fetchNftBalances();
-              }, 3900);
-            },
-            onError(error, variables, context) {
-              console.log(error.toString());
-              if (error.toString().includes("insufficient funds")) {
-                toast.error(`Insufficient funds`);
-              }
-            },
-          }
-        );
+        if (!data) return;
+
+        const tx = writeContract(data, {
+          onSuccess: async (tx: any) => {
+            toastTx(tx);
+
+            setTimeout(async () => {
+              await fetchBalance();
+              await fetchNftBalances();
+            }, 3900);
+          },
+          onError(error, variables, context) {
+            console.log(error.toString());
+            if (error.toString().includes("insufficient funds")) {
+              toast.error(`Insufficient funds`);
+            }
+          },
+        });
       } catch (err) {
         console.log(err);
       }
