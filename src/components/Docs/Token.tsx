@@ -16,7 +16,7 @@ const FaqPage_Token = () => {
         <span className="text-white">
           Liquidify's native token ($LIQ), will be launched when/if protocol
           revenue's are healthy enough to sustain the token naturally. It is
-          entirely conditional.
+          entirely conditional on this.
         </span>
         <span className="text-white">
           The protocol earns 0.25% from token sells when royalties are enabled for
