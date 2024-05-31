@@ -20,12 +20,14 @@ import LiquidERC721v2 from "../app/abi/LiquidERC721v2.json";
 import LiquidERC721v3 from "../app/abi/LiquidERC721v3.json";
 import LiquidERC1155v2 from "../app/abi/LiquidERC1155v2.json";
 import LiquidERC1155v3 from "../app/abi/LiquidERC1155v3.json";
+import LiquidifyStandardForMutatioWrapper from "../app/abi/LiquidifyStandardForMutatioWrapper.json";
 import { switchChain, watchChainId } from "@wagmi/core";
-import { mainnet, base } from "@wagmi/core/chains";
 import { config } from "../app/providers";
 import toast from "react-hot-toast";
-import { parseEther } from "ethers";
+import { parseEther, MaxUint256 } from "ethers";
 import { getFactory } from "@/libs/getFactory";
+
+const LiquidifyMutatio = "0xF9d450590b238CDA15E570F924C9B9fA577A9872";
 
 const CollectionPage = ({ collections }: { collections: any }) => {
   const [walletAddress, setWalletAddress] = useState<string>("");
@@ -64,6 +66,8 @@ const CollectionPage = ({ collections }: { collections: any }) => {
     useState<string>("0");
   const [selectedERC1155v3NftQuantity, setSelectedERC1155v3NftQuantity] =
     useState<string>("0");
+
+  const [mutatioAllowance, setMutatioAllowance] = useState<number>(0);
 
   const toastTx = (tx: any) => {
     setTimeout(() => {
@@ -145,6 +149,17 @@ const CollectionPage = ({ collections }: { collections: any }) => {
     setWalletAddress(account.address);
   }, [account?.address]);
 
+  const fetchMutatioERC20Allowance = async () => {
+    const item = await fetch(
+      `/api/checks/allowanceERC20?wallet=${walletAddress}&contract=0x8b67f2E56139cA052a7EC49cBCd1aA9c83F2752a&operator=${selectedCollection.liquidifyContract}&network=${selectedCollection.network}`
+    );
+
+    const data = await item.json();
+
+    console.log("mutatioAllowance", data.allowance);
+    setMutatioAllowance(data.allowance);
+  };
+
   const wrap = async () => {
     console.log("trying");
     if (selectedCollection.type == "ERC721") {
@@ -201,16 +216,21 @@ const CollectionPage = ({ collections }: { collections: any }) => {
           data = {
             address: selectedCollection.liquidifyContract,
             abi: LiquidERC1155v2.abi,
-            functionName: "wrapERC721",
+            functionName: "wrapERC1155",
             args: [`${inputtedERC1155Qty}`],
           };
-        }
-
-        if (selectedCollection.version == 3) {
+        } else if (selectedCollection.liquidifyContract == LiquidifyMutatio) {
+          data = {
+            address: selectedCollection.liquidifyContract,
+            abi: LiquidifyStandardForMutatioWrapper.abi,
+            functionName: "wrapERC1155",
+            args: [`${selectedERC1155v3NftQuantity}`],
+          };
+        } else {
           data = {
             address: selectedCollection.liquidifyContract,
             abi: LiquidERC1155v3.abi,
-            functionName: "wrapERC721",
+            functionName: "wrapERC1155",
             args: [
               `${selectedERC1155v3TokenId}`,
               `${selectedERC1155v3NftQuantity}`,
@@ -311,63 +331,68 @@ const CollectionPage = ({ collections }: { collections: any }) => {
     }
 
     if (selectedCollection.type == "ERC1155") {
+      let data;
+
+      if (selectedCollection.version == 2) {
+        data = {
+          address: selectedCollection.liquidifyContract,
+          abi: LiquidERC1155v2.abi,
+          functionName: "unwrapERC1155",
+          args: [
+            Math.floor(
+              parseFloat(
+                await selectedCollection.tiers.find(
+                  (tier: any) => tier.tokenId == selectedERC1155v3TokenId
+                ).amount
+              ) *
+                10 ** 18
+            ),
+          ],
+        };
+      } else if (selectedCollection.liquidifyContract == LiquidifyMutatio) {
+        data = {
+          address: selectedCollection.liquidifyContract,
+          abi: LiquidifyStandardForMutatioWrapper.abi,
+          functionName: "unwrapERC1155",
+          args: [selectedERC1155v3NftQuantity.toString()],
+        };
+      } else {
+        data = {
+          address: selectedCollection.liquidifyContract,
+          abi: LiquidERC1155v3.abi,
+          functionName: "unwrapERC1155",
+          value: parseEther(
+            (
+              await getStorageFee(parseInt(selectedERC1155v3NftQuantity))
+            ).toString()
+          ),
+          args: [
+            selectedERC1155v3TokenId,
+            selectedERC1155v3NftQuantity.toString(),
+          ],
+        };
+      }
+
       console.log("unwrap erc1155");
       try {
-        const tx = writeContract(
-          {
-            address: selectedCollection.liquidifyContract,
-            abi:
-              selectedCollection.version === 2
-                ? LiquidERC1155v2.abi
-                : LiquidERC1155v3.abi,
-            functionName: "unwrapERC1155",
-            value:
-              selectedCollection.version === 2
-                ? parseEther("0")
-                : parseEther(
-                    (
-                      await getStorageFee(
-                        parseInt(selectedERC1155v3NftQuantity)
-                      )
-                    ).toString()
-                  ),
-            args:
-              selectedCollection.version === 3
-                ? [
-                    selectedERC1155v3TokenId,
-                    selectedERC1155v3NftQuantity.toString(),
-                  ]
-                : [
-                    Math.floor(
-                      parseFloat(
-                        await selectedCollection.tiers.find(
-                          (tier: any) =>
-                            tier.tokenId == selectedERC1155v3TokenId
-                        ).amount
-                      ) *
-                        10 ** 18
-                    ),
-                  ],
-          },
-          {
-            onSuccess: async (tx: any) => {
-              toastTx(tx);
-              console.log(tx);
-              setTimeout(async () => {
-                await fetchBalance();
-                await fetchNftBalances();
-              }, 3900);
+        const tx = writeContract(data, {
+          onSuccess: async (tx: any) => {
+            toastTx(tx);
+            console.log(tx);
+            setTimeout(async () => {
+              await fetchBalance();
+              await fetchNftBalances();
+            }, 3900);
 
-              await new Promise((resolve) => setTimeout(resolve, 2000));
-            },
-            onError(error, variables, context) {
-              console.log(error.toString());
-              if (error.toString().includes("insufficient funds")) {
-                toast.error(`Insufficient funds`);
-              }
-            },
-          }
-        );
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+          },
+          onError(error, variables, context) {
+            console.log(error.toString());
+            if (error.toString().includes("insufficient funds")) {
+              toast.error(`Insufficient funds`);
+            }
+          },
+        });
       } catch (err) {
         console.log(err);
       }
@@ -422,9 +447,13 @@ const CollectionPage = ({ collections }: { collections: any }) => {
 
   const fetchBalance = async () => {
     try {
-      const contractAddress = selectedCollection.nftAddress; // Assuming selectedCollection holds the contract address
+      let contractAddress = selectedCollection.liquidifyContract; // Assuming selectedCollection holds the contract address
+      if (selectedCollection.liquidifyContract == LiquidifyMutatio) {
+        contractAddress = "0x8b67f2E56139cA052a7EC49cBCd1aA9c83F2752a";
+      }
+
       const response = await fetch(
-        `/api/checks/balances?wallet=${walletAddress}&contract=${selectedCollection.liquidifyContract}&network=${selectedCollection.network}`
+        `/api/checks/balances?wallet=${walletAddress}&contract=${contractAddress}&network=${selectedCollection.network}`
       );
 
       if (!response.ok) {
@@ -481,6 +510,10 @@ const CollectionPage = ({ collections }: { collections: any }) => {
   };
 
   const getQtyForTier = async () => {
+    if (selectedCollection.liquidifyContract == LiquidifyMutatio) {
+      return setTierQty(999999);
+    }
+
     console.log(selectedTier);
     let url = `/api/checks/qtyForTier?wallet=${walletAddress}&contract=${selectedCollection.liquidifyContract}&network=${selectedCollection.network}&tier=${selectedTier.amount}`;
 
@@ -515,10 +548,48 @@ const CollectionPage = ({ collections }: { collections: any }) => {
       }
     }
 
+    if (selectedCollection.liquidifyContract == LiquidifyMutatio) {
+      fetchMutatioERC20Allowance();
+    }
+
     fetchBalance();
     fetchApproval();
     fetchNftBalances();
   }, [selectedCollection, walletAddress]);
+
+  const approveMutatioERC20 = () => {
+    console.log("approve mutatio");
+
+    try {
+      const tx = writeContract(
+        {
+          address: "0x8b67f2E56139cA052a7EC49cBCd1aA9c83F2752a",
+          abi: [
+            {
+              inputs: [
+                { internalType: "address", name: "spender", type: "address" },
+                { internalType: "uint256", name: "value", type: "uint256" },
+              ],
+              name: "approve",
+              outputs: [],
+              stateMutability: "nonpayable",
+              type: "function",
+            },
+          ],
+          functionName: "approve",
+          args: [selectedCollection.liquidifyContract, MaxUint256],
+        },
+        {
+          onSuccess: async (tx: any) => {
+            toastTx(tx);
+
+            await new Promise((resolve) => setTimeout(resolve, 3000));
+            fetchMutatioERC20Allowance();
+          },
+        }
+      );
+    } catch (err) {}
+  };
 
   useEffect(() => {
     fetchNftBalances();
@@ -649,7 +720,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                                         : tokenId
                                       : "Loading"}
                                   </div>
-                                  <ChevronLeft className="group-hover:rotate-[-90deg] h-[15px] transition-all" />
+                                  <ChevronLeft className="group-hover:rotate-[-90deg] h-[15px] transition-all -mr-1.5" />
                                 </div>
 
                                 {tokenIdList.length >= 1 && (
@@ -782,7 +853,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                                   </>
                                 )}
                               </div>
-                              <ChevronLeft className="group-hover:rotate-[-90deg] h-[15px] transition-all" />
+                              <ChevronLeft className="group-hover:rotate-[-90deg] h-[15px] transition-all -mr-1.5" />
                             </div>
 
                             <div className="select-none flex pt-[8px] absolute rounded-lg group-hover:block z-[99999] hidden w-[317px]  ">
@@ -879,7 +950,9 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                                 >
                                   <span className="mr-1 opacity-70">Max</span>
                                   <span>
-                                    {tierQty != 0 ? (
+                                    {tierQty != 0 &&
+                                    selectedCollection.liquidifyContract !=
+                                      LiquidifyMutatio ? (
                                       <>
                                         {" "}
                                         {balance /
@@ -887,8 +960,12 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                                             (tier: any) =>
                                               tier?.tokenId ==
                                               selectedERC1155v3TokenId
-                                          ).amount}
+                                          )?.amount}
                                       </>
+                                    ) : tierQty != 0 &&
+                                      selectedCollection.liquidifyContract ==
+                                        LiquidifyMutatio ? (
+                                      <> {Math.floor(balance)}</>
                                     ) : (
                                       <>0</>
                                     )}
@@ -958,7 +1035,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                                       <div className="text-white flex flex-grow">
                                         {selectedTier.name}
                                       </div>
-                                      <ChevronLeft className="group-hover:rotate-[-90deg] h-[15px] transition-all" />
+                                      <ChevronLeft className="group-hover:rotate-[-90deg] h-[15px] transition-all -mr-1.5" />
                                     </div>
                                     {selectedCollection.tiers && (
                                       <>
@@ -1017,6 +1094,14 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                             switchChain(config, { chainId: 8453 });
                           }
 
+                          if (
+                            selectedCollection.liquidifyContract ==
+                              LiquidifyMutatio &&
+                            mutatioAllowance === 0
+                          ) {
+                            return approveMutatioERC20();
+                          }
+
                           if (mode == "unwrap") return unwrap();
 
                           if (
@@ -1044,6 +1129,11 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                                   No NFTs to unwrap in this tier
                                 </span>
                               </>
+                            ) : selectedCollection.liquidifyContract ==
+                                LiquidifyMutatio && mutatioAllowance == 0 ? (
+                              <span className="w-full items-center">
+                                Approve transfer
+                              </span>
                             ) : (
                               (tierQty != 0 ||
                                 selectedCollection.type == "ERC1155" ||
@@ -1061,8 +1151,9 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                                   {selectedCollection.version == 3 && (
                                     <>
                                       <span className="text-xs opacity-70">
-                                        {selectedCollection.type ==
-                                        "ERC1155" ? (
+                                        {selectedCollection.type == "ERC1155" &&
+                                        selectedCollection.liquidifyContract !=
+                                          LiquidifyMutatio ? (
                                           <>
                                             {(
                                               parseInt(
@@ -1070,7 +1161,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                                                   (tier: any) =>
                                                     tier.tokenId ==
                                                     selectedERC1155v3TokenId
-                                                ).amount
+                                                )?.amount
                                               ) *
                                               parseInt(
                                                 selectedERC1155v3NftQuantity
