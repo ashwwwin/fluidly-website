@@ -8,6 +8,8 @@ export async function GET(request: NextRequest) {
 
     let liquidNfts = await collection.find({ pairEnabled: true }).toArray();
 
+    liquidNfts = liquidNfts.reverse();
+
     console.log(liquidNfts);
     return new NextResponse(JSON.stringify({ liquidNfts }), {
       status: 200,
