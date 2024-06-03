@@ -33,7 +33,7 @@ export default function wrapUnwrap({
 
   return (
     <>
-      <div className="flex flex-col w-screen bg-black h-screen">
+      <div className="flex flex-col w-screen h-screen">
         <Navbar page="collection" />
         {selectedCollection !== undefined && (
           <>
