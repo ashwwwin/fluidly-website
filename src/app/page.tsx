@@ -143,7 +143,7 @@ export default function Home() {
       </main>
       {loading && (
         <>
-          <LoaderIcon className="absolute bottom-0 opacity-30 left-3 bottom-3 animate-spin text-white" />
+          <LoaderIcon className="absolute bottom-0 opacity-[35%] right-3.5 bottom-3.5 animate-spin text-white" />
         </>
       )}
     </>

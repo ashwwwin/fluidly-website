@@ -48,10 +48,10 @@ export default function wrapUnwrap({
 
         {loading ? (
           <>
-          <LoaderIcon className="absolute bottom-0 opacity-30 left-3 bottom-3 animate-spin text-white"/></>
+          <LoaderIcon className="absolute opacity-[35%] right-3.5 bottom-3.5 animate-spin text-white"/></>
         ) : (
           <>
-            <span className="m-3 text-white font-mono opacity-10 select-none">
+            <span className="absolute bottom-3.5 text-white font-mono right-3.5 opacity-10 select-none">
               v{selectedCollection?.version}
             </span>
           </>

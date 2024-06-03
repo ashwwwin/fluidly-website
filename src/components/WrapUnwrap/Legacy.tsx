@@ -56,7 +56,6 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({ selectedColle
     useState<string>("0");
   const [selectedERC1155v3NftQuantity, setSelectedERC1155v3NftQuantity] =
     useState<string>("0");
-
   const [mutatioAllowance, setMutatioAllowance] = useState<number>(0);
 
   const toastTx = (tx: any) => {
