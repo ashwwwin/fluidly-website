@@ -62,7 +62,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                   <>
                     <div className="group flex w-fit xs:w-full flex flex-col hover:-translate-y-[2.5px] transition-all duration-[200ms]">
                       <a
-                        href={`/legacy/${collection.network.toLowerCase()}/${
+                        href={`/${collection.network.toLowerCase()}/${
                           collection.liquidifyContract
                         }`}
                         className="flex flex-grow bg-white xs:w-full sm:w-[170px] sm:max-w-[170px] transition-all duration-[55ms] hover:bg-opacity-[13.5%] cursor-pointer select-none flex flex-grow w-full bg-opacity-10 rounded-t-lg select-none w-full px-3 py-2"

@@ -26,17 +26,17 @@ const Navbar = ({ page }: { page: string }) => {
   return (
     <>
       <div className="w-full z-[99999] bg-black shadow-2xl xs:items-center xs:justify-center border-b-[1.75px] border-white border-opacity-10 fixed items-center px-3 py-3.5 flex">
-        <img src="/icon.png" className="h-[35px] mr-2 select-none" />
-        <img
-          src="/logo.png"
-          className="h-[30px] select-none pointer-events-none"
-        />
+        <a className="flex cursor-default items-center" href="/">
+          <img src="/icon.png" className="h-[35px] mr-2 select-none" />
+          <img
+            src="/logo.png"
+            className="h-[30px] select-none pointer-events-none"
+          />
+        </a>
         <div className="flex flex-grow xs:hidden" />
         <div className="flex mr-1.5 items-center gap-x-3 xs:hidden">
           <a
-            onClick={() => {
-              window.open("https://x.com/Liquidify_gg");
-            }}
+            href="https://x.com/Liquidify_gg"
             className="outline-none flex items-center bg-white text-white duration-[150ms] rounded-md py-2 bg-opacity-0 transition-all px-3 rounded-md select-none text-opacity-50 hover:text-opacity-100 hover:bg-opacity-[7.5%]"
           >
             <img
@@ -110,76 +110,78 @@ const Navbar = ({ page }: { page: string }) => {
             </div>
           </div>
           <div className="bg-white h-full px-[1px] rounded-full opacity-10 py-[12.5px]" />
-          <button className="outline-none text-white flex items-center bg-white mr-2 rounded-sm py-1 bg-opacity-0 transition-all hover:text-opacity-100 px-3 rounded-md select-none text-opacity-50">
-            <ConnectButton.Custom>
-              {({
-                account,
-                chain,
-                openAccountModal,
-                openChainModal,
-                openConnectModal,
-                authenticationStatus,
-                mounted,
-              }) => {
-                // Note: If your app doesn't use authentication, you
-                // can remove all 'authenticationStatus' checks
-                const ready = mounted && authenticationStatus !== "loading";
-                const connected =
-                  ready &&
-                  account &&
-                  chain &&
-                  (!authenticationStatus ||
-                    authenticationStatus === "authenticated");
+          <div className="flex flex-col group">
+            <button className="outline-none text-white flex items-center bg-white mr-2 rounded-sm py-1 bg-opacity-0 transition-all hover:text-opacity-100 px-3 rounded-md select-none text-opacity-50">
+              <ConnectButton.Custom>
+                {({
+                  account,
+                  chain,
+                  openAccountModal,
+                  openChainModal,
+                  openConnectModal,
+                  authenticationStatus,
+                  mounted,
+                }) => {
+                  // Note: If your app doesn't use authentication, you
+                  // can remove all 'authenticationStatus' checks
+                  const ready = mounted && authenticationStatus !== "loading";
+                  const connected =
+                    ready &&
+                    account &&
+                    chain &&
+                    (!authenticationStatus ||
+                      authenticationStatus === "authenticated");
 
-                return (
-                  <div>
-                    {(() => {
-                      if (!connected) {
-                        return (
-                          <>
+                  return (
+                    <div>
+                      {(() => {
+                        if (!connected) {
+                          return (
+                            <>
+                              <button
+                                onClick={openConnectModal}
+                                className="flex items-center"
+                                type="button"
+                              >
+                                <Wallet className="h-[15px] mr-1" />
+                                Wallet
+                              </button>
+                            </>
+                          );
+                        }
+
+                        if (chain.unsupported) {
+                          return (
                             <button
-                              onClick={openConnectModal}
                               className="flex items-center"
+                              onClick={openChainModal}
                               type="button"
                             >
                               <Wallet className="h-[15px] mr-1" />
-                              Wallet
+                              Wrong network
                             </button>
-                          </>
-                        );
-                      }
+                          );
+                        }
 
-                      if (chain.unsupported) {
                         return (
-                          <button
-                            className="flex items-center"
-                            onClick={openChainModal}
-                            type="button"
-                          >
-                            <Wallet className="h-[15px] mr-1" />
-                            Wrong network
-                          </button>
+                          <div style={{ display: "flex", gap: 12 }}>
+                            <button
+                              className="flex items-center"
+                              onClick={openAccountModal}
+                              type="button"
+                            >
+                              <Wallet className="h-[15px] mr-1" />
+                              {account.displayName}
+                            </button>
+                          </div>
                         );
-                      }
-
-                      return (
-                        <div style={{ display: "flex", gap: 12 }}>
-                          <button
-                            className="flex items-center"
-                            onClick={openAccountModal}
-                            type="button"
-                          >
-                            <Wallet className="h-[15px] mr-1" />
-                            {account.displayName}
-                          </button>
-                        </div>
-                      );
-                    })()}
-                  </div>
-                );
-              }}
-            </ConnectButton.Custom>
-          </button>
+                      })()}
+                    </div>
+                  );
+                }}
+              </ConnectButton.Custom>
+            </button>
+          </div>
         </div>
       </div>
     </>

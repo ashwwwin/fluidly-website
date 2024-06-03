@@ -2,16 +2,16 @@
 
 import { ArrowUpRightSquareIcon, ChevronLeft } from "lucide-react";
 import React from "react";
-import "../../../../app/globals.css";
+import "../../app/globals.css";
 import { useState, useEffect } from "react";
 import { useWriteContract, useAccount, useReadContract } from "wagmi";
-import LiquidERC721v2 from "../../../abi/LiquidERC721v2.json";
-import LiquidERC721v3 from "../../../abi/LiquidERC721v3.json";
-import LiquidERC1155v2 from "../../../abi/LiquidERC1155v2.json";
-import LiquidERC1155v3 from "../../../abi/LiquidERC1155v3.json";
-import LiquidifyStandardForMutatioWrapper from "../../../abi/LiquidifyStandardForMutatioWrapper.json";
+import LiquidERC721v2 from "../../app/abi/LiquidERC721v2.json";
+import LiquidERC721v3 from "../../app/abi/LiquidERC721v3.json";
+import LiquidERC1155v2 from "../../app/abi/LiquidERC1155v2.json";
+import LiquidERC1155v3 from "../../app/abi/LiquidERC1155v3.json";
+import LiquidifyStandardForMutatioWrapper from "../../app/abi/LiquidifyStandardForMutatioWrapper.json";
 import { switchChain, watchChainId } from "@wagmi/core";
-import { config } from "../../../providers";
+import { config } from "../../app/providers";
 import toast from "react-hot-toast";
 import { parseEther, MaxUint256 } from "ethers";
 import { getFactory } from "@/libs/getFactory";
@@ -20,14 +20,9 @@ import Navbar from "@/components/Navbar";
 
 const LiquidifyMutatio = "0xF9d450590b238CDA15E570F924C9B9fA577A9872";
 
-export default function legacyWrapUnwrap({
-  params,
-}: {
-  params: { network: string; liquidifyContract: string };
-}) {
+const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({ selectedCollection }) => {
   const [walletAddress, setWalletAddress] = useState<string>("");
   const [currentChain, setCurrentChain] = useState<number>(0);
-  const [selectedCollection, setSelectedCollection] = useState<any>(undefined);
   const [mode, setMode] = useState<"wrap" | "unwrap" | "summary">("wrap");
   const [tokenIdList, setTokenIdList] = useState<number[]>([]);
   const [tokenId, setTokenId] = useState<number>();
@@ -552,21 +547,6 @@ export default function legacyWrapUnwrap({
     fetchNftBalances();
   }, [selectedCollection, walletAddress]);
 
-  useEffect(() => {
-    const load = async () => {
-      const response = await fetch(
-        `/api/collections/get?contract=${params.liquidifyContract}&network=${params.network}`
-      );
-
-      const data = await response.json();
-
-      console.log(data.collection);
-      setSelectedCollection(data.collection);
-    };
-
-    load();
-  }, [params.liquidifyContract]);
-
   const approveMutatioERC20 = () => {
     console.log("approve mutatio");
 
@@ -612,13 +592,13 @@ export default function legacyWrapUnwrap({
         <Navbar page="collection" />
         {selectedCollection !== undefined && (
           <>
-          <title>{selectedCollection.tokenName}</title>
+            <title>{selectedCollection.tokenName}</title>
             <div className="absolute text-white h-[calc(100vh)] w-full flex items-center justify-center z-[999]">
               <div className="flex h-[170px] min-h-[170px] max-h-[170px] w-full items-center justify-center w-[340px] max-w-[340px]">
                 <div className="p-3 w-full flex flex-col rounded-lg bg-white bg-opacity-10 ">
                   <div className="flex ">
                     <img
-                      className="mr-3 h-[110px] w-[110px] select-none bg-white bg-opacity-10 min-h-[110px] max-h-[110px] object-cover rounded-md outline-none overflow-hidden pointer-events-none"
+                      className="mr-3 h-[110px] w-[110px] min-w-[110px] max-w-[110px] select-none bg-white bg-opacity-10 min-h-[110px] max-h-[110px] object-cover rounded-md outline-none overflow-hidden pointer-events-none"
                       src={selectedCollection?.nftProjectImage || "/temp.png"}
                     />
                     <div className="flex flex-col">
@@ -1197,3 +1177,5 @@ export default function legacyWrapUnwrap({
     </>
   );
 }
+
+export default LegacyWrapUnwrap;
