@@ -8,6 +8,7 @@ export async function GET(request: NextRequest) {
   const wallet = url.searchParams.get("wallet");
   const contract = url.searchParams.get("contract");
   const network = url.searchParams.get("network");
+  const metadata = url.searchParams.get("metadata");
 
   try {
     const db = await connectToDatabase();
@@ -18,7 +19,7 @@ export async function GET(request: NextRequest) {
     if (!wallet || !contract || !network) {
       return;
     }
-    
+
     // let isExists = await collection.findOne({
     //   nftAddress: contract,
     // });
@@ -41,6 +42,10 @@ export async function GET(request: NextRequest) {
 
     let alchemyUrl = `${alchemyBase.url}/nft/v2/${alchemyBase.key}/getNFTs?owner=${wallet}&contractAddresses[]=${contract}&withMetadata=false&pageSize=100`;
 
+    if (metadata == "true") {
+      alchemyUrl = `${alchemyBase.url}/nft/v2/${alchemyBase.key}/getNFTs?owner=${wallet}&contractAddresses[]=${contract}&withMetadata=true&pageSize=100`;
+    }
+
     const alchemyResponse = await fetch(alchemyUrl, {
       method: "GET",
       headers: {
@@ -56,13 +61,19 @@ export async function GET(request: NextRequest) {
 
     const nftData = await alchemyResponse.json();
 
-    let tokenIds = [];
+    let tokens = [];
     for (let item of nftData.ownedNfts) {
       let tokenId = parseInt(item.id.tokenId, 16); // Assuming tokenId is in hex and needs to be converted to an integer
-      tokenIds.push(tokenId);
+
+      console.log(item);
+      if (metadata == "true") {
+        tokens.push({ tokenId: tokenId, image: item.media[0].gateway });
+      } else {
+        tokens.push(tokenId);
+      }
     }
 
-    return new NextResponse(JSON.stringify({ tokenIds }), {
+    return new NextResponse(JSON.stringify({ tokens }), {
       status: 200,
       headers: {
         "Content-Type": "application/json",
