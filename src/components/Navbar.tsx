@@ -2,27 +2,35 @@
 
 import {
   BookCheckIcon,
+  Copy,
   Droplet,
+  Globe,
   HelpCircle,
-  ImageIcon,
-  ImagesIcon,
-  Info,
-  InfoIcon,
-  MousePointerClickIcon,
   PencilRuler,
+  Power,
   StarsIcon,
+  UserCircle2,
   Wallet,
   X,
 } from "lucide-react";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import CollectionPage from "../components/CollectionPage";
-import LiquidifyPage from "../components/LiquidifyPage";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import FaqPage from "@/components/FaqPage";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
+import { useDisconnect, useConnect, useAccount } from "wagmi";
+import { injected } from "wagmi/connectors";
+import {
+  ConnectButton,
+  useConnectModal,
+  useAccountModal,
+  useChainModal,
+} from "@rainbow-me/rainbowkit";
 
 const Navbar = ({ page }: { page: string }) => {
+  const account = useAccount();
+  const { openConnectModal } = useConnectModal();
+  const { openAccountModal } = useAccountModal();
+  const { openChainModal } = useChainModal();
+  const { connect } = useConnect();
+  const { disconnect } = useDisconnect();
+
   return (
     <>
       <div className="w-full z-[99999] bg-black shadow-2xl xs:items-center xs:justify-center border-b-[1.75px] border-white border-opacity-10 fixed items-center px-3 py-3.5 flex">
@@ -82,11 +90,11 @@ const Navbar = ({ page }: { page: string }) => {
                 Liquidify
               </button>
               <div className="absolute pt-[38px] w-full hidden group-hover:block">
-                <div className="bg-[#0D0D0D] rounded-lg text-sm p-1 select-none flex flex-col gap-y-1 text-white">
+                <div className="bg-[#0D0D0D] rounded-md text-sm p-1 select-none flex flex-col gap-y-1 text-white">
                   <a
                     href="/manage"
                     className={
-                      "outline-none flex items-center bg-white text-white duration-[150ms] rounded-md py-1 bg-opacity-0 transition-all pr-3 pl-2 rounded-md select-none " +
+                      "outline-none flex items-center bg-white text-white duration-[150ms] rounded-md py-1 bg-opacity-0 transition-all pr-3 pl-2 rounded-[4.3px] select-none " +
                       (page == "manage"
                         ? " text-opacity-100 bg-opacity-10"
                         : " text-opacity-50 hover:text-opacity-100 hover:bg-opacity-[7.5%]")
@@ -97,7 +105,7 @@ const Navbar = ({ page }: { page: string }) => {
                   <a
                     href="/create"
                     className={
-                      "outline-none flex items-center bg-white text-white duration-[150ms] rounded-md py-1 bg-opacity-0 transition-all pr-3 pl-2 rounded-md select-none " +
+                      "outline-none flex items-center bg-white text-white duration-[150ms] rounded-md py-1 bg-opacity-0 transition-all pr-3 pl-2 rounded-[4.3px] select-none " +
                       (page == "liquidify"
                         ? " text-opacity-100 bg-opacity-10"
                         : " text-opacity-50 hover:text-opacity-100 hover:bg-opacity-[7.5%]")
@@ -111,76 +119,104 @@ const Navbar = ({ page }: { page: string }) => {
           </div>
           <div className="bg-white h-full px-[1px] rounded-full opacity-10 py-[12.5px]" />
           <div className="flex flex-col group">
-            <button className="outline-none text-white flex items-center bg-white mr-2 rounded-sm py-1 bg-opacity-0 transition-all hover:text-opacity-100 px-3 rounded-md select-none text-opacity-50">
-              <ConnectButton.Custom>
-                {({
-                  account,
-                  chain,
-                  openAccountModal,
-                  openChainModal,
-                  openConnectModal,
-                  authenticationStatus,
-                  mounted,
-                }) => {
-                  // Note: If your app doesn't use authentication, you
-                  // can remove all 'authenticationStatus' checks
-                  const ready = mounted && authenticationStatus !== "loading";
-                  const connected =
-                    ready &&
-                    account &&
-                    chain &&
-                    (!authenticationStatus ||
-                      authenticationStatus === "authenticated");
-
-                  return (
-                    <div>
-                      {(() => {
-                        if (!connected) {
-                          return (
-                            <>
-                              <button
-                                onClick={openConnectModal}
-                                className="flex items-center"
-                                type="button"
-                              >
-                                <Wallet className="h-[15px] mr-1" />
-                                Wallet
-                              </button>
-                            </>
-                          );
-                        }
-
-                        if (chain.unsupported) {
-                          return (
-                            <button
-                              className="flex items-center"
-                              onClick={openChainModal}
-                              type="button"
-                            >
-                              <Wallet className="h-[15px] mr-1" />
-                              Wrong network
-                            </button>
-                          );
-                        }
+            <button
+              onClick={() => {
+                if (!account.isConnected && openConnectModal)
+                  return openConnectModal();
+              }}
+              className="flex items-center z-[10000] rounded-md text-white mr-2 py-1 bg-opacity-0 transition-all bg-white hover:text-opacity-100 pr-3 pl-2 select-none text-opacity-50 group-hover:bg-opacity-[7.5%]"
+              type="button"
+            >
+              <Wallet className="h-[15px] mr-1" />
+              Wallet
+            </button>
+            {account.isConnected && (
+              <>
+                <div className="absolute pt-[38px] group-hover:block hidden right-[26px]">
+                  <div className="bg-[#0D0D0D] rounded-md text-sm p-1 flex-col text-white">
+                    <ConnectButton.Custom>
+                      {({
+                        account,
+                        chain,
+                        openAccountModal,
+                        openChainModal,
+                        openConnectModal,
+                        authenticationStatus,
+                        mounted,
+                      }) => {
+                        // Note: If your app doesn't use authentication, you
+                        // can remove all 'authenticationStatus' checks
+                        const ready =
+                          mounted && authenticationStatus !== "loading";
+                        const connected =
+                          ready &&
+                          account &&
+                          chain &&
+                          (!authenticationStatus ||
+                            authenticationStatus === "authenticated");
 
                         return (
-                          <div style={{ display: "flex", gap: 12 }}>
-                            <button
-                              className="flex items-center"
-                              onClick={openAccountModal}
-                              type="button"
-                            >
-                              <Wallet className="h-[15px] mr-1" />
-                              {account.displayName}
-                            </button>
+                          <div>
+                            {(() => {
+                              if (!connected) {
+                                return;
+                              }
+
+                              if (chain.unsupported) {
+                                return (
+                                  <button
+                                    className="flex items-center py-1 pr-2 pl-1.5 rounded-[3.8px] bg-white bg-opacity-0 text-white hover:bg-opacity-[7.5%] text-opacity-50 hover:text-opacity-100 transition-all duration-[150ms]"
+                                    onClick={openChainModal}
+                                    type="button"
+                                  >
+                                    <Globe className="h-[14px] mr-1" />
+                                    Change network
+                                  </button>
+                                );
+                              }
+
+                              return (
+                                <>
+                                  <div className="flex items-center text-center justify-center w-full py-1 text-sm opacity-70 cursor-default select-none px-2 font-medium">
+                                    {account.address.substring(0, 6)}...
+                                    {account.address.substring(36, 42)}
+                                  </div>
+                                  <div className="gap-y-1 flex flex flex-col">
+                                    <button
+                                      className="flex items-center py-1 pr-2 pl-1.5 rounded-[3.8px] bg-white bg-opacity-0 text-white hover:bg-opacity-[7.5%] text-opacity-50 hover:text-opacity-100 transition-all duration-[150ms]"
+                                      onClick={() => {
+                                        toast.success("Address copied");
+                                        window.navigator.clipboard.writeText(
+                                          account.address
+                                        );
+                                      }}
+                                      type="button"
+                                    >
+                                      <Copy className="h-[14px] mr-1" />
+                                      Copy address
+                                    </button>
+                                    <button
+                                      className="flex items-center py-1 pr-2 pl-1.5 rounded-[3.8px] w-full bg-white bg-opacity-0 text-white hover:bg-opacity-[7.5%] text-opacity-50 hover:text-opacity-100 transition-all duration-[150ms]"
+                                      onClick={() => {
+                                        disconnect();
+                                      }}
+                                      type="button"
+                                    >
+                                      <Power className="h-[14px] mr-1" />
+                                      Disconnect
+                                    </button>
+                                  </div>
+                                </>
+                              );
+                            })()}
                           </div>
                         );
-                      })()}
-                    </div>
-                  );
-                }}
-              </ConnectButton.Custom>
-            </button>
+                      }}
+                    </ConnectButton.Custom>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

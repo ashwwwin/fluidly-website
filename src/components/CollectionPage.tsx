@@ -8,6 +8,7 @@ import {
   ChevronLeft,
   Copy,
   Info,
+  LoaderIcon,
   RefreshCcw,
   Verified,
   X,

@@ -8,6 +8,7 @@ import {
   ImagesIcon,
   Info,
   InfoIcon,
+  LoaderIcon,
   MousePointerClickIcon,
   PencilRuler,
   StarsIcon,
@@ -27,7 +28,7 @@ export default function Home() {
   const [page, setPage] = useState<
     "collection" | "faq" | "liquidify" | "manage"
   >("collection");
-
+  const [loading, setLoading] = useState<boolean>(true);
   const [collections, setCollections] = useState<any>(undefined);
 
   useEffect(() => {
@@ -40,6 +41,7 @@ export default function Home() {
     };
 
     fetchCollections().catch(console.error);
+    setLoading(false);
 
     // Cleanup function to prevent effect from running more than once
     return () => {};
@@ -139,6 +141,11 @@ export default function Home() {
           </ConnectButton.Custom>
         </div>
       </main>
+      {loading && (
+        <>
+          <LoaderIcon className="absolute bottom-0 opacity-30 left-3 bottom-3 animate-spin text-white" />
+        </>
+      )}
     </>
   );
 }
