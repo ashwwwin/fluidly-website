@@ -59,7 +59,6 @@ export default function Home() {
             },
           }}
         />
-        <link rel="icon" href="/icon.png" />
         <title>Liquidify.gg</title>
         <Navbar page="collection" />
 

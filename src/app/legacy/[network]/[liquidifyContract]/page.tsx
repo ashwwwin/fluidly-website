@@ -612,6 +612,7 @@ export default function legacyWrapUnwrap({
         <Navbar page="collection" />
         {selectedCollection !== undefined && (
           <>
+          <title>{selectedCollection.tokenName}</title>
             <div className="absolute text-white h-[calc(100vh)] w-full flex items-center justify-center z-[999]">
               <div className="flex h-[170px] min-h-[170px] max-h-[170px] w-full items-center justify-center w-[340px] max-w-[340px]">
                 <div className="p-3 w-full flex flex-col rounded-lg bg-white bg-opacity-10 ">
