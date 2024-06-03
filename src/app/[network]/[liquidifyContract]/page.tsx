@@ -38,7 +38,8 @@ export default function wrapUnwrap({
         {selectedCollection !== undefined && (
           <>
             {(selectedCollection.version.toString() == "2" ||
-              selectedCollection.version.toString() == "3") && (
+              selectedCollection.version.toString() == "3" ||
+              selectedCollection.version.toString() == "Mutatio") && (
               <>
                 <LegacyWrapUnwrap selectedCollection={selectedCollection} />
               </>
@@ -48,11 +49,14 @@ export default function wrapUnwrap({
 
         {loading ? (
           <>
-          <LoaderIcon className="absolute opacity-[35%] right-3.5 bottom-3.5 animate-spin text-white"/></>
+            <LoaderIcon className="absolute opacity-[35%] right-3.5 bottom-3.5 animate-spin text-white" />
+          </>
         ) : (
           <>
             <span className="absolute bottom-3.5 text-white font-mono right-3.5 opacity-10 select-none">
-              v{selectedCollection?.version}
+              {selectedCollection.version == "Mutatio"
+                ? "Mutatio Flies by XCOPY x NEONGLITCH86"
+                : `v${selectedCollection?.version}`}
             </span>
           </>
         )}
