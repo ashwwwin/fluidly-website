@@ -750,7 +750,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                                           {selectedCollection.version == 3 && (
                                             <>
                                               {v3_tokenId.length == 0
-                                                ? "Select NFTs"
+                                                ? "Select"
                                                 : `${v3_tokenId.length} selected NFTs`}
                                             </>
                                           )}
