@@ -50,17 +50,6 @@ export default function Home() {
   return (
     <>
       <main className="flex min-h-screen flex-col items-center">
-        <Toaster
-          position="bottom-right"
-          toastOptions={{
-            className: "",
-            style: {
-              padding: "5px",
-              color: "white",
-              backgroundColor: "#0d0d0d",
-            },
-          }}
-        />
         <title>Liquidify.gg</title>
         <Navbar page="collection" />
 
@@ -143,7 +132,7 @@ export default function Home() {
       </main>
       {loading && (
         <>
-          <LoaderIcon className="absolute bottom-0 opacity-[35%] right-3.5 bottom-3.5 animate-spin text-white" />
+          <LoaderIcon className="absolute bottom-0 opacity-70 right-3.5 bottom-3.5 animate-spin text-white" />
         </>
       )}
     </>

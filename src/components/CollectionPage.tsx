@@ -75,7 +75,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                               src={collection.nftProjectImage || "/temp.png"}
                             />
                           </div>
-                          <div className="text-left w-full flex mt-3 max-w-[150px] items-start justify-start">
+                          <div className="text-left w-full flex mt-3 xs:ml-3 max-w-[150px] items-start justify-start">
                             <div className="flex flex-col w-full">
                               <span className="block xs:hidden flex items-center truncate ... max-w-[138px] sm:w-[138px]">
                                 {collection.nftName || collection.tokenName}

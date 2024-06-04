@@ -47,17 +47,6 @@ export default function Faq() {
   return (
     <>
       <main className="flex min-h-screen flex-col items-center">
-        <Toaster
-          position="bottom-right"
-          toastOptions={{
-            className: "",
-            style: {
-              padding: "5px",
-              color: "white",
-              backgroundColor: "#0d0d0d",
-            },
-          }}
-        />
         <link rel="icon" href="/icon.png" />
         <title>Liquidify.gg</title>
 

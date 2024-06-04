@@ -1,6 +1,11 @@
 "use client";
 
-import { ArrowUpRightSquareIcon, ChevronLeft } from "lucide-react";
+import {
+  ArrowUpRightSquareIcon,
+  ChevronLeft,
+  ImagesIcon,
+  X,
+} from "lucide-react";
 import React from "react";
 import "../../app/globals.css";
 import { useState, useEffect } from "react";
@@ -12,7 +17,7 @@ import LiquidERC1155v3 from "../../app/abi/LiquidERC1155v3.json";
 import LiquidifyStandardForMutatioWrapper from "../../app/abi/LiquidifyStandardForMutatioWrapper.json";
 import { switchChain, watchChainId } from "@wagmi/core";
 import { config } from "../../app/providers";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { parseEther, MaxUint256 } from "ethers";
 import { getFactory } from "@/libs/getFactory";
 import { connectToDatabase } from "@/libs/database";
@@ -20,7 +25,9 @@ import Navbar from "@/components/Navbar";
 
 const LiquidifyMutatio = "0xF9d450590b238CDA15E570F924C9B9fA577A9872";
 
-const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({ selectedCollection }) => {
+const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
+  selectedCollection,
+}) => {
   const [walletAddress, setWalletAddress] = useState<string>("");
   const [currentChain, setCurrentChain] = useState<number>(0);
   const [mode, setMode] = useState<"wrap" | "unwrap" | "summary">("wrap");
@@ -57,6 +64,9 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({ selectedColle
   const [selectedERC1155v3NftQuantity, setSelectedERC1155v3NftQuantity] =
     useState<string>("0");
   const [mutatioAllowance, setMutatioAllowance] = useState<number>(0);
+  const [showNftSelection, setShowNftSelection] = useState<boolean>(false);
+  const [nftSelection, setNftSelection] = useState<any>();
+  const [loadedOwnedNfts, setLoadedOwnedNfts] = useState<boolean>(false);
 
   const toastTx = (tx: any) => {
     setTimeout(() => {
@@ -92,7 +102,8 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({ selectedColle
 
   // Same standard for ERC1155 and ERC721
   const approveTransfers = async () => {
-    if (!selectedCollection || !walletAddress) return;
+    if (!account.address || !walletAddress)
+      return toast.error("Please connect your wallet");
 
     const liquidifyContractAddress = selectedCollection?.liquidifyContract;
 
@@ -150,6 +161,9 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({ selectedColle
   };
 
   const wrap = async () => {
+    if (!account.address || !walletAddress)
+      return toast.error("Please connect your wallet");
+
     console.log("trying");
     if (selectedCollection?.type == "ERC721") {
       try {
@@ -269,6 +283,8 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({ selectedColle
   };
 
   const unwrap = async () => {
+    if (!account.address || !walletAddress)
+      return toast.error("Please connect your wallet");
     // await fetchBalance();
     console.log("trying unwrap");
 
@@ -393,7 +409,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({ selectedColle
       try {
         const contractAddress = selectedCollection?.nftAddress; // Assuming selectedCollection holds the contract address
         const response = await fetch(
-          `/api/checks/ownedERC721?wallet=${walletAddress}&contract=${contractAddress}&network=${selectedCollection?.network}`
+          `/api/checks/ownedERC721?wallet=${walletAddress}&contract=${contractAddress}&network=${selectedCollection?.network}&metadata=true`
         );
 
         if (!response.ok) {
@@ -401,9 +417,21 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({ selectedColle
         }
 
         const data = await response.json();
-        setTokenIdList(data.tokens); // Assuming we want to set the first tokenId, adjust as needed
-        setTokenId(data.tokens[0]);
-        v3_setTokenId([data.tokens[0]]);
+
+        let tokenIds = data.tokens.map((token: any) => token.tokenId);
+
+        setNftSelection(data.tokens);
+        setTokenIdList(tokenIds); // Assuming we want to set the first tokenId, adjust as needed
+
+        if (selectedCollection.version == 2) {
+          setTokenId(tokenIds[0]);
+          setLoadedOwnedNfts(true);
+        }
+
+        if (selectedCollection.version == 3) {
+          v3_setTokenId([tokenIds[0]]);
+          setLoadedOwnedNfts(true);
+        }
       } catch (error) {
         console.error("Failed to fetch token IDs:", error);
       }
@@ -428,6 +456,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({ selectedColle
         data = await parseInt(data.balance);
 
         setOwnedERC1155(data);
+        setLoadedOwnedNfts(true);
       } catch (error) {
         console.error("Failed to fetch token IDs:", error);
       }
@@ -546,6 +575,24 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({ selectedColle
     fetchNftBalances();
   }, [selectedCollection, walletAddress]);
 
+  const selectNft = (tokenId: number) => {
+    if (selectedCollection.type != "ERC721") return;
+
+    if (selectedCollection.version == 2) {
+      setTokenId(tokenId);
+      setShowNftSelection(false);
+    }
+
+    if (selectedCollection.version == 3) {
+      if (!v3_tokenId.includes(tokenId)) {
+        return v3_setTokenId([...v3_tokenId, tokenId]);
+      }
+
+      const newV3TokenIds = v3_tokenId.filter((id) => id !== tokenId);
+      v3_setTokenId(newV3TokenIds);
+    }
+  };
+
   const approveMutatioERC20 = () => {
     console.log("approve mutatio");
 
@@ -584,6 +631,8 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({ selectedColle
     fetchNftBalances();
     getQtyForTier();
   }, [selectedERC1155v3TokenId]);
+
+  useEffect(() => {}, [showNftSelection]);
 
   return (
     <>
@@ -686,81 +735,127 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({ selectedColle
                           selectedCollection?.version == 3) &&
                           selectedCollection?.type != "ERC1155" && (
                             <>
-                              <div className="flex group">
-                                <div className="cursor-pointer items-center relative rounded-lg flex flex-grow select-none hover:bg-opacity-20 bg-white bg-opacity-10 px-3 py-2">
-                                  <div className="text-white flex flex-grow">
-                                    {tokenId == undefined
-                                      ? "/"
-                                      : tokenId
-                                      ? selectedCollection?.version === 2
-                                        ? tokenId
-                                        : v3_tokenId.length > 0
-                                        ? `${v3_tokenId.length} NFTs selected`
-                                        : tokenId
-                                      : "Loading"}
+                              <div className="flex">
+                                <div className="flex group w-full">
+                                  <div className="cursor-pointer items-center relative rounded-lg z-[99999] flex flex-grow select-none hover:bg-opacity-20 bg-white bg-opacity-10 px-3 py-2">
+                                    <div className="text-white flex flex-grow">
+                                      {loadedOwnedNfts == false && "Loading"}
+                                      {loadedOwnedNfts == true &&
+                                      tokenIdList.length >= 1 ? (
+                                        <>
+                                          {selectedCollection.version == 2 && (
+                                            <>{tokenId}</>
+                                          )}
+
+                                          {selectedCollection.version == 3 && (
+                                            <>
+                                              {v3_tokenId.length == 0
+                                                ? "Select NFTs"
+                                                : `${v3_tokenId.length} selected NFTs`}
+                                            </>
+                                          )}
+                                        </>
+                                      ) : (
+                                        loadedOwnedNfts == true &&
+                                        tokenIdList.length == 0 &&
+                                        "No owned NFTs"
+                                      )}
+                                    </div>
+                                    <ChevronLeft
+                                      className={
+                                        "h-[15px] transition-all -mr-1.5 " +
+                                        (loadedOwnedNfts == true &&
+                                          tokenIdList.length >= 1 &&
+                                          "group-hover:rotate-[-90deg]")
+                                      }
+                                    />
                                   </div>
-                                  <ChevronLeft className="group-hover:rotate-[-90deg] h-[15px] transition-all -mr-1.5" />
-                                </div>
 
-                                {tokenIdList?.length >= 1 && (
-                                  <>
-                                    <div className="select-none flex pt-[50px] absolute rounded-lg group-hover:block hidden w-[317px]  ">
-                                      <div className="flex flex-col bg-[#272727] rounded-lg shadow-xl z-[999] p-1 w-full max-h-[280px] overflow-y-auto">
-                                        {tokenIdList.map((_tokenId) => {
-                                          if (
-                                            selectedCollection?.version === 2
-                                          ) {
-                                            return (
-                                              <div
-                                                onClick={() => {
-                                                  setTokenId(_tokenId);
-                                                }}
-                                                className="px-3 w-full cursor-pointer bg-white bg-opacity-0 hover:bg-opacity-5 py-1 my-0.5 rounded-md"
-                                              >
-                                                {_tokenId}
-                                              </div>
-                                            );
-                                          }
+                                  {tokenIdList?.length >= 1 && (
+                                    <>
+                                      <div className="select-none flex pt-[50px] absolute rounded-lg group-hover:block hidden w-[317px]  ">
+                                        <div className="flex flex-col bg-[#272727] rounded-lg shadow-xl z-[999] p-1 w-full max-h-[280px] overflow-y-auto">
+                                          {tokenIdList.map((_tokenId) => {
+                                            if (
+                                              selectedCollection?.version === 2
+                                            ) {
+                                              return (
+                                                <div
+                                                  onClick={() => {
+                                                    setTokenId(_tokenId);
+                                                  }}
+                                                  className="px-3 w-full cursor-pointer bg-white bg-opacity-0 hover:bg-opacity-5 py-1 my-0.5 rounded-md"
+                                                >
+                                                  {_tokenId}
+                                                </div>
+                                              );
+                                            }
 
-                                          if (
-                                            selectedCollection?.version === 3
-                                          ) {
-                                            return (
-                                              <div
-                                                onClick={() => {
-                                                  if (
-                                                    !v3_tokenId.includes(
+                                            if (
+                                              selectedCollection?.version === 3
+                                            ) {
+                                              return (
+                                                <div
+                                                  onClick={() => {
+                                                    if (
+                                                      !v3_tokenId.includes(
+                                                        _tokenId
+                                                      )
+                                                    ) {
+                                                      return v3_setTokenId([
+                                                        ...v3_tokenId,
+                                                        _tokenId,
+                                                      ]);
+                                                    }
+
+                                                    const newV3TokenIds =
+                                                      v3_tokenId.filter(
+                                                        (id) => id !== _tokenId
+                                                      );
+                                                    v3_setTokenId(
+                                                      newV3TokenIds
+                                                    );
+                                                  }}
+                                                  className={
+                                                    "px-3 w-full cursor-pointer bg-white bg-opacity-0 py-1 my-0.5 rounded-md " +
+                                                    (v3_tokenId.includes(
                                                       _tokenId
                                                     )
-                                                  ) {
-                                                    return v3_setTokenId([
-                                                      ...v3_tokenId,
-                                                      _tokenId,
-                                                    ]);
+                                                      ? "bg-opacity-10"
+                                                      : "hover:bg-opacity-5")
                                                   }
-
-                                                  const newV3TokenIds =
-                                                    v3_tokenId.filter(
-                                                      (id) => id !== _tokenId
-                                                    );
-                                                  v3_setTokenId(newV3TokenIds);
-                                                }}
-                                                className={
-                                                  "px-3 w-full cursor-pointer bg-white bg-opacity-0 py-1 my-0.5 rounded-md " +
-                                                  (v3_tokenId.includes(_tokenId)
-                                                    ? "bg-opacity-10"
-                                                    : "hover:bg-opacity-5")
-                                                }
-                                              >
-                                                {_tokenId}
-                                              </div>
-                                            );
-                                          }
-                                        })}
+                                                >
+                                                  {_tokenId}
+                                                </div>
+                                              );
+                                            }
+                                          })}
+                                        </div>
                                       </div>
-                                    </div>
-                                  </>
-                                )}
+                                    </>
+                                  )}
+                                </div>
+                                <button
+                                  onClick={() => {
+                                    if (!account.address)
+                                      return toast.error(
+                                        "Please connect your wallet"
+                                      );
+
+                                    if (tokenIdList.length < 1)
+                                      return toast.error("No owned NFTs found");
+
+                                    setShowNftSelection(true);
+                                  }}
+                                  className={
+                                    "group flex bg-white bg-opacity-[10%] text-opacity-50 text-white px-2 items-center rounded-lg transition-all ml-2 " +
+                                    (tokenIdList.length >= 1
+                                      ? "hover:bg-opacity-20 group-hover:text-opacity-70"
+                                      : "cursor-not-allowed")
+                                  }
+                                >
+                                  <ImagesIcon className="transition-all scale-[0.9]" />
+                                </button>
                               </div>
                             </>
                           )}
@@ -795,14 +890,6 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({ selectedColle
                             </>
                           )}
                       </div>
-                      {/* <input
-                          onChange={(e) => {
-                            let value = parseInt(e.target.value);
-                            setTokenId(value);
-                          }}
-                          placeholder={`Token Id`}
-                          className="text-white bg-white bg-opacity-10 mt-5 w-full outline-none py-1.5 px-2 rounded-md"
-                        /> */}
                     </>
                   )}
 
@@ -832,7 +919,11 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({ selectedColle
                                   </>
                                 )}
                               </div>
-                              <ChevronLeft className="group-hover:rotate-[-90deg] h-[15px] transition-all -mr-1.5" />
+                              <ChevronLeft
+                                className={
+                                  "h-[15px] transition-all -mr-1.5 group-hover:rotate-[-90deg]"
+                                }
+                              />
                             </div>
 
                             <div className="select-none flex pt-[8px] absolute rounded-lg group-hover:block z-[99999] hidden w-[317px]  ">
@@ -1010,11 +1101,13 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({ selectedColle
                               <div className="flex flex-col group">
                                 {selectedCollection?.version == 3 && (
                                   <>
-                                    <div className="cursor-pointer mt-[14px] mb-[2px] items-center relative rounded-lg flex flex-grow select-none hover:bg-opacity-20 bg-white bg-opacity-10 px-3 py-2">
-                                      <div className="text-white flex flex-grow">
-                                        {selectedTier.name}
+                                    <div className="flex">
+                                      <div className="cursor-pointer mt-[14px] mb-[2px] items-center relative rounded-lg flex flex-grow select-none hover:bg-opacity-20 bg-white bg-opacity-10 px-3 py-2">
+                                        <div className="text-white flex flex-grow">
+                                          {selectedTier.name}
+                                        </div>
+                                        <ChevronLeft className="group-hover:rotate-[-90deg] h-[15px] transition-all -mr-1.5" />
                                       </div>
-                                      <ChevronLeft className="group-hover:rotate-[-90deg] h-[15px] transition-all -mr-1.5" />
                                     </div>
                                     {selectedCollection?.tiers && (
                                       <>
@@ -1170,11 +1263,85 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({ selectedColle
                 </div>
               </div>
             </div>
+            {showNftSelection && (
+              <>
+                <div className="absolute h-screen w-screen z-[999] flex items-center justify-center ">
+                  <div
+                    onClick={() => {
+                      setShowNftSelection(false);
+                    }}
+                    className="absolute bg-black h-screen w-screen flex items-center justify-center opacity-50"
+                  />
+                  <div className="bg-[#202020] h-[390px] w-[500px] rounded-lg z-[999] p-3">
+                    <div className="flex w-full items-center justify-between">
+                      <div className="flex items-center">
+                        <ImagesIcon className="mr-1 text-white opacity-[50%] h-[17px]" />
+                        <span className="text-white select-none text-lg opacity-50">
+                          {selectedCollection.version == 3
+                            ? "Select NFTs to wrap"
+                            : "Select NFT to wrap"}
+                        </span>
+                      </div>
+                      <X
+                        className="cursor-pointer text-white opacity-[35%] hover:opacity-70 transition-all h-[20px]"
+                        onClick={() => {
+                          setShowNftSelection(false);
+                        }}
+                      />
+                    </div>
+                    <div className="flex flex-wrap w-full h-[90%] z-[9999] pt-3 overflow-y-scroll gap-2 rounded-md">
+                      {nftSelection?.map((nft: any) => {
+                        console.log("nft", nft);
+                        return (
+                          <>
+                            <div
+                              onClick={() => {
+                                selectNft(nft.tokenId);
+                              }}
+                              className={
+                                "overflow-hidden rounded-md relative h-[100px] border-2 w-[100px] max-h-[100px] max-w-[100px] min-h-[100px] min-w-[100px] cursor-pointer transition-all duration-[100ms] " +
+                                (v3_tokenId.includes(nft.tokenId) ||
+                                tokenId == nft.tokenId
+                                  ? "border-white border-opacity-70 "
+                                  : "border-[#282828] hover:border-white hover:border-opacity-[15%]")
+                              }
+                            >
+                              <div className="relative h-[100px] w-[100px]">
+                                <img
+                                  src={nft.image}
+                                  className="h-[100px] rounded-md w-[100px] z-[100] absolute"
+                                  onLoad={(e) => {
+                                    e.currentTarget.style.display = "block";
+                                  }}
+                                  onError={(e) => {
+                                    e.currentTarget.style.display = "none";
+                                  }}
+                                  style={{ display: "none" }}
+                                />
+                                <div className="bg-white h-full w-full bg-opacity-10 flex items-center justify-center">
+                                  <span className="select-none opacity-50 font-mono text-uppercase text-white text-xs">
+                                    Image
+                                  </span>
+                                </div>
+                              </div>
+
+                              <span className="absolute bottom-1 select-none z-[999] rounded-sm left-1 text-white bg-black text-xs font-mono px-1 bg-opacity-20">
+                                #{nft.tokenId}
+                              </span>
+                            </div>
+                          </>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
           </>
         )}
       </div>
     </>
   );
-}
+};
 
 export default LegacyWrapUnwrap;

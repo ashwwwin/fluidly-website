@@ -3,6 +3,7 @@ import "./globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import { Inter } from "next/font/google";
 import { Providers } from "./providers";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,6 +19,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Toaster
+        position="bottom-right"
+        toastOptions={{
+          className: "",
+          style: {
+            padding: "5px",
+            color: "white",
+            backgroundColor: "#0d0d0d",
+          },
+        }}
+      />
       <link rel="icon" href="/icon.png" />
       <body className={inter.className}>
         <Providers>{children}</Providers>
