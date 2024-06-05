@@ -1289,7 +1289,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                         }}
                       />
                     </div>
-                    <div className="flex flex-wrap w-full h-[90%] z-[9999] pt-3 overflow-y-scroll gap-2 rounded-md">
+                    <div className="flex flex-wrap w-full h-[90%] z-[9999] mt-3 overflow-y-scroll gap-2 rounded-md">
                       {nftSelection?.map((nft: any) => {
                         console.log("nft", nft);
                         return (
