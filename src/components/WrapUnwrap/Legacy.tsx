@@ -737,7 +737,15 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                             <>
                               <div className="flex">
                                 <div className="flex group w-full">
-                                  <div className="cursor-pointer items-center relative rounded-lg z-[99999] flex flex-grow select-none hover:bg-opacity-20 bg-white bg-opacity-10 px-3 py-2">
+                                  <div
+                                    className={
+                                      "items-center relative rounded-lg z-[99999] flex flex-grow select-none bg-white bg-opacity-10 px-3 py-2 " +
+                                      (loadedOwnedNfts == true &&
+                                      tokenIdList.length >= 1
+                                        ? "group-hover:bg-opacity-20 cursor-pointer"
+                                        : "cursor-not-allowed")
+                                    }
+                                  >
                                     <div className="text-white flex flex-grow">
                                       {loadedOwnedNfts == false && "Loading"}
                                       {loadedOwnedNfts == true &&
@@ -773,8 +781,8 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
 
                                   {tokenIdList?.length >= 1 && (
                                     <>
-                                      <div className="select-none flex pt-[50px] absolute rounded-lg group-hover:block hidden w-[317px]  ">
-                                        <div className="flex flex-col bg-[#272727] rounded-lg shadow-xl z-[999] p-1 w-full max-h-[280px] overflow-y-auto">
+                                      <div className="select-none flex pt-[43px] absolute rounded-lg group-hover:block hidden w-[268px]  ">
+                                        <div className="flex flex-col bg-[#272727] rounded-lg shadow-xl z-[999] p-1 gap-y-1 w-full max-h-[280px] overflow-y-auto">
                                           {tokenIdList.map((_tokenId) => {
                                             if (
                                               selectedCollection?.version === 2
@@ -784,7 +792,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                                                   onClick={() => {
                                                     setTokenId(_tokenId);
                                                   }}
-                                                  className="px-3 w-full cursor-pointer bg-white bg-opacity-0 hover:bg-opacity-5 py-1 my-0.5 rounded-md"
+                                                  className="px-3 w-full cursor-pointer bg-white bg-opacity-0 hover:bg-opacity-5 py-1 rounded-md"
                                                 >
                                                   {_tokenId}
                                                 </div>
@@ -817,7 +825,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                                                     );
                                                   }}
                                                   className={
-                                                    "px-3 w-full cursor-pointer bg-white bg-opacity-0 py-1 my-0.5 rounded-md " +
+                                                    "px-3 w-full cursor-pointer bg-white bg-opacity-0 py-1 rounded-md " +
                                                     (v3_tokenId.includes(
                                                       _tokenId
                                                     )
@@ -1111,8 +1119,8 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                                     </div>
                                     {selectedCollection?.tiers && (
                                       <>
-                                        <div className="z-[100] mt-3.5 select-none flex pt-[50px] absolute rounded-lg group-hover:block hidden w-[317px]">
-                                          <div className="flex flex-col bg-[#272727] rounded-lg shadow-xl z-[999] p-1 w-full max-h-[280px] overflow-y-auto">
+                                        <div className="z-[100] mt-3.5 select-none flex pt-[43px] absolute rounded-lg group-hover:block hidden w-[317px]">
+                                          <div className="flex flex-col bg-[#272727] rounded-lg shadow-xl z-[999] p-1 w-full max-h-[280px] gap-y-1 overflow-y-auto">
                                             {selectedCollection?.tiers?.map(
                                               (tier: any) => {
                                                 return (
@@ -1121,7 +1129,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                                                       setSelectedTier(tier);
                                                     }}
                                                     className={
-                                                      "px-3 w-full cursor-pointer items-center flex justify-between bg-white bg-opacity-0 hover:bg-opacity-5 py-1 my-0.5 rounded-md " +
+                                                      "px-3 w-full cursor-pointer items-center flex justify-between bg-white bg-opacity-0 hover:bg-opacity-5 py-1 rounded-md " +
                                                       (selectedTier.name ==
                                                       tier.name
                                                         ? "bg-opacity-5"
