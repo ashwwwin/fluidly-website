@@ -781,7 +781,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
 
                                   {tokenIdList?.length >= 1 && (
                                     <>
-                                      <div className="select-none flex pt-[43px] absolute rounded-lg group-hover:block hidden shadow-xl w-[268px]  ">
+                                      <div className="select-none flex pt-[43px] absolute rounded-lg transition-all group-hover:block hidden shadow-xl w-[268px]  ">
                                         <div className="flex flex-col bg-[#272727] rounded-lg shadow-xl z-[999] p-1 gap-y-1 w-full max-h-[280px] overflow-y-auto">
                                           {tokenIdList.map((_tokenId) => {
                                             if (
@@ -912,7 +912,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                           }
                         >
                           <div className="group">
-                            <div className="cursor-pointer min-w-[150px] max-w-[150px] items-center relative rounded-md flex flex-grow select-none group-hover:bg-opacity-20 bg-white bg-opacity-10 px-3 py-2">
+                            <div className="cursor-pointer min-w-[150px] max-w-[150px] items-center relative rounded-md flex flex-grow select-none group-hover:bg-opacity-20 transition-all bg-white bg-opacity-10 px-3 py-2">
                               <div className="text-white flex flex-grow">
                                 {selectedERC1155v3TokenId == undefined ? (
                                   "/"
@@ -1110,7 +1110,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                                 {selectedCollection?.version == 3 && (
                                   <>
                                     <div className="flex">
-                                      <div className="cursor-pointer mt-[14px] mb-[2px] items-center relative rounded-lg flex flex-grow select-none hover:bg-opacity-20 bg-white bg-opacity-10 px-3 py-2">
+                                      <div className="cursor-pointer mt-[14px] mb-[2px] items-center relative rounded-lg z-[9999] flex flex-grow select-none group-hover:bg-opacity-20 bg-white bg-opacity-10 px-3 py-2">
                                         <div className="text-white flex flex-grow">
                                           {selectedTier.name}
                                         </div>
@@ -1119,7 +1119,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                                     </div>
                                     {selectedCollection?.tiers && (
                                       <>
-                                        <div className="z-[100] mt-3.5 select-none flex pt-[43px] absolute shadow-xl rounded-lg group-hover:block hidden w-[317px]">
+                                        <div className="z-[100] mt-3.5 select-none flex pt-[43px] absolute shadow-xl rounded-lg transition-all group-hover:block hidden w-[317px]">
                                           <div className="flex flex-col bg-[#272727] rounded-lg shadow-xl z-[999] p-1 w-full max-h-[280px] gap-y-1 overflow-y-auto">
                                             {selectedCollection?.tiers?.map(
                                               (tier: any) => {
