@@ -781,7 +781,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
 
                                   {tokenIdList?.length >= 1 && (
                                     <>
-                                      <div className="select-none flex pt-[43px] absolute rounded-lg group-hover:block hidden w-[268px]  ">
+                                      <div className="select-none flex pt-[43px] absolute rounded-lg group-hover:block hidden shadow-xl w-[268px]  ">
                                         <div className="flex flex-col bg-[#272727] rounded-lg shadow-xl z-[999] p-1 gap-y-1 w-full max-h-[280px] overflow-y-auto">
                                           {tokenIdList.map((_tokenId) => {
                                             if (
@@ -934,7 +934,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                               />
                             </div>
 
-                            <div className="select-none flex pt-[8px] absolute rounded-lg group-hover:block z-[99999] hidden w-[317px]  ">
+                            <div className="select-none flex pt-[8px] absolute rounded-lg group-hover:block z-[99999] shadow-xl hidden w-[317px]  ">
                               <div className="flex flex-col bg-[#272727] rounded-lg shadow-xl p-1 w-full max-h-[280px] overflow-y-auto">
                                 {selectedCollection?.tiers.map((tier: any) => {
                                   return (
@@ -1119,7 +1119,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                                     </div>
                                     {selectedCollection?.tiers && (
                                       <>
-                                        <div className="z-[100] mt-3.5 select-none flex pt-[43px] absolute rounded-lg group-hover:block hidden w-[317px]">
+                                        <div className="z-[100] mt-3.5 select-none flex pt-[43px] absolute shadow-xl rounded-lg group-hover:block hidden w-[317px]">
                                           <div className="flex flex-col bg-[#272727] rounded-lg shadow-xl z-[999] p-1 w-full max-h-[280px] gap-y-1 overflow-y-auto">
                                             {selectedCollection?.tiers?.map(
                                               (tier: any) => {
