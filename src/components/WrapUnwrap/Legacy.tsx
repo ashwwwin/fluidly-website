@@ -912,7 +912,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                           }
                         >
                           <div className="group">
-                            <div className="cursor-pointer min-w-[125px] max-w-[125px] items-center relative rounded-md flex flex-grow select-none hover:bg-opacity-20 bg-white bg-opacity-10 px-3 py-2">
+                            <div className="cursor-pointer min-w-[150px] max-w-[150px] items-center relative rounded-md flex flex-grow select-none group-hover:bg-opacity-20 bg-white bg-opacity-10 px-3 py-2">
                               <div className="text-white flex flex-grow">
                                 {selectedERC1155v3TokenId == undefined ? (
                                   "/"
@@ -934,7 +934,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                               />
                             </div>
 
-                            <div className="select-none flex pt-[8px] absolute rounded-lg group-hover:block z-[99999] shadow-xl hidden w-[317px]  ">
+                            <div className="select-none flex pt-[3.5px] absolute rounded-lg group-hover:block z-[99999] shadow-xl hidden min-w-[150px] max-w-[150px] ">
                               <div className="flex flex-col bg-[#272727] rounded-lg shadow-xl p-1 w-full max-h-[280px] overflow-y-auto">
                                 {selectedCollection?.tiers.map((tier: any) => {
                                   return (
@@ -945,7 +945,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                                         );
                                       }}
                                       className={
-                                        "px-3 w-full cursor-pointer items-center bg-white bg-opacity-0 py-1 my-0.5 rounded-md " +
+                                        "px-3 w-full cursor-pointer items-center bg-white bg-opacity-0 py-1 rounded-md " +
                                         (tier.tokenId ==
                                         selectedERC1155v3TokenId
                                           ? "bg-opacity-10"
@@ -953,8 +953,8 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                                       }
                                     >
                                       {tier.name}
-                                      <span className="opacity-50 ml-2 text-xs">
-                                        (ID {tier.tokenId})
+                                      <span className="opacity-50 ml-1 text-[8px]">
+                                        ID #{tier.tokenId}
                                       </span>
                                       {/* {_tokenId} */}
                                     </div>
