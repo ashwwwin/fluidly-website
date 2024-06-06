@@ -126,9 +126,9 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                         <a
                           href={`${
                             collection.network == "Ethereum"
-                              ? "https://etherscan.io/address/"
+                              ? "https://etherscan.io/token/"
                               : collection.network === "Base"
-                              ? "https://basescan.org/address/"
+                              ? "https://basescan.org/token/"
                               : ""
                           }${collection.liquidifyContract}`}
                           target="_blank"

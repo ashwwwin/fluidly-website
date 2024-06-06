@@ -681,9 +681,9 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                           onClick={() => {
                             let baseUrl =
                               selectedCollection?.network == "Ethereum"
-                                ? "https://etherscan.io/address/"
+                                ? "https://etherscan.io/token/"
                                 : selectedCollection?.network === "Base"
-                                ? "https://basescan.org/address/"
+                                ? "https://basescan.org/token/"
                                 : "";
                             window.open(
                               `${baseUrl}${selectedCollection?.liquidifyContract}`
