@@ -196,6 +196,14 @@ const Navbar = ({ page }: { page: string }) => {
                                       Copy address
                                     </button>
                                     <button
+                                      className="flex items-center py-1 pr-2 pl-1.5 rounded-[3.8px] bg-white bg-opacity-0 text-white hover:bg-opacity-[7.5%] text-opacity-50 hover:text-opacity-100 transition-all duration-[150ms]"
+                                      onClick={openChainModal}
+                                      type="button"
+                                    >
+                                      <Globe className="h-[14px] mr-1" />
+                                      Network
+                                    </button>
+                                    <button
                                       className="flex items-center py-1 pr-2 pl-1.5 rounded-[3.8px] w-full bg-white bg-opacity-0 text-white hover:bg-opacity-[7.5%] text-opacity-50 hover:text-opacity-100 transition-all duration-[150ms]"
                                       onClick={() => {
                                         disconnect();

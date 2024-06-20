@@ -48,7 +48,7 @@ const FaqPage_SupportedNetworks = () => {
             <div
               onClick={() => {
                 navigator.clipboard.writeText(
-                  "0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24"
+                  "0x71e1102793f399d517d23c1c29030229c9b18b34"
                 );
                 toast("Copied to clipboard");
               }}
@@ -65,7 +65,7 @@ const FaqPage_SupportedNetworks = () => {
             <div
               onClick={() => {
                 navigator.clipboard.writeText(
-                  "0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24"
+                  "0x1eEb916393475d501e25343A9B6f05E913cDA7d1"
                 );
                 toast("Copied to clipboard");
               }}
