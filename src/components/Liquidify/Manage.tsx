@@ -64,6 +64,7 @@ const ManagePage = () => {
 
     if (currentChain == 1) setExplorer("https://etherscan.io");
     if (currentChain === 8453) setExplorer("https://basescan.org");
+    if (currentChain === 137) setExplorer("https://polygonscan.com");
   }, [account.chainId]);
 
   const toastTx = (tx: any) => {
@@ -422,6 +423,8 @@ const ManagePage = () => {
                         ? "https://etherscan.io/address/"
                         : manage?.network === "Base"
                         ? "https://basescan.org/address/"
+                        : manage?.network === "Polygon"
+                        ? "https://polygonscan.com/address/"
                         : "";
                     window.open(`${baseUrl}${manage?.liquidifyContract}`);
                   }}

@@ -129,9 +129,11 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                               ? "https://etherscan.io/token/"
                               : collection.network === "Base" &&
                                 collection.liquidifyContract == LiquidifyMutatio
-                              ? "https://basescan.org/contract/"
+                              ? "https://basescan.org/address/"
                               : collection.network === "Base"
                               ? "https://basescan.org/token/"
+                              : collection.network === "Polygon"
+                              ? "https://polygonscan.com/token/"
                               : ""
                           }${collection.liquidifyContract}`}
                           target="_blank"

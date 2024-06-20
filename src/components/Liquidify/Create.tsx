@@ -36,6 +36,7 @@ const CreatePage = () => {
 
     if (currentChain == 1) setExplorer("https://etherscan.io");
     if (currentChain === 8453) setExplorer("https://basescan.org");
+    if (currentChain === 137) setExplorer("https://polygonscan.com");
 
     let _factoryAddress = getFactory(currentChain);
 
