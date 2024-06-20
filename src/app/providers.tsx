@@ -16,6 +16,7 @@ import {
   //   arbitrum,
   base,
   mainnet,
+  polygon,
   //   optimism,
   //   polygon,
   //   sepolia,
@@ -36,7 +37,7 @@ export const config = getDefaultConfig({
       wallets: [argentWallet, trustWallet, ledgerWallet],
     },
   ],
-  chains: [mainnet, base],
+  chains: [polygon, base],
   ssr: true, // If your dApp uses server side rendering (SSR)
 });
 

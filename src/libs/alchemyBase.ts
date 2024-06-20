@@ -18,5 +18,15 @@ export const getAlchemyBase = async (network: string) => {
     base = `https://arbitrum-mainnet.g.alchemy.com`;
   }
 
+  if (network == "Polygon") {
+    base = `https://polygon-mainnet.g.alchemy.com`;
+    key = process.env.ALCHEMY_KEY_POLY;
+  }
+
+  if (network == "Blast") {
+    base = `https://blast-mainnet.g.alchemy.com`;
+    key = process.env.ALCHEMY_KEY_BLAST;
+  }
+
   return { url: base, key: key };
 };

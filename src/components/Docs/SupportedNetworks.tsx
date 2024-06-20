@@ -54,16 +54,24 @@ const FaqPage_SupportedNetworks = () => {
               }}
               className="w-[480px] max-w-[480px] font-mono text-sm min-w-[480px] cursor-pointer select-none hover:opacity-80 transition-all duration-[150ms] py-0.5 justify-center flex items-center"
             >
-              0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24
+              0x71e1102793f399d517d23c1c29030229c9b18b34
             </div>
           </div>
           <div className="flex border-2 border-[#2C2C2C] border-t-0 w-fit">
             <div className="w-[120px] max-w-[120px] min-w-[120px] py-0.5 justify-center flex items-center">
-              Ethereum
+              Polygon
             </div>
             <div className="h-full px-[1px] bg-white bg-opacity-[17.5%]" />
-            <div className="w-[480px] max-w-[480px] min-w-[480px] py-0.5 justify-center flex items-center">
-              <Construction className="h-[13px]" />
+            <div
+              onClick={() => {
+                navigator.clipboard.writeText(
+                  "0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24"
+                );
+                toast("Copied to clipboard");
+              }}
+              className="w-[480px] max-w-[480px] font-mono text-sm min-w-[480px] cursor-pointer select-none hover:opacity-80 transition-all duration-[150ms] py-0.5 justify-center flex items-center"
+            >
+              0x1eEb916393475d501e25343A9B6f05E913cDA7d1
             </div>
           </div>
           <div className="flex border-2 border-[#2C2C2C] border-t-0 w-fit">
@@ -95,7 +103,7 @@ const FaqPage_SupportedNetworks = () => {
           </div>
           <div className="flex border-2 border-white rounded-b-md border-t-0 border-opacity-[17.5%] w-fit">
             <div className="w-[120px] max-w-[120px] min-w-[120px] py-0.5 justify-center flex items-center">
-              Polygon
+              Ethereum
             </div>
             <div className="h-full px-[1px] bg-white bg-opacity-[17.5%]" />
             <div className="w-[480px] max-w-[480px] min-w-[480px] py-0.5 justify-center flex items-center">

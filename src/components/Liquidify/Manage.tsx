@@ -117,6 +117,7 @@ const ManagePage = () => {
   }, [isError]);
 
   const loadOwnedPairs = async () => {
+    if (!account.address) return;
     let _ownedPairs = await fetch(`/api/pairs/owned?wallet=${account.address}`);
 
     if (!_ownedPairs) return;
