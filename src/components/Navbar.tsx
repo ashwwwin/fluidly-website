@@ -120,7 +120,7 @@ const Navbar = ({ page }: { page: string }) => {
           <div className="bg-white h-full px-[1px] rounded-full opacity-10 py-[12.5px]" />
           <div className="flex gap-x-1.5">
             <button
-              className="group flex items-center py-1 px-3 rounded-[3.8px] bg-white bg-opacity-0 text-white hover:bg-opacity-[7.5%] text-opacity-50 hover:text-opacity-100 transition-all duration-[150ms]"
+              className="group flex items-center py-1 px-3 rounded-md bg-white bg-opacity-0 text-white hover:bg-opacity-[7.5%] text-opacity-50 hover:text-opacity-100 transition-all duration-[150ms]"
               onClick={openChainModal}
               type="button"
             >
