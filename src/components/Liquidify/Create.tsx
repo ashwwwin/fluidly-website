@@ -37,6 +37,7 @@ const CreatePage = () => {
     if (currentChain == 1) setExplorer("https://etherscan.io");
     if (currentChain === 8453) setExplorer("https://basescan.org");
     if (currentChain === 137) setExplorer("https://polygonscan.com");
+    if (currentChain === 81457) setExplorer("https://blastscan.io");
 
     let _factoryAddress = getFactory(currentChain);
 
@@ -94,7 +95,6 @@ const CreatePage = () => {
   }, [isError]);
 
   const createLNFT = () => {
-
     const tx = writeContract(
       {
         address: factoryAddress,
@@ -202,7 +202,9 @@ const CreatePage = () => {
                   placeholder={nftType == "ERC721" ? "Tokens per NFT" : ""}
                   className={
                     "text-white bg-white w-1/2 outline-none py-1.5 px-2 rounded-md " +
-                    (nftType == "ERC1155" ? "cursor-not-allowed bg-opacity-5" : "bg-opacity-10")
+                    (nftType == "ERC1155"
+                      ? "cursor-not-allowed bg-opacity-5"
+                      : "bg-opacity-10")
                   }
                   disabled={nftType == "ERC1155"}
                 />

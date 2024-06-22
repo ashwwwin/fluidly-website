@@ -134,6 +134,8 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                               ? "https://basescan.org/token/"
                               : collection.network === "Polygon"
                               ? "https://polygonscan.com/token/"
+                              : collection.network === "Blast"
+                              ? "https://blastscan.io/token/"
                               : ""
                           }${collection.liquidifyContract}`}
                           target="_blank"

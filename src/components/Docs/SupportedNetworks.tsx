@@ -76,6 +76,23 @@ const FaqPage_SupportedNetworks = () => {
           </div>
           <div className="flex border-2 border-[#2C2C2C] border-t-0 w-fit">
             <div className="w-[120px] max-w-[120px] min-w-[120px] py-0.5 justify-center flex items-center">
+              Blast
+            </div>
+            <div className="h-full px-[1px] bg-white bg-opacity-[17.5%]" />
+            <div
+              onClick={() => {
+                navigator.clipboard.writeText(
+                  "0x2A567aDA8bAa8C845ae6991ba16C9c8c18aE4314"
+                );
+                toast("Copied to clipboard");
+              }}
+              className="w-[480px] max-w-[480px] font-mono text-sm min-w-[480px] cursor-pointer select-none hover:opacity-80 transition-all duration-[150ms] py-0.5 justify-center flex items-center"
+            >
+              0x2A567aDA8bAa8C845ae6991ba16C9c8c18aE4314
+            </div>
+          </div>
+          <div className="flex border-2 border-[#2C2C2C] border-t-0 w-fit">
+            <div className="w-[120px] max-w-[120px] min-w-[120px] py-0.5 justify-center flex items-center">
               Optimism
             </div>
             <div className="h-full px-[1px] bg-white bg-opacity-[17.5%]" />
@@ -86,15 +103,6 @@ const FaqPage_SupportedNetworks = () => {
           <div className="flex border-2 border-[#2C2C2C] border-t-0 w-fit">
             <div className="w-[120px] max-w-[120px] min-w-[120px] py-0.5 justify-center flex items-center">
               Arbitrum
-            </div>
-            <div className="h-full px-[1px] bg-white bg-opacity-[17.5%]" />
-            <div className="w-[480px] max-w-[480px] min-w-[480px] py-0.5 justify-center flex items-center">
-              <Construction className="h-[13px]" />
-            </div>
-          </div>
-          <div className="flex border-2 border-[#2C2C2C] border-t-0 w-fit">
-            <div className="w-[120px] max-w-[120px] min-w-[120px] py-0.5 justify-center flex items-center">
-              Blast
             </div>
             <div className="h-full px-[1px] bg-white bg-opacity-[17.5%]" />
             <div className="w-[480px] max-w-[480px] min-w-[480px] py-0.5 justify-center flex items-center">
