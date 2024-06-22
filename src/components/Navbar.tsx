@@ -94,7 +94,7 @@ const Navbar = ({ page }: { page: string }) => {
                   <a
                     href="/manage"
                     className={
-                      "outline-none flex items-center bg-white text-white duration-[150ms] rounded-md py-1 bg-opacity-0 transition-all pr-3 pl-2 rounded-[4.3px] select-none " +
+                      "outline-none flex items-center bg-white text-white duration-[150ms] rounded-[4.5px] py-1 bg-opacity-0 transition-all pr-3 pl-2 rounded-[4.3px] select-none " +
                       (page == "manage"
                         ? " text-opacity-100 bg-opacity-10"
                         : " text-opacity-50 hover:text-opacity-100 hover:bg-opacity-[7.5%]")
@@ -105,7 +105,7 @@ const Navbar = ({ page }: { page: string }) => {
                   <a
                     href="/create"
                     className={
-                      "outline-none flex items-center bg-white text-white duration-[150ms] rounded-md py-1 bg-opacity-0 transition-all pr-3 pl-2 rounded-[4.3px] select-none " +
+                      "outline-none flex items-center bg-white text-white duration-[150ms] rounded-[4.5px] py-1 bg-opacity-0 transition-all pr-3 pl-2 rounded-[4.3px] select-none " +
                       (page == "liquidify"
                         ? " text-opacity-100 bg-opacity-10"
                         : " text-opacity-50 hover:text-opacity-100 hover:bg-opacity-[7.5%]")
