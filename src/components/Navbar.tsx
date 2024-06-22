@@ -150,7 +150,9 @@ const Navbar = ({ page }: { page: string }) => {
                         </div>
                       </>
                     ) : (
-                      <Globe className="h-[15px] text-red-500" />
+                      <div className="items-center flex text-red-500">
+                        <Globe className="h-[15px]" /> Network
+                      </div>
                     )}
                   </span>
                   {account?.chain?.name}
