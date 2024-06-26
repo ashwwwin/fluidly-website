@@ -50,7 +50,7 @@ const FaqPage_SupportedNetworks = () => {
                 navigator.clipboard.writeText(
                   "0x71e1102793f399d517d23c1c29030229c9b18b34"
                 );
-                toast("Copied to clipboard");
+                toast.success("Copied to clipboard");
               }}
               className="w-[480px] max-w-[480px] font-mono text-sm min-w-[480px] cursor-pointer select-none hover:opacity-80 transition-all duration-[150ms] py-0.5 justify-center flex items-center"
             >
@@ -67,7 +67,7 @@ const FaqPage_SupportedNetworks = () => {
                 navigator.clipboard.writeText(
                   "0x1eEb916393475d501e25343A9B6f05E913cDA7d1"
                 );
-                toast("Copied to clipboard");
+                toast.success("Copied to clipboard");
               }}
               className="w-[480px] max-w-[480px] font-mono text-sm min-w-[480px] cursor-pointer select-none hover:opacity-80 transition-all duration-[150ms] py-0.5 justify-center flex items-center"
             >
@@ -84,7 +84,7 @@ const FaqPage_SupportedNetworks = () => {
                 navigator.clipboard.writeText(
                   "0x2A567aDA8bAa8C845ae6991ba16C9c8c18aE4314"
                 );
-                toast("Copied to clipboard");
+                toast.success("Copied to clipboard");
               }}
               className="w-[480px] max-w-[480px] font-mono text-sm min-w-[480px] cursor-pointer select-none hover:opacity-80 transition-all duration-[150ms] py-0.5 justify-center flex items-center"
             >

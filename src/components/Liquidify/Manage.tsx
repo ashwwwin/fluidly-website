@@ -437,7 +437,7 @@ const ManagePage = () => {
                 <button
                   onClick={() => {
                     navigator.clipboard.writeText(manage?.liquidifyContract);
-                    toast("Copied to clipboard");
+                    toast.success("Copied to clipboard");
                   }}
                 >
                   <Copy className="h-4 opacity-70 hover:opacity-100 transition-all cursor-pointer" />
