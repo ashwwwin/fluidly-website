@@ -133,19 +133,19 @@ const Navbar = ({ page }: { page: string }) => {
                   <span className="flex group-hover:opacity-100 opacity-80 duration-[150ms] mr-1.5">
                     {account.chainId == 8453 ? (
                       <>
-                        <div className="border-[1px] border-white border-opacity-50 transition-all min-w-h-[15px] min-w-[15px] max-w-h-[15px] rounded-full overflow-hidden max-w-[15px] ">
+                        <div className="border-[1px] border-white border-opacity-50 transition-all min-h-[15px] min-w-[15px] max-w-h-[15px] rounded-full overflow-hidden max-w-[15px] ">
                           <img src="/networks/base.svg" />
                         </div>
                       </>
                     ) : account.chainId == 81457 ? (
                       <>
-                        <div className="border-[1px] border-white border-opacity-50 transition-all min-w-h-[15px] min-w-[15px] max-w-h-[15px] rounded-full overflow-hidden max-w-[15px] ">
+                        <div className="border-[1px] border-white border-opacity-50 transition-all min-h-[15px] min-w-[15px] max-w-h-[15px] rounded-full overflow-hidden max-w-[15px] ">
                           <img src="/networks/blast.png" />
                         </div>
                       </>
                     ) : account.chainId == 137 ? (
                       <>
-                        <div className="border-[1px] border-white border-opacity-50 transition-all min-w-h-[15px] min-w-[15px] max-w-h-[15px] rounded-full overflow-hidden max-w-[15px] ">
+                        <div className="border-[1px] border-white border-opacity-50 transition-all min-h-[15px] min-w-[15px] max-w-h-[15px] rounded-full overflow-hidden max-w-[15px] ">
                           <img src="/networks/polygon.png" />
                         </div>
                       </>
