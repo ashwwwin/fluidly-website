@@ -18,4 +18,14 @@ export const getFactory = (chainId: number) => {
   if (chainId === 8453) {
     return "0x71E1102793F399d517d23C1C29030229c9B18b34";
   }
+
+  // Optimism
+  if (chainId === 10) {
+    return "0xE7325F9182AbAF2B821082e8332cDa055EEE70e1";
+  }
+
+  // Arbitrum
+  if (chainId === 42161) {
+    return "0xE7325F9182AbAF2B821082e8332cDa055EEE70e1";
+  }
 };

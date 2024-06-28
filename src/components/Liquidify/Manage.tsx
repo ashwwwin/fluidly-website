@@ -66,6 +66,9 @@ const ManagePage = () => {
     if (currentChain === 8453) setExplorer("https://basescan.org");
     if (currentChain === 137) setExplorer("https://polygonscan.com");
     if (currentChain === 81457) setExplorer("https://blastscan.io");
+    if (currentChain === 10) setExplorer("https://optimistic.etherscan.io");
+    if (currentChain === 42161) setExplorer("https://arbiscan.io");
+    
   }, [account.chainId]);
 
   const toastTx = (tx: any) => {
@@ -428,6 +431,10 @@ const ManagePage = () => {
                         ? "https://polygonscan.com/address/"
                         : manage?.network === "Blast"
                         ? "https://blastscan.io/token/"
+                        : manage?.network === "Arbitrum"
+                        ? "https://arbiscan.io/address/"
+                        : manage?.network === "Optimism"
+                        ? "https://optimistic.etherscan.io/address/"
                         : "";
                     window.open(`${baseUrl}${manage?.liquidifyContract}`);
                   }}

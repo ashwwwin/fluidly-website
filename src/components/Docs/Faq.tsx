@@ -26,11 +26,28 @@ const FaqPage_Faq = () => {
         </div>
         <div className="text-white bg-white p-3 rounded-lg shadow-inner bg-opacity-[3%] flex flex-col">
           <span className="font-medium select-none opacity-[85%] border-b-[2px] pb-[1px] border-opacity-[3%] border-white w-fit">
+            What does wrapping/unwrapping mean?
+          </span>
+          <span className="text-md mt-1 opacity-50 flex flex-col gap-y-0.5">
+            <span>
+              When you wrap your NFT you send your specified NFT into a
+              project's Liquidify contract, and receive tokens that are minted
+              on demand.
+            </span>
+            <span>
+              When you unwrap an NFT you send the specified amount of tokens
+              into a project's Liquidify contract which is then burned and you
+              will receive an NFT from the contract.
+            </span>
+          </span>
+        </div>
+        <div className="text-white bg-white p-3 rounded-lg shadow-inner bg-opacity-[3%] flex flex-col">
+          <span className="font-medium select-none opacity-[85%] border-b-[2px] pb-[1px] border-opacity-[3%] border-white w-fit">
             Do you provide liquidity?
           </span>
           <span className="text-md mt-1 opacity-50">
             No, we provide a way to convert your NFTs into ERC20s. The LP relies
-            on the founder/team behind the project or the community to do so.
+            on the team behind the project or the community to do so.
           </span>
         </div>
         <div className="text-white bg-white p-3 rounded-lg shadow-inner bg-opacity-[3%] flex flex-col">
@@ -47,6 +64,15 @@ const FaqPage_Faq = () => {
         </div>
         <div className="text-white bg-white p-3 rounded-lg shadow-inner bg-opacity-[3%] flex flex-col">
           <span className="font-medium select-none opacity-[85%] border-b-[2px] pb-[1px] border-opacity-[3%] border-white w-fit">
+            Which NFT will I get when I unwrap?
+          </span>
+          <span className="text-md mt-1 opacity-50">
+            You will get the last NFT wrapped into the contract for the specific
+            tier/rarity you unwrap for.
+          </span>
+        </div>
+        <div className="text-white bg-white p-3 rounded-lg shadow-inner bg-opacity-[3%] flex flex-col">
+          <span className="font-medium select-none opacity-[85%] border-b-[2px] pb-[1px] border-opacity-[3%] border-white w-fit">
             I created an LNFT pair, now what?
           </span>
           <span className="text-md mt-1 opacity-50">
@@ -56,7 +82,8 @@ const FaqPage_Faq = () => {
             liquidity pool.
           </span>
         </div>
-        {/* <div className="text-white bg-white p-3 rounded-lg shadow-inner bg-opacity-[3%] flex flex-col">
+
+        <div className="text-white bg-white p-3 rounded-lg shadow-inner bg-opacity-[3%] flex flex-col">
           <span className="font-medium select-none opacity-[85%] border-b-[2px] pb-[1px] border-opacity-[3%] border-white w-fit">
             Will I always be able to trade my tokens for an NFT?
           </span>
@@ -64,17 +91,17 @@ const FaqPage_Faq = () => {
             Yes, as long as it meets the required tokens. The required tokens
             are exactly the amount that the NFT was traded for initially. The
             token to nft amount and the nft to token amount will always be equal
-            and are immutable for each NFT.
+            and are immutable for each NFT. This is however, subject to rarity
+            if they are enabled for the project.
           </span>
-        </div> */}
+        </div>
+
         <div className="text-white bg-white p-3 rounded-lg shadow-inner bg-opacity-[3%] flex flex-col">
           <span className="font-medium select-none opacity-[85%] border-b-[2px] pb-[1px] border-opacity-[3%] border-white w-fit">
-            Why are royalties not working on my collection?
+            Why are there no NFTs to unwrap in a tier?
           </span>
           <span className="text-md mt-1 opacity-50">
-            Once you've set up your Uniswap v2 Pool with a Liquidify v2 Token,
-            copy the Uniswap pool address and then head to the Liquidify tab in
-            order to register your LP.
+            The NFTs you can unwrap are based on NFTs that have been wrapped.
           </span>
         </div>
         <div className="text-white bg-white p-3 rounded-lg shadow-inner bg-opacity-[3%] flex flex-col">

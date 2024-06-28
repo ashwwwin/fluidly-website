@@ -13,9 +13,11 @@ import {
   ledgerWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 import {
+  arbitrum,
   //   arbitrum,
   base,
   blast,
+  optimism,
   polygon,
   //   optimism,
   //   polygon,
@@ -37,7 +39,7 @@ export const config = getDefaultConfig({
       wallets: [argentWallet, trustWallet, ledgerWallet],
     },
   ],
-  chains: [polygon, base, blast],
+  chains: [polygon, base, blast, optimism, arbitrum],
   ssr: true, // If your dApp uses server side rendering (SSR)
 });
 

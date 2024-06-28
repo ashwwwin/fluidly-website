@@ -14,7 +14,13 @@ import {
   X,
 } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
-import { useDisconnect, useConnect, useAccount, useChains } from "wagmi";
+import {
+  useDisconnect,
+  useConnect,
+  useAccount,
+  useChains,
+  useSwitchChain,
+} from "wagmi";
 import { injected } from "wagmi/connectors";
 import {
   ConnectButton,
@@ -30,6 +36,7 @@ const Navbar = ({ page }: { page: string }) => {
   const { openChainModal } = useChainModal();
   const { connect } = useConnect();
   const { disconnect } = useDisconnect();
+  const { switchChain } = useSwitchChain();
 
   return (
     <>
@@ -147,6 +154,18 @@ const Navbar = ({ page }: { page: string }) => {
                       <>
                         <div className="border-[1px] border-white border-opacity-50 transition-all min-h-[15px] min-w-[15px] max-w-h-[15px] rounded-full overflow-hidden max-w-[15px] ">
                           <img src="/networks/polygon.png" />
+                        </div>
+                      </>
+                    ) : account.chainId == 10 ? (
+                      <>
+                        <div className="border-[1px] border-white border-opacity-50 transition-all min-h-[15px] min-w-[15px] max-w-h-[15px] rounded-full overflow-hidden max-w-[15px] ">
+                          <img src="/networks/optimism.png" />
+                        </div>
+                      </>
+                    ) : account.chainId == 42161 ? (
+                      <>
+                        <div className="border-[1px] border-white border-opacity-50 transition-all min-h-[15px] min-w-[15px] max-w-h-[15px] rounded-full overflow-hidden max-w-[15px] ">
+                          <img src="/networks/arbitrum.png" />
                         </div>
                       </>
                     ) : (

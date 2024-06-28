@@ -136,6 +136,10 @@ const CollectionPage = ({ collections }: { collections: any }) => {
                               ? "https://polygonscan.com/token/"
                               : collection.network === "Blast"
                               ? "https://blastscan.io/token/"
+                              : collection.network === "Arbitrum"
+                              ? "https://arbiscan.io/token/"
+                              : collection.network === "Optimism"
+                              ? "https://optimistic.etherscan.io/token/"
                               : ""
                           }${collection.liquidifyContract}`}
                           target="_blank"

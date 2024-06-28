@@ -38,6 +38,8 @@ const CreatePage = () => {
     if (currentChain === 8453) setExplorer("https://basescan.org");
     if (currentChain === 137) setExplorer("https://polygonscan.com");
     if (currentChain === 81457) setExplorer("https://blastscan.io");
+    if (currentChain === 10) setExplorer("https://optimistic.etherscan.io");
+    if (currentChain === 42161) setExplorer("https://arbiscan.io");
 
     let _factoryAddress = getFactory(currentChain);
 

@@ -96,6 +96,8 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
     if (currentChain === 8453) setExplorer("https://basescan.org");
     if (currentChain === 137) setExplorer("https://polygonscan.com");
     if (currentChain === 81457) setExplorer("https://blastscan.io");
+    if (currentChain === 10) setExplorer("https://optimistic.etherscan.io");
+    if (currentChain === 42161) setExplorer("https://arbiscan.io");
 
     let _factoryAddress = getFactory(currentChain);
 
@@ -690,6 +692,10 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                                 ? "https://polygonscan.com/token/"
                                 : selectedCollection?.network === "Blast"
                                 ? "https://blastscan.io/token/"
+                                : selectedCollection?.network === "Arbitrum"
+                                ? "https://arbiscan.io/token/"
+                                : selectedCollection?.network === "Optimism"
+                                ? "https://optimistic.etherscan.io/token/"
                                 : "";
                             window.open(
                               `${baseUrl}${selectedCollection?.liquidifyContract}`

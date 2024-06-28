@@ -15,7 +15,13 @@ export const getAlchemyBase = async (network: string) => {
   }
 
   if (network == "Arbitrum") {
-    base = `https://arbitrum-mainnet.g.alchemy.com`;
+    base = `https://arb-mainnet.g.alchemy.com`;
+    key = process.env.ALCHEMY_KEY_OP;
+  }
+
+  if (network == "Optimism") {
+    base = `https://opt-mainnet.g.alchemy.com`;
+    key = process.env.ALCHEMY_KEY_OP;
   }
 
   if (network == "Polygon") {
