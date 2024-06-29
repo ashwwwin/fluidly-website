@@ -52,6 +52,8 @@ const Navbar = ({ page }: { page: string }) => {
         <div className="flex mr-1.5 items-center gap-x-3 xs:hidden">
           <a
             href="https://x.com/Liquidify_gg"
+            target="_blank"
+            rel="noopener noreferrer"
             className="outline-none flex items-center bg-white text-white duration-[150ms] rounded-md py-2 bg-opacity-0 transition-all px-3 rounded-md select-none text-opacity-50 hover:text-opacity-100 hover:bg-opacity-[7.5%]"
           >
             <img
