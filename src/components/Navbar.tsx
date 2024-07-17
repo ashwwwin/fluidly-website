@@ -50,17 +50,30 @@ const Navbar = ({ page }: { page: string }) => {
         </a>
         <div className="flex flex-grow xs:hidden" />
         <div className="flex mr-1.5 items-center gap-x-3 xs:hidden">
-          <a
-            href="https://x.com/Liquidify_gg"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="outline-none flex items-center bg-white text-white duration-[150ms] rounded-md py-2 bg-opacity-0 transition-all px-3 rounded-md select-none text-opacity-50 hover:text-opacity-100 hover:bg-opacity-[7.5%]"
-          >
-            <img
-              src="/x.png"
-              className="h-[15px] opacity-50 pointer-events-none"
-            />
-          </a>
+          <div className="flex gap-x-2">
+            <a
+              href="https://x.com/Liquidify_gg"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="outline-none flex items-center bg-white text-white duration-[150ms] rounded-md py-2 bg-opacity-0 transition-all px-2.5 rounded-md select-none text-opacity-50 hover:text-opacity-100 hover:bg-opacity-[7.5%]"
+            >
+              <img
+                src="/x.png"
+                className="h-[15px] opacity-50 pointer-events-none"
+              />
+            </a>
+            <a
+              href="https://discord.gg/jATKMvu7VW"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="outline-none flex items-center bg-white text-white duration-[150ms] rounded-md py-2 bg-opacity-0 transition-all px-2.5 rounded-md select-none text-opacity-50 hover:text-opacity-100 hover:bg-opacity-[7.5%]"
+            >
+              <img
+                src="/discord.webp"
+                className="h-[18px] opacity-50 pointer-events-none"
+              />
+            </a>
+          </div>
           <div className="bg-white h-full px-[1px] rounded-full opacity-10 py-[12.5px]" />
 
           <div className="flex gap-x-2.5">
