@@ -89,7 +89,7 @@ const Navbar = ({ page }: { page: string }) => {
               <HelpCircle className="h-[15px] mr-1" /> FAQ
             </a>
             <a
-              href="/"
+              href="/collections"
               className={
                 "outline-none flex items-center bg-white text-white duration-[150ms] rounded-md py-1 bg-opacity-0 transition-all pr-3 pl-2 rounded-md select-none " +
                 (page == "collection"
