@@ -32,6 +32,9 @@ import lottieJson from "../components/Lottie.json";
 import Particles from "@/components/MagicUI/Particles";
 
 export default function Landing() {
+  if (typeof window !== "undefined" && window.innerWidth < 768) {
+    window.location.href = "/collections";
+  }
   return (
     <>
       <main className="flex min-h-screen max-h-screen flex-col overflow-y-hidden overflow-x-hidden items-center">
