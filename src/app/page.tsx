@@ -52,7 +52,7 @@ export default function Landing() {
                   className="h-[55px] w-fit select-none pointer-events-none"
                 />
                 <span className="text-white mt-1 select-none text-xl opacity-80">
-                  Transform NFTs into ERC20 tokens.
+                  Convrt NFTs into ERC20 tokens.
                 </span>
               </div>
               <div className="grow" />
