@@ -32,7 +32,9 @@ import lottieJson from "../components/Lottie.json";
 import Particles from "@/components/MagicUI/Particles";
 
 export default function Landing() {
-  window.location.href = "/explore";
+  useEffect(() => {
+    window.location.href = "/explore";
+  }, []);
 
   return (
     <>
