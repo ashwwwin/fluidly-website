@@ -20,7 +20,7 @@ export default function Home() {
 
   useEffect(() => {
     const fetchCollections = async () => {
-      const response = await fetch("/api/collections/all");
+      const response = await fetch("/api/collections/all?type=enabledAndMinting");
 
       const data = await response.json();
       console.log(data);

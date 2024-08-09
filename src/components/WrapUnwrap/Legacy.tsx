@@ -1,6 +1,8 @@
 "use client";
 
 import {
+  ArrowLeft,
+  ArrowRight,
   ArrowUpRightSquareIcon,
   ChevronLeft,
   ImagesIcon,
@@ -641,7 +643,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
   return (
     <>
       <div className="flex flex-col w-screen h-screen">
-        <Navbar page="collection" />
+        {/* <Navbar page="collection" /> */}
         {selectedCollection !== undefined && (
           <>
             <title>{selectedCollection.tokenName}</title>
@@ -706,7 +708,9 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                           src="/uniswap.png"
                           onClick={() => {
                             window.open(
-                              `https://app.uniswap.org/#/swap?theme=dark&inputCurrency=ETH&outputCurrency=${selectedCollection?.liquidifyContract}`
+                              `https://app.uniswap.org/explore/tokens/${selectedCollection.network.toLowerCase()}/${
+                                selectedCollection?.liquidifyContract
+                              }`
                             );
                           }}
                           className="min-h-[20px] select-none cursor-pointer opacity-70 hover:opacity-100 transition-all min-w-[20px] max-h-[20px] max-w-[20px] rounded-md overflow-none"
@@ -721,22 +725,22 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                         setMode("wrap");
                       }}
                       className={
-                        "cursor-pointer items-center text-center w-full p-0.5 px-1 px-6 bg-white bg-opacity-0 transition-all hover:rounded-md " +
+                        "cursor-pointer flex items-center text-sm text-center w-full p-0.5 px-1 px-6 bg-white bg-opacity-0 transition-all hover:rounded-md " +
                         (mode == "wrap" && "bg-opacity-10 rounded-md")
                       }
                     >
-                      Wrap
+                      NFT <ArrowRight className="h-[12px]" /> ERC20
                     </div>
                     <div
                       onClick={() => {
                         setMode("unwrap");
                       }}
                       className={
-                        "cursor-pointer items-center text-center w-full p-0.5 px-1 px-6 bg-white bg-opacity-0 transition-all hover:rounded-md " +
+                        "flex text-sm cursor-pointer items-center text-center w-full p-0.5 px-1 px-6 bg-white bg-opacity-0 transition-all hover:rounded-md " +
                         (mode == "unwrap" && "bg-opacity-10 rounded-md")
                       }
                     >
-                      Unwrap
+                      NFT <ArrowLeft className="h-[12px]" /> ERC20
                     </div>
                   </div>
 
@@ -794,7 +798,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                                   {tokenIdList?.length >= 1 && (
                                     <>
                                       <div className="select-none flex pt-[43px] absolute rounded-lg transition-all group-hover:block hidden shadow-xl w-[268px]  ">
-                                        <div className="flex flex-col bg-[#272727] rounded-lg shadow-xl z-[999] p-1 gap-y-1 w-full max-h-[280px] overflow-y-auto">
+                                        <div className="flex flex-col bg-[#272727] rounded-lg shadow-xl z-[999] p-1 border-[1px] border-white border-opacity-5 gap-y-1 w-full max-h-[280px] overflow-y-auto">
                                           {tokenIdList.map((_tokenId) => {
                                             if (
                                               selectedCollection?.version === 2
@@ -946,8 +950,8 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                               />
                             </div>
 
-                            <div className="select-none flex pt-[3.5px] absolute rounded-lg group-hover:block z-[99999] shadow-xl hidden min-w-[150px] max-w-[150px] ">
-                              <div className="flex flex-col bg-[#272727] rounded-lg shadow-xl p-1 w-full max-h-[280px] overflow-y-auto">
+                            <div className="select-none flex pt-[3.5px] absolute rounded-lg group-hover:block z-[99999] shadow-xl hidden min-w-[316px] max-w-[316px] ">
+                              <div className="flex flex-col bg-[#272727] border-[1px] border-white border-opacity-5 rounded-lg shadow-xl p-1 w-full max-h-[280px] overflow-y-auto">
                                 {selectedCollection?.tiers.map((tier: any) => {
                                   return (
                                     <div
@@ -957,14 +961,15 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                                         );
                                       }}
                                       className={
-                                        "px-3 w-full cursor-pointer items-center bg-white bg-opacity-0 py-1 rounded-md " +
+                                        "flex px-3 w-full cursor-pointer justify-between items-center bg-white bg-opacity-0 py-1 rounded-md " +
                                         (tier.tokenId ==
                                         selectedERC1155v3TokenId
                                           ? "bg-opacity-10"
                                           : "hover:bg-opacity-5")
                                       }
                                     >
-                                      {tier.name}
+                                      <span>{tier.name}</span>
+
                                       <span className="opacity-50 ml-1 text-[8px]">
                                         ID #{tier.tokenId}
                                       </span>

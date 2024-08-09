@@ -6,7 +6,29 @@ export async function GET(request: NextRequest) {
     const db = await connectToDatabase();
     const collection = db.collection("liquidNfts");
 
-    let liquidNfts = await collection.find({ pairEnabled: true }).toArray();
+    const url = new URL(request.url);
+    let type: string = url.searchParams.get("type") || "";
+    // type = type?.toLowerCase();
+
+    if (
+      type != "all" &&
+      type != "minting" &&
+      type != "enabled" &&
+      type != "enabledAndMinting"
+    ) {
+      return;
+    }
+
+    let params = {};
+    if (type == "minting") {
+      params = { minting: true };
+    } else if (type == "enabled") {
+      params = { pairEnabled: true };
+    } else if (type == "enabledAndMinting") {
+      params = { $or: [{ pairEnabled: true }, { minting: true }] };
+    }
+
+    let liquidNfts = await collection.find(params).toArray();
 
     liquidNfts = liquidNfts.reverse();
 

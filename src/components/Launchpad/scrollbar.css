@@ -1,0 +1,45 @@
+/* Hide the scrollbar by default */
+::-webkit-scrollbar {
+    width: 0.5rem; /* Adjust the width as needed */
+    opacity: 0; /* Start with the scrollbar being transparent */
+    transition: opacity 150ms ease-in-out; /* Smooth transition for the opacity change */
+  }
+  
+  /* Optional: Adjustments for horizontal scrollbars */
+  ::-webkit-scrollbar:horizontal {
+    height: 3.5px; /* Adjust the height for horizontal scrollbars */
+  }
+  
+  /* Styling for the scrollbar track */
+  ::-webkit-scrollbar-track {
+    background-color: transparent; /* Transparent track */
+    border-radius: 100px; /* Rounded corners for the track */
+  }
+  
+  /* Optional: Different styling for horizontal scrollbar tracks */
+  ::-webkit-scrollbar-track:horizontal {
+    background-color: #202020; /* Dark background for contrast, adjust as needed */
+    border-radius: 100px; /* Keep the rounded corners */
+  }
+  
+  /* Styling for the scrollbar thumb (the draggable element) */
+  ::-webkit-scrollbar-thumb {
+    border-color: rgba(255, 255, 255, 1); /* White border color, adjust opacity as needed */
+    border-radius: 100px; /* Rounded corners for the thumb */
+    border-width: 1px; /* Border width */
+    background-color: hsla(0, 0%, 100%, 0.1); /* Semi-transparent white, adjust as needed */
+    transition: background-color 150ms ease-in-out; /* Smooth transition for background color */
+  }
+  
+  /* Hover effect for the scrollbar thumb */
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: hsla(0, 0%, 100%, 0.15); /* Slightly more visible on hover, adjust as needed */
+  }
+  
+  /* Make the scrollbar visible when the body or specific elements are hovered or focused */
+  body:hover ::-webkit-scrollbar,
+  body:focus-within ::-webkit-scrollbar,
+  .scrollbar-trigger:hover ::-webkit-scrollbar,
+  .scrollbar-trigger:focus-within ::-webkit-scrollbar {
+    opacity: 1; /* Make the scrollbar fully visible */
+  }

@@ -3,7 +3,8 @@ import "./globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import { Inter } from "next/font/google";
 import { Providers } from "./providers";
-import { Toaster } from "react-hot-toast";
+import { LoaderIcon, Toaster } from "react-hot-toast";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 

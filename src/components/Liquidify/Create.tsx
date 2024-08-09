@@ -125,7 +125,7 @@ const CreatePage = () => {
         <div className="flex flex-col items-center">
           <span className="flex text-2xl text-center justify-center items-center py-1 mt-1 select-none font-medium text-white">
             <Droplet className="h-[18px] mr-2" />
-            Liquidify
+            Create a token
           </span>
           <span className="text-sm text-white text-opacity-50 w-[450px] text-center">
             If a collection you would like to trade as an ERC20 has already been
@@ -234,7 +234,7 @@ const CreatePage = () => {
                 onClick={createLNFT}
                 className="bg-blue-500 w-full select-none hover:bg-opacity-100 bg-opacity-90 transition-all border-2 border-opacity-10 text-white outline-none rounded-md border-white px-3 py-1"
               >
-                Create LNFT
+                Create
               </button>
             </div>
           </div>

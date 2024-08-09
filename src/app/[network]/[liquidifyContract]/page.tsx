@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import LegacyWrapUnwrap from "@/components/WrapUnwrap/Legacy";
 import { Loader2Icon, LoaderIcon } from "lucide-react";
+import MintPage from "@/components/Launchpad/MintPage";
 
 export default function wrapUnwrap({
   params,
@@ -34,13 +35,19 @@ export default function wrapUnwrap({
   return (
     <>
       <div className="flex flex-col w-screen h-screen">
-        <Navbar page="collection" />
+        <Navbar page="" />
         {selectedCollection !== undefined && (
           <>
             {(selectedCollection.version.toString() == "2" ||
-              selectedCollection.version.toString() == "3") && (
+              selectedCollection.version.toString() == "3") &&
+              selectedCollection.pairEnabled == true && (
+                <>
+                  <LegacyWrapUnwrap selectedCollection={selectedCollection} />
+                </>
+              )}
+            {selectedCollection.minting == true && (
               <>
-                <LegacyWrapUnwrap selectedCollection={selectedCollection} />
+                <MintPage selectedCollection={selectedCollection} />{" "}
               </>
             )}
           </>
@@ -48,12 +55,17 @@ export default function wrapUnwrap({
 
         {loading ? (
           <>
-          <LoaderIcon className="absolute opacity-70 right-3.5 bottom-3.5 animate-spin text-white"/></>
+            <LoaderIcon className="absolute opacity-70 right-3.5 bottom-3.5 animate-spin text-white" />
+          </>
         ) : (
           <>
-            <span className="absolute bottom-3.5 text-white font-mono right-3.5 opacity-30 select-none">
-              v{selectedCollection?.version}
-            </span>
+            {selectedCollection?.minting == false && (
+              <>
+                <span className="absolute bottom-3.5 text-white font-mono right-3.5 opacity-30 select-none">
+                  v{selectedCollection?.version}
+                </span>
+              </>
+            )}
           </>
         )}
       </div>

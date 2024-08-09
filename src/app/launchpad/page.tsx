@@ -22,19 +22,20 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import FaqPage from "@/components/FaqPage";
 import { Toaster } from "react-hot-toast";
 import Navbar from "@/components/Navbar";
+import CreatePage from "@/components/Liquidify/Create";
+import LaunchpadPage from "@/components/Liquidify/Launchpad";
 
 export default function Faq() {
-
   return (
     <>
       <main className="flex min-h-screen flex-col items-center">
         <link rel="icon" href="/icon.png" />
         <title>Liquidify.gg</title>
 
-        <Navbar page="faq" />
+        <Navbar page="launchpad" />
 
         <div className="flex items-center flex-col gap-y-5 h-full mx-5 mt-[85px] opacity-90">
-          <FaqPage />
+          <LaunchpadPage />
         </div>
       </main>
     </>

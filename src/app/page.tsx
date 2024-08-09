@@ -32,11 +32,11 @@ import lottieJson from "../components/Lottie.json";
 import Particles from "@/components/MagicUI/Particles";
 
 export default function Landing() {
-  if (typeof window !== "undefined" && window.innerWidth < 768) {
-    window.location.href = "/collections";
-  }
+  window.location.href = "/explore";
+
   return (
     <>
+      <div className="bg-black h-screen w-screen flex items-center justify-center absolute z-[1000]"></div>
       <main className="flex min-h-screen max-h-screen flex-col overflow-y-hidden overflow-x-hidden items-center">
         <link rel="icon" href="/icon.png" />
         <title>Liquidify.gg</title>
@@ -44,36 +44,36 @@ export default function Landing() {
         <div className="w-full h-screen max-h-screen">
           {/* <Navbar page="" /> */}
 
-          <div className="flex w-full p-5 h-screen opacity-100">
-            <div className="flex flex-col bg-[#0E0E0E] max-w-[490px] z-[100] relative w-[50%] p-5 border-2 rounded-xl border-[#222426]">
-              <div className="flex flex-col">
+          <div className="flex w-full h-screen opacity-100">
+            <div className="flex flex-col bg-opacity-10 border-r-2 border-[#1D1F21] max-w-[650px] z-[100] relative min-w-[550px] p-10">
+              <div className="flex">
+                <img
+                  src="/icon.png"
+                  className="h-[35px] w-fit select-none pointer-events-none mr-0.5 -ml-3"
+                />
                 <img
                   src="/logo.png"
-                  className="h-[55px] w-fit select-none pointer-events-none"
+                  className="h-[35px] w-fit select-none pointer-events-none"
                 />
-                <span className="text-white mt-1 select-none text-xl opacity-80">
-                  Convert NFTs into ERC20 tokens.
-                </span>
               </div>
               <div className="grow" />
               <div className="flex flex-col">
-                <span className="text-xl select-none text-white opacity-70 pr-3">
-                  Liquidify allows anyone to create ERC20 tokens backed by their
-                  NFTs.
+                <span className="text-4xl font-semibold select-none text-white ">
+                  Create ERC20 tokens backed by your NFTs.
                 </span>
-                <div className="flex gap-x-3 -mt-3 text-[15.2px]">
+                <div className="mt-5 flex gap-x-3 text-[15.2px]">
                   <a
                     href="/faq"
-                    className="mt-8 text-white outline-none bg-gradient-to-b select-none from-gray-400 to-gray-600 border border-gray-800 px-6 py-2 opacity-[92.5%] hover:opacity-100 rounded-md font-medium w-fit transition-all duration-200"
+                    className="rounded-md text-white outline-none select-none bg-gray-600 border border-gray-800 px-6 py-2 opacity-[92.5%] hover:opacity-100 w-fit transition-all duration-200"
                   >
                     Learn more
                   </a>
                   <a
-                    href="/collections"
-                    className="mt-8 flex text-white outline-none items-center bg-gradient-to-b select-none from-blue-400 to-blue-600 border border-blue-800 px-6 py-2 opacity-[92.5%] hover:opacity-100 rounded-md font-medium w-fit transition-all duration-200"
+                    href="/explore"
+                    className="rounded-md flex group text-white outline-none items-center bg-blue-500 border border-blue-800 px-6 py-2 opacity-[92.5%] hover:opacity-100 w-fit transition-all duration-200"
                   >
                     Explore collections{" "}
-                    <ArrowRightCircle className="text-white ml-1 h-[15px] -mr-1" />
+                    <ChevronRight className="text-white ml-1 h-[13.8px] -mr-1 group-hover:pl-1 transition-all" />
                   </a>
                 </div>
               </div>
@@ -87,7 +87,7 @@ export default function Landing() {
                     <a
                       href="https://github.com/ashwwwin/liquidify_v3_contracts"
                       target="_blank"
-                      className="border-[2px] border-white border-opacity-0 group rounded-full cursor-pointer"
+                      className="border-[2px] scale-[0.825] border-white border-opacity-0 group rounded-full cursor-pointer"
                     >
                       <img
                         src="/github.svg"
@@ -97,7 +97,7 @@ export default function Landing() {
                     <a
                       href="https://x.com/Liquidify_gg"
                       target="_blank"
-                      className="border-[2px] border-white border-opacity-0 group rounded-full cursor-pointer"
+                      className="border-[2px] scale-[0.825] border-white border-opacity-0 group rounded-full cursor-pointer"
                     >
                       <img
                         src="/x.png"
@@ -157,33 +157,13 @@ export default function Landing() {
               </div>
             </div>
             <div className="flex grow" />
-            <div className="max-h-screen w-full ml-5 flex items-center justify-center overflow-hidden no-scroll">
-              {/* <div className="flex items-center w-full justify-center mt-5">
-                <Lottie
-                  loop
-                  animationData={lottieJson}
-                  play
-                  style={{ width: "35vw" }}
-                />
-              </div> */}
-
-              <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-lg p-20 md:shadow-xl">
-                <Lottie
-                  loop
-                  animationData={lottieJson}
-                  play
-                  className="z-[100]"
-                  style={{ width: "35vw" }}
-                />
+            <div className="max-h-screen w-full flex items-center justify-center overflow-hidden no-scroll">
+              <div className="relative flex h-full w-full overflow-hidden rounded-lg md:shadow-xl">
+                <GridPattern className="z-[100]" />
+                <div className="absolute opacity-90 bg-gradient-to-br z-[1000] from-transparent via-black  to-black h-full w-full" />
               </div>
+              <div className="text-white z-[1000] p-10"></div>
             </div>
-            <Particles
-              className="absolute inset-0 z-[-1]"
-              quantity={150}
-              ease={80}
-              color={`#ffffff`}
-              refresh
-            />
           </div>
         </div>
       </main>

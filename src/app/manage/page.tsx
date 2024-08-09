@@ -27,24 +27,6 @@ import ManagePage from "@/components/Liquidify/Manage";
 
 export default function Faq() {
 
-
-  const [collections, setCollections] = useState<any>(undefined);
-
-  useEffect(() => {
-    const fetchCollections = async () => {
-      const response = await fetch("/api/collections/all");
-
-      const data = await response.json();
-      console.log(data);
-      setCollections(data);
-    };
-
-    fetchCollections().catch(console.error);
-
-    // Cleanup function to prevent effect from running more than once
-    return () => {};
-  }, []);
-
   return (
     <>
       <main className="flex min-h-screen flex-col items-center">
