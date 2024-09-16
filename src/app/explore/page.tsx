@@ -38,7 +38,6 @@ export default function Home() {
     <>
       <main className="flex min-h-screen flex-col items-center">
         <title>Liquidify.gg</title>
-        <Navbar page="collection" />
 
         <div className="flex items-center flex-col gap-y-5 h-full mx-5 mt-[85px] opacity-90">
           <CollectionPage collections={collections} />

@@ -173,7 +173,7 @@ const FaqPage = () => {
             Uniswap v3
           </div>
         </div>
-        <div className="flex flex-col mb-12 w-full justify-left min-w-[100vw] pl-[275px]">
+        <div className="flex flex-col mb-12 w-full justify-left min-w-[calc(100vw-50px)] pl-[275px]">
           {tab == "faq" && (
             <>
               <FaqPage_Faq />

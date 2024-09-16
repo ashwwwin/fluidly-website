@@ -44,7 +44,7 @@ export default function Landing() {
         <title>Liquidify.gg</title>
 
         <div className="w-full h-screen max-h-screen">
-          {/* <Navbar page="" /> */}
+
 
           <div className="flex w-full h-screen opacity-100">
             <div className="flex flex-col bg-opacity-10 border-r-2 border-[#1D1F21] max-w-[650px] z-[100] relative min-w-[550px] p-10">

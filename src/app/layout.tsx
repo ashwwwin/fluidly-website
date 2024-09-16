@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import { Providers } from "./providers";
 import { LoaderIcon, Toaster } from "react-hot-toast";
 import { Suspense } from "react";
+import Navbar from "@/components/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,7 +34,13 @@ export default function RootLayout({
       />
       <link rel="icon" href="/icon.png" />
       <body className={inter.className}>
-        <Providers>{children}</Providers>
+        <Providers>
+          <div className="">
+            <Navbar />
+
+            {children}
+          </div>
+        </Providers>
       </body>
     </html>
   );

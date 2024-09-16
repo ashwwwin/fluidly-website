@@ -33,8 +33,6 @@ export default function Faq() {
         <link rel="icon" href="/icon.png" />
         <title>Liquidify.gg</title>
 
-        <Navbar page="manage" />
-
         <div className="flex items-center flex-col gap-y-5 h-full mx-5 mt-[85px] opacity-90">
           <ManagePage />
         </div>

@@ -643,7 +643,6 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
   return (
     <>
       <div className="flex flex-col w-screen h-screen">
-        {/* <Navbar page="collection" /> */}
         {selectedCollection !== undefined && (
           <>
             <title>{selectedCollection.tokenName}</title>

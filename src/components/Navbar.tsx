@@ -28,10 +28,12 @@ import {
   useAccountModal,
   useChainModal,
 } from "@rainbow-me/rainbowkit";
+import { usePathname } from "next/navigation";
 
 import { arbitrum, base, blast, optimism, polygon } from "wagmi/chains";
+import { useEffect, useState } from "react";
 
-const Navbar = ({ page }: { page: string }) => {
+const Navbar = () => {
   const account = useAccount();
   const { openConnectModal } = useConnectModal();
   const { openAccountModal } = useAccountModal();
@@ -39,6 +41,13 @@ const Navbar = ({ page }: { page: string }) => {
   const { connect } = useConnect();
   const { disconnect } = useDisconnect();
   const { switchChain } = useSwitchChain();
+  const pathname = usePathname();
+  const [page, setPage] = useState<string>("collection");
+
+  useEffect(() => {
+    let _page = pathname.replace("/", "");
+    setPage(_page);
+  }, [pathname]);
 
   return (
     <>
@@ -64,7 +73,7 @@ const Navbar = ({ page }: { page: string }) => {
               href="/explore"
               className={
                 "outline-none flex items-center bg-white text-white duration-[150ms] py-1 bg-opacity-0 transition-all px-3.5 rounded-md select-none " +
-                (page == "collection"
+                (page == "explore"
                   ? " text-opacity-100 bg-opacity-10"
                   : " text-opacity-50 hover:text-opacity-100 hover:bg-opacity-[7.5%]")
               }
@@ -77,7 +86,7 @@ const Navbar = ({ page }: { page: string }) => {
                 className={
                   "outline-none flex z-[10000] items-center bg-white text-white duration-[150ms] py-1 bg-opacity-0 transition-all px-3.5 rounded-md select-none " +
                   (page == "manage" ||
-                  page == "liquidify" ||
+                  page == "create" ||
                   page == "launchpad"
                     ? " text-opacity-100 bg-opacity-10"
                     : " text-opacity-50 group-hover:text-opacity-100 group-hover:bg-opacity-[7.5%]")
@@ -114,7 +123,7 @@ const Navbar = ({ page }: { page: string }) => {
                     href="/create"
                     className={
                       "outline-none flex items-center bg-white text-white rounded-[4.5px] py-1 bg-opacity-0 transition-all duration-[100ms] pr-3 pl-2 rounded-[4.3px] select-none " +
-                      (page == "liquidify"
+                      (page == "create"
                         ? " text-opacity-100 bg-opacity-10"
                         : " text-opacity-50 hover:text-opacity-100 hover:bg-opacity-[7.5%]")
                     }
