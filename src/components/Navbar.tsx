@@ -53,9 +53,11 @@ const Navbar = () => {
     <>
       <div className="w-full z-[99999] bg-black shadow-2xl xs:items-center xs:justify-center sm:items-start border-b-[1.75px] border-white border-opacity-10 fixed items-center px-3 py-3 flex">
         <div className="xs:w-full xs:items-center xs:justify-center ">
-          <a
-            className="flex cursor-default items-center min-w-[300px]"
-            href="/"
+          <div
+            className="flex cursor-default items-center min-w-[300px] cursor-pointer"
+           onClick={() => {
+             window.location.href = "/";
+           }}
           >
             <img
               src="/icon.png"
@@ -65,7 +67,7 @@ const Navbar = () => {
               src="/logo.png"
               className="cursor-pointer h-[30px] select-none"
             />
-          </a>
+          </div>
         </div>
         <div className="flex w-full mr-1.5 font-medium pl-1.5 gap-x-2 xs:hidden -ml-[100px]">
           <div className="flex gap-x-2.5">
