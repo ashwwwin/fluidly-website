@@ -55,9 +55,9 @@ const Navbar = () => {
         <div className="xs:w-full xs:items-center xs:justify-center ">
           <div
             className="flex cursor-default items-center min-w-[300px] cursor-pointer"
-           onClick={() => {
-             window.location.href = "/";
-           }}
+            onClick={() => {
+              window.location.href = "/";
+            }}
           >
             <img
               src="/icon.png"
@@ -87,9 +87,7 @@ const Navbar = () => {
               <button
                 className={
                   "outline-none flex z-[10000] items-center bg-white text-white duration-[150ms] py-1 bg-opacity-0 transition-all px-3.5 rounded-md select-none " +
-                  (page == "manage" ||
-                  page == "create" ||
-                  page == "launchpad"
+                  (page == "manage" || page == "create" || page == "launchpad"
                     ? " text-opacity-100 bg-opacity-10"
                     : " text-opacity-50 group-hover:text-opacity-100 group-hover:bg-opacity-[7.5%]")
                 }
