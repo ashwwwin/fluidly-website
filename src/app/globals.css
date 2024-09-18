@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
+:root {
   background: linear-gradient(to bottom, rgb(0, 0, 0), rgb(5, 5, 5));
 }
 

@@ -64,6 +64,36 @@ const FaqPage_Faq = () => {
         </div>
         <div className="text-white bg-white p-3 rounded-lg shadow-inner bg-opacity-[3%] flex flex-col">
           <span className="font-medium select-none opacity-[85%] border-b-[2px] pb-[1px] border-opacity-[3%] border-white w-fit">
+            Do you have socials?
+          </span>
+          <div className="text-md mt-1 opacity-50 flex gap-x-2.5">
+            <button
+              onClick={() =>
+                window.open("https://x.com/Liquidify_gg", "_blank")
+              }
+              className="scale-[0.8] group rounded-full cursor-pointer"
+            >
+              <img
+                src="/x.png"
+                className="h-full select-none h-6 w-6 pointer-events-none group-hover:opacity-90 opacity-[70%] transition-all"
+              />
+            </button>
+            <button
+              onClick={() =>
+                window.open("https://discord.gg/jATKMvu7VW", "_blank")
+              }
+              className="group rounded-full cursor-pointer"
+            >
+              <img
+                src="/discord.webp"
+                className="h-full select-none h-6 w-6  pointer-events-none group-hover:opacity-90 opacity-[70%] transition-all"
+              />
+            </button>
+          </div>
+        </div>
+
+        <div className="text-white bg-white p-3 rounded-lg shadow-inner bg-opacity-[3%] flex flex-col">
+          <span className="font-medium select-none opacity-[85%] border-b-[2px] pb-[1px] border-opacity-[3%] border-white w-fit">
             Which NFT will I get when I unwrap?
           </span>
           <span className="text-md mt-1 opacity-50">
