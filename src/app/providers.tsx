@@ -31,7 +31,7 @@ const { wallets } = getDefaultWallets();
 
 export const config = getDefaultConfig({
   appName: "Liquidify",
-  projectId: process.env.WC_PROJECT_ID as string,
+  projectId: "fe932ff4b31807518184f268436e418d",
   wallets: [
     ...wallets,
     {
