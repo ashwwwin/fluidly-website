@@ -1,0 +1,19 @@
+"use client";
+
+import LaunchpadPage from "@/components/Liquidify/Launchpad";
+import RarityStudio from "@/components/RarityStudio/RarityStudio";
+
+export default function Faq() {
+  return (
+    <>
+      <main className="flex min-h-screen flex-col items-center">
+        <link rel="icon" href="/icon.png" />
+        <title>Liquidify.gg</title>
+
+        <div className="flex items-center flex-col gap-y-5 h-full mx-5 mt-[85px] opacity-90">
+          <RarityStudio />
+        </div>
+      </main>
+    </>
+  );
+}

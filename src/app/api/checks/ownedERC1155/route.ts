@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { ethers, JsonRpcProvider } from "ethers";
 import { connectToDatabase } from "../../../../libs/database";
 import { getAlchemyBase } from "@/libs/alchemyBase";
+import { isLiquidifyNFT } from "@/components/Tools/isLiquidifyNFT";
 
 export async function GET(request: NextRequest) {
   try {
@@ -26,8 +27,13 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // const db = await connectToDatabase();
-    // const collection = db.collection("liquidNfts");
+    if (!(await isLiquidifyNFT(contract, { isEnabled: true })))
+      return new NextResponse("", {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
     let alchemyBase = await getAlchemyBase(network);
 

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { ethers, JsonRpcProvider } from "ethers";
 import { connectToDatabase } from "../../../../libs/database";
 import { getAlchemyBase } from "@/libs/alchemyBase";
+import { isLiquidifyNFT } from "@/components/Tools/isLiquidifyNFT";
 
 export async function GET(request: NextRequest) {
   try {

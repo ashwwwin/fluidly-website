@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { ethers, JsonRpcProvider } from "ethers";
 import { connectToDatabase } from "../../../../libs/database";
 import { getAlchemyBase } from "@/libs/alchemyBase";
+import { isLiquidifyNFT } from "@/components/Tools/isLiquidifyNFT";
 
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
@@ -20,23 +21,13 @@ export async function GET(request: NextRequest) {
       return;
     }
 
-    // let isExists = await collection.findOne({
-    //   nftAddress: contract,
-    // });
-
-    // console.log("isExists", isExists);
-
-    // if (!isExists) {
-    //   return new NextResponse(
-    //     JSON.stringify({ message: "Contract not found in Liquidified NFTs" }),
-    //     {
-    //       status: 500,
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //     }
-    //   );
-    // }
+    if (!(await isLiquidifyNFT(contract, { isEnabled: true })))
+      return new NextResponse("", {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
     let tokens = [];
     if (network == "Blast") {

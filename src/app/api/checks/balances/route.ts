@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ethers, JsonRpcProvider } from "ethers";
 import { getAlchemyBase } from "@/libs/alchemyBase";
+import { isLiquidifyToken } from "@/components/Tools/isLiquidifyToken";
 
 export async function GET(request: NextRequest) {
   try {
@@ -24,6 +25,14 @@ export async function GET(request: NextRequest) {
         }
       );
     }
+
+    if (!(await isLiquidifyToken(contract, { isEnabled: true })))
+      return new NextResponse("", {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
     let alchemyBase = await getAlchemyBase(network);
 
