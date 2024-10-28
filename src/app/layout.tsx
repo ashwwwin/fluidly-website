@@ -6,6 +6,7 @@ import { Providers } from "./providers";
 import { LoaderIcon, Toaster } from "react-hot-toast";
 import { Suspense } from "react";
 import Navbar from "@/components/Navbar";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Script src="https://scripts.simpleanalyticscdn.com/latest.js" />
       <Toaster
         position="bottom-right"
         toastOptions={{
