@@ -25,15 +25,15 @@ const FaqPage_Royalties = () => {
         </span>
         <span className="text-white">
           Royalties are accumulated when a user sells the token via Uniswap. The
-          fees are accumulated in the Liquidify Fee Distributor contract, when
+          fees are accumulated in the Fluidly Fee Distributor contract, when
           the minimum swap target is reached the fee distribution function is
           called which automatically sends WETH to the royalty receiver.
         </span>
         <span className="text-white">
           This process happens on chain while, using an off-chain price oracle
           in order to minimize contract complexity. When royalties are enabled,
-          Liquidify earns 0.25% from token sales. If there are no royalties
-          enabled Liquidify earns 0%.
+          Fluidly earns 0.25% from token sales. If there are no royalties
+          enabled Fluidly earns 0%.
         </span>
 
         {/* <span className="text-white">

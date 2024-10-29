@@ -14,7 +14,7 @@ const FaqPage_About = () => {
       </div>
       <div className="flex flex-col p-3 opacity-50 gap-y-5 mt-1 mb-12 w-full mx-auto text-left">
         <span className="text-white">
-          Liquidify v3 is a permissionless protocol that allows anyone to create
+          Fluidly is a permissionless protocol that allows anyone to create
           ERC20 tokens that are backed 1:1 by NFTs. These are known as LNFTs (or
           Liquid NFTs). This lowers the barriers of entry into NFT ownership by
           bringing liquidity into NFTs by allowing for fractional ownership at

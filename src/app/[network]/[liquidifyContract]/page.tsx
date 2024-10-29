@@ -39,24 +39,24 @@ export default function wrapUnwrap({
         {selectedCollection !== undefined && (
           <>
             {/* && selectedCollection.pairEnabled == true */}
-            {(selectedCollection.version.toString() == "2" ||
-              selectedCollection.version.toString() == "3") && (
+            {(selectedCollection?.version.toString() == "2" ||
+              selectedCollection?.version.toString() == "3") && (
               <>
                 <LegacyWrapUnwrap selectedCollection={selectedCollection} />
               </>
             )}
 
-            {selectedCollection.version === "Fluidly" && (
+            {selectedCollection?.version === "Fluidly" && (
               <>
                 <WrapUnwrapV3A selectedCollection={selectedCollection} />
               </>
             )}
 
-            {selectedCollection.minting == true && (
+            {/* {selectedCollection.minting == true && (
               <>
                 <MintPage selectedCollection={selectedCollection} />{" "}
               </>
-            )}
+            )} */}
           </>
         )}
 

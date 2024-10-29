@@ -13,12 +13,17 @@ export async function GET(request: NextRequest) {
 
   try {
     const db = await connectToDatabase();
-    const collection = db.collection("liquidNfts");
+    // const collection = db.collection("liquidNfts");
 
     console.log(contract);
 
     if (!wallet || !contract || !network) {
-      return;
+      return new NextResponse("", {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
     }
 
     if (!(await isLiquidifyNFT(contract, { isEnabled: true })))

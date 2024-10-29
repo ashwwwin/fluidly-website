@@ -14,18 +14,18 @@ const FaqPage_Token = () => {
       </div>
       <div className="flex flex-col p-3 opacity-50 gap-y-5 mt-1 mb-12 w-full mx-auto text-left">
         <span className="text-white">
-          Liquidify's native token ($LIQ), will be launched when/if protocol
+          Fluidly's native token, will be launched when/if protocol
           revenue's are healthy enough to sustain the token naturally. It is
           entirely conditional on this.
         </span>
         <span className="text-white">
-          The protocol earns 0.25% from token sells when royalties are enabled for
-          a collection and earns 0.0002 ETH per NFT wrapped/unwrapped. 50% of
-          that revenue will be used to buy & burn $LIQ.
+          The protocol earns 0.25% from token sells when royalties are enabled
+          for a collection and earns 0.0002 ETH per NFT wrapped/unwrapped. 50%
+          of that revenue will be used to buy & burn $LIQ.
         </span>
         <span className="text-white">
           Allocations will be reserved for those who create an LNFT with an LP
-          and wrap/unwrap on the Liquidify protocol. A seperate allocation will
+          and wrap/unwrap on the Fluidly protocol. A seperate allocation will
           be reserved for past Codechain holders. A seperate allocation will be
           reserved for those who own an{" "}
           <span

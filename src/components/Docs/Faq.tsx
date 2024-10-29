@@ -15,7 +15,7 @@ const FaqPage_Faq = () => {
       <div className="flex flex-col gap-y-3.5 w-full text-left ">
         <div className="text-white bg-white p-3 rounded-lg shadow-inner bg-opacity-[3%] flex flex-col">
           <span className="font-medium select-none opacity-[85%] border-b-[2px] pb-[1px] border-opacity-[3%] border-white w-fit">
-            What is Liquidify?
+            What is Fluidly?
           </span>
           <span className="text-md mt-1 opacity-50">
             We provide a trusted bridge between your NFT and an ERC20 token,
@@ -31,12 +31,12 @@ const FaqPage_Faq = () => {
           <span className="text-md mt-1 opacity-50 flex flex-col gap-y-0.5">
             <span>
               When you wrap your NFT you send your specified NFT into a
-              project's Liquidify contract, and receive tokens that are minted
-              on demand.
+              project's Fluidly contract, and receive tokens that are minted on
+              demand.
             </span>
             <span>
               When you unwrap an NFT you send the specified amount of tokens
-              into a project's Liquidify contract which is then burned and you
+              into a project's Fluidly contract which is then burned and you
               will receive an NFT from the contract.
             </span>
           </span>
@@ -57,7 +57,7 @@ const FaqPage_Faq = () => {
           <span className="text-md mt-1 opacity-50">
             This is a standard procedure that all NFTs go through when they need
             to be traded on a protocol (eg. when you trade a collection you
-            haven't before on any NFT marketplace). Liquidify's LNFT contracts
+            haven't before on any NFT marketplace). Fluidly's LNFT contracts
             only utilizes this to grant you the power to transfer your NFT into
             the contract (when you wrap).
           </span>
@@ -106,10 +106,10 @@ const FaqPage_Faq = () => {
             I created an LNFT pair, now what?
           </span>
           <span className="text-md mt-1 opacity-50">
-            Once you've liquidified your collection and enabled the pair, just
-            start wrapping the NFTs you'd like to fund for the LP. When you're
-            done wrapping the NFTs, just head over to Uniswap and create a
-            liquidity pool.
+            Once you've created a Fluidly contract for your collection and
+            enabled the pair, just start wrapping the NFTs you'd like to fund
+            for the LP. When you're done wrapping the NFTs, just head over to
+            Uniswap and create a liquidity pool.
           </span>
         </div>
 

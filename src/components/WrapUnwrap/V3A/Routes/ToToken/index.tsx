@@ -1,5 +1,7 @@
 import { LoaderIcon } from "lucide-react";
 import { useState } from "react";
+import { OwnedERC1155Display } from "./OwnedNFTsDisplay/ERC1155";
+import { OwnedERC721Display } from "./OwnedNFTsDisplay/ERC721";
 
 export const ToToken: React.FC<{ selectedCollection: any }> = ({
   selectedCollection,
@@ -10,13 +12,22 @@ export const ToToken: React.FC<{ selectedCollection: any }> = ({
 
   return (
     <div className="flex flex-col">
-      <span className="text-white text-opacity-70 text-lg font-medium">
+      {/* <span className="text-white text-opacity-70 text-lg font-medium">
         Select any of your NFTs to convert into $
         {selectedCollection.tokenSymbol}.
-      </span>
+      </span> */}
 
-      {selectedCollection?.type == "ERC721" && <></>}
-      {selectedCollection?.type == "ERC1155" && <></>}
+      {selectedCollection?.type == "ERC721" && (
+        <>
+          <OwnedERC721Display selectedCollection={selectedCollection} />
+        </>
+      )}
+
+      {selectedCollection?.type == "ERC1155" && (
+        <>
+          <OwnedERC1155Display selectedCollection={selectedCollection} />
+        </>
+      )}
 
       {/* {loading && (
         <>

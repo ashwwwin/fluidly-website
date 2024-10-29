@@ -39,7 +39,7 @@ export default function Home() {
       <main className="flex min-h-screen flex-col items-center">
         <title>Fluidly</title>
 
-        <div className="flex items-center flex-col gap-y-5 h-full mx-5 mt-[85px] opacity-90">
+        <div className="flex items-center flex-col gap-y-5 h-full mx-5 mt-[78px] opacity-90">
           <CollectionPage collections={collections} />
         </div>
 

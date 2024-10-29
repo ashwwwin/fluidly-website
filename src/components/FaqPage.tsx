@@ -80,10 +80,10 @@ const FaqPage = () => {
             }
           >
             <PieChart className="h-[15px] mr-0.5" />
-            $LIQ
+            Token
           </div>
           <span className="font-mono text-xs opacity-50 select-none pointer-events-none uppercase mt-5">
-            LIQUIDIFY
+            CREATION
           </span>
           <div
             onClick={() => {

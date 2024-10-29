@@ -32,7 +32,7 @@ export default function Faq() {
         <link rel="icon" href="/icon.png" />
         <title>Fluidly</title>
 
-        <div className="flex items-center flex-col gap-y-5 h-full mx-5 mt-[85px] opacity-90">
+        <div className="flex items-center flex-col gap-y-5 h-full mx-5 mt-[78px] opacity-90">
           <CreatePage />
         </div>
       </main>

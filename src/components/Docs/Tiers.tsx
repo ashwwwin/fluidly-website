@@ -56,7 +56,7 @@ const FaqPage_Tiers = () => {
           the historical usage of their base contracts. ERC721's tend to be used
           in fixed supply settings. ERC1155's tend to have a fixed supply per
           token id while having new token ids created periodically for new
-          editions. We've created the Liquidify contracts to take these into
+          editions. We've created the Fluidly contracts to take these into
           consideration.
         </span>
 

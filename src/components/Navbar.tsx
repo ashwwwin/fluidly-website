@@ -32,6 +32,7 @@ import { usePathname } from "next/navigation";
 
 import { arbitrum, base, blast, optimism, polygon } from "wagmi/chains";
 import { useEffect, useState } from "react";
+import { useWalletAddress } from "../../store/useWalletAddress";
 
 const Navbar = () => {
   const account = useAccount();
@@ -48,6 +49,16 @@ const Navbar = () => {
     let _page = pathname.replace("/", "");
     setPage(_page);
   }, [pathname]);
+
+  const { walletAddress, setWalletAddress } = useWalletAddress();
+
+  useEffect(() => {
+    if (!account?.address) return;
+    setWalletAddress(account.address);
+    console.log("Navbar walletAddress", account.address);
+  }, [account?.address]);
+
+  
 
   return (
     <>
@@ -293,6 +304,7 @@ const Navbar = () => {
               style={{ width: 12, height: 12 }}
             /> */}
           </button>
+          
           <div className="flex flex-col group items-end">
             <button
               onClick={() => {

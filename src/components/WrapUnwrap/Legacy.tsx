@@ -296,46 +296,46 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
 
     if (selectedCollection?.type == "ERC721") {
       console.log("unwrap erc721");
+
       try {
-        const tx = writeContract(
-          {
+        let data = {
+          address: selectedCollection?.liquidifyContract,
+          abi: LiquidERC721v3.abi,
+          functionName: "unwrapERC721",
+          value: parseEther(await getStorageFee(1)),
+          args: [BigInt(selectedTier.amount) * BigInt(10 ** 18)],
+        };
+
+        if (selectedCollection?.version == "2") {
+          data = {
             address: selectedCollection?.liquidifyContract,
-            abi:
-              selectedCollection?.version === "2"
-                ? LiquidERC721v2.abi
-                : LiquidERC721v3.abi,
+            abi: LiquidERC721v2.abi,
             functionName: "unwrapERC721",
-            value:
-              selectedCollection?.version === "2"
-                ? parseEther("0")
-                : parseEther(await getStorageFee(1)),
+            value: parseEther("0"),
             args: [
               BigInt(
-                selectedCollection?.version === "3" &&
-                  selectedCollection?.type === "ERC721"
-                  ? BigInt(selectedTier.amount) * BigInt(10 ** 18)
-                  : Math.floor(
-                      parseFloat(selectedCollection?.tokensPerNft) * 10 ** 18
-                    )
+                Math.floor(
+                  parseFloat(selectedCollection?.tokensPerNft) * 10 ** 18
+                )
               ),
             ],
+          };
+        }
+        const tx = writeContract(data, {
+          onSuccess: async (tx: any) => {
+            toastTx(tx);
+            setTimeout(async () => {
+              await fetchBalance();
+              await fetchNftBalances();
+            }, 3900);
           },
-          {
-            onSuccess: async (tx: any) => {
-              toastTx(tx);
-              setTimeout(async () => {
-                await fetchBalance();
-                await fetchNftBalances();
-              }, 3900);
-            },
-            onError(error, variables, context) {
-              console.log(error.toString());
-              if (error.toString().includes("insufficient funds")) {
-                toast.error(`Insufficient funds`);
-              }
-            },
-          }
-        );
+          onError(error, variables, context) {
+            console.log(error.toString());
+            if (error.toString().includes("insufficient funds")) {
+              toast.error(`Insufficient funds`);
+            }
+          },
+        });
       } catch (err) {
         console.log(err);
       }
@@ -429,12 +429,12 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
         setNftSelection(data.tokens);
         setTokenIdList(tokenIds); // Assuming we want to set the first tokenId, adjust as needed
 
-        if (selectedCollection.version == "2") {
+        if (selectedCollection?.version == "2") {
           setTokenId(tokenIds[0]);
           setLoadedOwnedNfts(true);
         }
 
-        if (selectedCollection.version == "3") {
+        if (selectedCollection?.version == "3") {
           v3_setTokenId([tokenIds[0]]);
           setLoadedOwnedNfts(true);
         }
@@ -584,12 +584,12 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
   const selectNft = (tokenId: number) => {
     if (selectedCollection.type != "ERC721") return;
 
-    if (selectedCollection.version == "2") {
+    if (selectedCollection?.version == "2") {
       setTokenId(tokenId);
       setShowNftSelection(false);
     }
 
-    if (selectedCollection.version == "3") {
+    if (selectedCollection?.version == "3") {
       if (!v3_tokenId.includes(tokenId)) {
         return v3_setTokenId([...v3_tokenId, tokenId]);
       }
@@ -766,11 +766,11 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                                       {loadedOwnedNfts == true &&
                                       tokenIdList.length >= 1 ? (
                                         <>
-                                          {selectedCollection.version == "2" && (
-                                            <>{tokenId}</>
-                                          )}
+                                          {selectedCollection?.version ==
+                                            "2" && <>{tokenId}</>}
 
-                                          {selectedCollection.version == "3" && (
+                                          {selectedCollection?.version ==
+                                            "3" && (
                                             <>
                                               {v3_tokenId.length == 0
                                                 ? "Select"
@@ -800,7 +800,8 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                                         <div className="flex flex-col bg-[#272727] rounded-lg shadow-xl z-[999] p-1 border-[1px] border-white border-opacity-5 gap-y-1 w-full max-h-[280px] overflow-y-auto">
                                           {tokenIdList.map((_tokenId) => {
                                             if (
-                                              selectedCollection?.version === "2"
+                                              selectedCollection?.version ===
+                                              "2"
                                             ) {
                                               return (
                                                 <div
@@ -815,7 +816,8 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                                             }
 
                                             if (
-                                              selectedCollection?.version === "3"
+                                              selectedCollection?.version ===
+                                              "3"
                                             ) {
                                               return (
                                                 <div
@@ -1301,7 +1303,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                       <div className="flex items-center">
                         <ImagesIcon className="mr-1 text-white opacity-[50%] h-[17px]" />
                         <span className="text-white select-none text-lg opacity-50">
-                          {selectedCollection.version == "3"
+                          {selectedCollection?.version == "3"
                             ? "Select NFTs to wrap"
                             : "Select NFT to wrap"}
                         </span>

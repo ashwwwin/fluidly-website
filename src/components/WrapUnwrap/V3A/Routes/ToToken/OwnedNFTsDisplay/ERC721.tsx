@@ -1,12 +1,29 @@
 import { LoaderIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
+import { useWalletAddress } from "../../../../../../../store/useWalletAddress";
 
 export const OwnedERC721Display: React.FC<{ selectedCollection: any }> = ({
   selectedCollection,
 }) => {
   const [loading, setLoading] = useState<boolean>(true);
+  const [ownedNFTs, setOwnedNFTs] = useState<any>([]);
+  const { walletAddress } = useWalletAddress();
 
-  const loadedOwnedNfts = async () => {};
+  const loadedOwnedNfts = async (walletAddress: string) => {
+    const response = await fetch(
+      `/api/checks/ownedERC721?wallet=${walletAddress}&contract=${selectedCollection?.nftAddress}&network=${selectedCollection.network}`
+    );
+    const data = await response.json();
+    console.log(data);
+    setOwnedNFTs(data.tokens);
+  };
+
+  useEffect(() => {
+    console.log("V3A Collection Page walletAddress", walletAddress);
+    loadedOwnedNfts(walletAddress);
+  }, []);
+
 
   return (
     <div className="flex flex-col">
