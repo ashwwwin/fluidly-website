@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import LegacyWrapUnwrap from "@/components/WrapUnwrap/Legacy";
 import { Loader2Icon, LoaderIcon } from "lucide-react";
 import MintPage from "@/components/Launchpad/MintPage";
+import { WrapUnwrapV3A } from "@/components/WrapUnwrap/V3A/Collection";
 
 export default function wrapUnwrap({
   params,
@@ -37,13 +38,20 @@ export default function wrapUnwrap({
       <div className="flex flex-col w-screen h-screen">
         {selectedCollection !== undefined && (
           <>
+            {/* && selectedCollection.pairEnabled == true */}
             {(selectedCollection.version.toString() == "2" ||
-              selectedCollection.version.toString() == "3") &&
-              selectedCollection.pairEnabled == true && (
-                <>
-                  <LegacyWrapUnwrap selectedCollection={selectedCollection} />
-                </>
-              )}
+              selectedCollection.version.toString() == "3") && (
+              <>
+                <LegacyWrapUnwrap selectedCollection={selectedCollection} />
+              </>
+            )}
+
+            {selectedCollection.version === "Fluidly" && (
+              <>
+                <WrapUnwrapV3A selectedCollection={selectedCollection} />
+              </>
+            )}
+
             {selectedCollection.minting == true && (
               <>
                 <MintPage selectedCollection={selectedCollection} />{" "}

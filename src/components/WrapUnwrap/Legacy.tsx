@@ -175,7 +175,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
       try {
         let data: any;
 
-        if (selectedCollection?.version == 3) {
+        if (selectedCollection?.version == "3") {
           data = {
             address: selectedCollection?.liquidifyContract,
             abi: LiquidERC721v3.abi,
@@ -185,7 +185,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
           };
         }
 
-        if (selectedCollection?.version == 2) {
+        if (selectedCollection?.version == "2") {
           data = {
             address: selectedCollection?.liquidifyContract,
             abi: LiquidERC721v2.abi,
@@ -221,7 +221,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
       try {
         let data;
 
-        if (selectedCollection?.version == 2) {
+        if (selectedCollection?.version == "2") {
           data = {
             address: selectedCollection?.liquidifyContract,
             abi: LiquidERC1155v2.abi,
@@ -301,17 +301,17 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
           {
             address: selectedCollection?.liquidifyContract,
             abi:
-              selectedCollection?.version === 2
+              selectedCollection?.version === "2"
                 ? LiquidERC721v2.abi
                 : LiquidERC721v3.abi,
             functionName: "unwrapERC721",
             value:
-              selectedCollection?.version === 2
+              selectedCollection?.version === "2"
                 ? parseEther("0")
                 : parseEther(await getStorageFee(1)),
             args: [
               BigInt(
-                selectedCollection?.version === 3 &&
+                selectedCollection?.version === "3" &&
                   selectedCollection?.type === "ERC721"
                   ? BigInt(selectedTier.amount) * BigInt(10 ** 18)
                   : Math.floor(
@@ -344,7 +344,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
     if (selectedCollection?.type == "ERC1155") {
       let data;
 
-      if (selectedCollection?.version == 2) {
+      if (selectedCollection?.version == "2") {
         data = {
           address: selectedCollection?.liquidifyContract,
           abi: LiquidERC1155v2.abi,
@@ -429,12 +429,12 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
         setNftSelection(data.tokens);
         setTokenIdList(tokenIds); // Assuming we want to set the first tokenId, adjust as needed
 
-        if (selectedCollection.version == 2) {
+        if (selectedCollection.version == "2") {
           setTokenId(tokenIds[0]);
           setLoadedOwnedNfts(true);
         }
 
-        if (selectedCollection.version == 3) {
+        if (selectedCollection.version == "3") {
           v3_setTokenId([tokenIds[0]]);
           setLoadedOwnedNfts(true);
         }
@@ -447,7 +447,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
       const contractAddress = selectedCollection?.nftAddress;
       let url = `/api/checks/ownedERC1155?wallet=${walletAddress}&tokenId=${selectedCollection?.tokenId}&contract=${contractAddress}&network=${selectedCollection?.network}`;
 
-      if (selectedCollection?.version == 3) {
+      if (selectedCollection?.version == "3") {
         url = `/api/checks/ownedERC1155?wallet=${walletAddress}&tokenId=${selectedERC1155v3TokenId}&contract=${contractAddress}&network=${selectedCollection?.network}`;
       }
 
@@ -543,7 +543,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
 
     if (
       selectedCollection?.type === "ERC1155" &&
-      selectedCollection?.version === 3
+      selectedCollection?.version === "3"
     ) {
       url = `/api/checks/qtyForTier?wallet=${walletAddress}&contract=${selectedCollection?.liquidifyContract}&network=${selectedCollection?.network}&tokenId=${selectedERC1155v3TokenId}&type=ERC1155`;
     }
@@ -565,7 +565,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
     if (selectedCollection?.tiers) {
       setSelectedTier(selectedCollection?.tiers[0]);
       if (
-        selectedCollection?.version == 3 &&
+        selectedCollection?.version == "3" &&
         selectedCollection?.type == "ERC1155"
       ) {
         setSelectedERC1155v3TokenId(selectedCollection?.tiers[0].tokenId);
@@ -584,12 +584,12 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
   const selectNft = (tokenId: number) => {
     if (selectedCollection.type != "ERC721") return;
 
-    if (selectedCollection.version == 2) {
+    if (selectedCollection.version == "2") {
       setTokenId(tokenId);
       setShowNftSelection(false);
     }
 
-    if (selectedCollection.version == 3) {
+    if (selectedCollection.version == "3") {
       if (!v3_tokenId.includes(tokenId)) {
         return v3_setTokenId([...v3_tokenId, tokenId]);
       }
@@ -747,7 +747,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                     <>
                       <div className={"mt-3.5 mb-0.5"}>
                         {(selectedCollection?.type === "ERC721" ||
-                          selectedCollection?.version == 3) &&
+                          selectedCollection?.version == "3") &&
                           selectedCollection?.type != "ERC1155" && (
                             <>
                               <div className="flex">
@@ -766,11 +766,11 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                                       {loadedOwnedNfts == true &&
                                       tokenIdList.length >= 1 ? (
                                         <>
-                                          {selectedCollection.version == 2 && (
+                                          {selectedCollection.version == "2" && (
                                             <>{tokenId}</>
                                           )}
 
-                                          {selectedCollection.version == 3 && (
+                                          {selectedCollection.version == "3" && (
                                             <>
                                               {v3_tokenId.length == 0
                                                 ? "Select"
@@ -800,7 +800,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                                         <div className="flex flex-col bg-[#272727] rounded-lg shadow-xl z-[999] p-1 border-[1px] border-white border-opacity-5 gap-y-1 w-full max-h-[280px] overflow-y-auto">
                                           {tokenIdList.map((_tokenId) => {
                                             if (
-                                              selectedCollection?.version === 2
+                                              selectedCollection?.version === "2"
                                             ) {
                                               return (
                                                 <div
@@ -815,7 +815,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                                             }
 
                                             if (
-                                              selectedCollection?.version === 3
+                                              selectedCollection?.version === "3"
                                             ) {
                                               return (
                                                 <div
@@ -884,7 +884,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                           )}
 
                         {selectedCollection?.type === "ERC1155" &&
-                          selectedCollection?.version == 2 && (
+                          selectedCollection?.version == "2" && (
                             <>
                               <div className="flex mt-1 w-full">
                                 <input
@@ -917,7 +917,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                   )}
 
                   {selectedCollection?.type === "ERC1155" &&
-                    selectedCollection?.version == 3 && (
+                    selectedCollection?.version == "3" && (
                       <>
                         {/* ERC1155 V3 */}
                         <div
@@ -1075,7 +1075,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                     <>
                       <div className="flex flex-col">
                         {selectedCollection?.type === "ERC1155" &&
-                          selectedCollection?.version == 2 && (
+                          selectedCollection?.version == "2" && (
                             <>
                               <div className="flex mt-[18px] w-full mb-0.5">
                                 <input
@@ -1106,7 +1106,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                             </>
                           )}
 
-                        {selectedCollection?.version == 2 &&
+                        {selectedCollection?.version == "2" &&
                           selectedCollection?.type != "ERC1155" && (
                             <>
                               <span className="select-none mt-6 mb-2 text-center items-center justify-center flex">
@@ -1120,10 +1120,10 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                           )}
 
                         {selectedCollection?.type === "ERC721" &&
-                          selectedCollection?.version == 3 && (
+                          selectedCollection?.version == "3" && (
                             <>
                               <div className="flex flex-col group">
-                                {selectedCollection?.version == 3 && (
+                                {selectedCollection?.version == "3" && (
                                   <>
                                     <div className="flex">
                                       <div className="cursor-pointer mt-[14px] mb-[2px] items-center relative rounded-lg z-[9999] flex flex-grow select-none group-hover:bg-opacity-20 bg-white bg-opacity-10 px-3 py-2">
@@ -1220,7 +1220,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                         ) : (
                           <>
                             {tierQty == 0 &&
-                            selectedCollection?.version == 3 ? (
+                            selectedCollection?.version == "3" ? (
                               <>
                                 <span className="w-full items-center justify-center">
                                   No NFTs to unwrap in this tier
@@ -1234,18 +1234,18 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                             ) : (
                               (tierQty != 0 ||
                                 selectedCollection?.type == "ERC1155" ||
-                                selectedCollection?.version == 2) && (
+                                selectedCollection?.version == "2") && (
                                 <>
                                   <span
                                     className={
-                                      selectedCollection?.version == 2
+                                      selectedCollection?.version == "2"
                                         ? "w-full text-center"
                                         : ""
                                     }
                                   >
                                     Unwrap
                                   </span>
-                                  {selectedCollection?.version == 3 && (
+                                  {selectedCollection?.version == "3" && (
                                     <>
                                       <span className="text-xs opacity-70">
                                         {selectedCollection?.type ==
@@ -1301,7 +1301,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                       <div className="flex items-center">
                         <ImagesIcon className="mr-1 text-white opacity-[50%] h-[17px]" />
                         <span className="text-white select-none text-lg opacity-50">
-                          {selectedCollection.version == 3
+                          {selectedCollection.version == "3"
                             ? "Select NFTs to wrap"
                             : "Select NFT to wrap"}
                         </span>

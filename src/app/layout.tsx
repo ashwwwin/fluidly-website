@@ -11,7 +11,7 @@ import Script from "next/script";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Liquidify.gg",
+  title: "Fluidly",
   description: "Convert your NFTs into ERC20s",
 };
 
