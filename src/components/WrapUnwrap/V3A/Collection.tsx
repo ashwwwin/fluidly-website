@@ -21,7 +21,7 @@ export const WrapUnwrapV3A: FC<{ selectedCollection: any }> = ({
         <div className="flex px-6">
           <img
             src={selectedCollection?.nftProjectImage || "/temp.png"}
-            className="h-[65px] select-none w-[65px] rounded-md overflow-none"
+            className="h-[65px] select-none pointer-events-none w-[65px] rounded-md overflow-none"
           />
           <div className="flex flex-col ml-3">
             <span>{selectedCollection?.tokenName}</span>
@@ -102,8 +102,9 @@ export const WrapUnwrapV3A: FC<{ selectedCollection: any }> = ({
             Owned
           </button>
         </div>
-        <div className="w-fit text-opacity-70 text-white px-3 py-1 bg-white items-center text-sm bg-opacity-10 rounded-lg gap-x-1 flex">
-          {ERC20Balance.toLocaleString()} ${selectedCollection.tokenSymbol}
+        <div className="w-fit text-opacity-70 justify-center text-white px-3 py-1 bg-white items-center text-sm bg-opacity-10 rounded-lg gap-x-1 flex">
+          <span className="opacity-50 mr-1.5 select-none">Balance</span>
+          <span>{ERC20Balance.toLocaleString()} ${selectedCollection.tokenSymbol}</span>
         </div>
       </div>
 

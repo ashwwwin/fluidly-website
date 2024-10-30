@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import "./globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import { Inter } from "next/font/google";
@@ -6,14 +5,8 @@ import { Providers } from "./providers";
 import { LoaderIcon, Toaster } from "react-hot-toast";
 import { Suspense } from "react";
 import Navbar from "@/components/Navbar";
-import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Fluidly",
-  description: "Convert your NFTs into ERC20s",
-};
 
 export default function RootLayout({
   children,
@@ -22,7 +15,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <script defer src="https://umami.winzylabs.com/script.js" data-website-id="c7180501-e49e-409f-9f68-a401326b2787"></script>
+      <script
+        defer
+        src="https://umami.winzylabs.com/script.js"
+        data-website-id="c7180501-e49e-409f-9f68-a401326b2787"
+      ></script>
       <Toaster
         position="bottom-right"
         toastOptions={{
