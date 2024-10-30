@@ -19,6 +19,7 @@ import { config } from "../../app/providers";
 import LiquidERC721v3 from "../../app/abi/LiquidERC721v3.json";
 import LiquidERC1155v3 from "../../app/abi/LiquidERC1155v3.json";
 import toast from "react-hot-toast";
+import { useWalletSettings } from "../../../store/useWalletSettings";
 
 const ManagePage = () => {
   const {
@@ -29,9 +30,6 @@ const ManagePage = () => {
     writeContract,
     error,
   } = useWriteContract();
-  const account = useAccount();
-
-  const [explorer, setExplorer] = useState<string>("https://etherscan.io");
   const [ownedPairs, setOwnedPairs] = useState([]);
   const [manage, setManage] = useState<any>();
   const [manageTab, setManageTab] = useState<
@@ -56,20 +54,7 @@ const ManagePage = () => {
     enablePairERC1155Input_TokenAmount,
     setEnablePairERC1155Input_TokenAmount,
   ] = useState<string>("");
-
-  useEffect(() => {
-    let currentChain = account.chainId;
-
-    if (!currentChain) return;
-
-    if (currentChain == 1) setExplorer("https://etherscan.io");
-    if (currentChain === 8453) setExplorer("https://basescan.org");
-    if (currentChain === 137) setExplorer("https://polygonscan.com");
-    if (currentChain === 81457) setExplorer("https://blastscan.io");
-    if (currentChain === 10) setExplorer("https://optimistic.etherscan.io");
-    if (currentChain === 42161) setExplorer("https://arbiscan.io");
-    
-  }, [account.chainId]);
+  const { walletAddress, explorer } = useWalletSettings();
 
   const toastTx = (tx: any) => {
     setTimeout(() => {
@@ -122,8 +107,8 @@ const ManagePage = () => {
   }, [isError]);
 
   const loadOwnedPairs = async () => {
-    if (!account.address) return;
-    let _ownedPairs = await fetch(`/api/pairs/owned?wallet=${account.address}`);
+    if (!walletAddress) return;
+    let _ownedPairs = await fetch(`/api/pairs/owned?wallet=${walletAddress}`);
 
     if (!_ownedPairs) return;
 
@@ -137,7 +122,7 @@ const ManagePage = () => {
 
   useEffect(() => {
     loadOwnedPairs();
-  }, [account.address]);
+  }, [walletAddress]);
 
   useEffect(() => {
     loadOwnedPairs();

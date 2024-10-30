@@ -32,7 +32,7 @@ import { usePathname } from "next/navigation";
 
 import { arbitrum, base, blast, optimism, polygon } from "wagmi/chains";
 import { useEffect, useState } from "react";
-import { useWalletAddress } from "../../store/useWalletAddress";
+import { useWalletSettings } from "../../store/useWalletSettings";
 
 const Navbar = () => {
   const account = useAccount();
@@ -50,15 +50,26 @@ const Navbar = () => {
     setPage(_page);
   }, [pathname]);
 
-  const { walletAddress, setWalletAddress } = useWalletAddress();
+  const { setWalletAddress, setChainId, setExplorer } = useWalletSettings();
 
   useEffect(() => {
     if (!account?.address) return;
     setWalletAddress(account.address);
-    console.log("Navbar walletAddress", account.address);
-  }, [account?.address]);
 
-  
+    let currentChain = account.chainId;
+    if (!currentChain) return;
+
+    if (currentChain == 1) setExplorer("https://etherscan.io");
+    if (currentChain === 8453) setExplorer("https://basescan.org");
+    if (currentChain === 137) setExplorer("https://polygonscan.com");
+    if (currentChain === 81457) setExplorer("https://blastscan.io");
+    if (currentChain === 10) setExplorer("https://optimistic.etherscan.io");
+    if (currentChain === 42161) setExplorer("https://arbiscan.io");
+
+    setChainId(currentChain);
+
+ 
+  }, [account?.address]);
 
   return (
     <>
@@ -304,7 +315,7 @@ const Navbar = () => {
               style={{ width: 12, height: 12 }}
             /> */}
           </button>
-          
+
           <div className="flex flex-col group items-end">
             <button
               onClick={() => {

@@ -14,17 +14,12 @@ const LaunchpadPage = () => {
     "0x90c99e085992a4a93BB3105C8b5cBe4E26A0d420"
   );
   const [explorer, setExplorer] = useState<string>("https://etherscan.io");
+  
 
   useEffect(() => {
     let currentChain = account.chainId;
     if (!currentChain) return;
 
-    if (currentChain == 1) setExplorer("https://etherscan.io");
-    if (currentChain === 8453) setExplorer("https://basescan.org");
-    if (currentChain === 137) setExplorer("https://polygonscan.com");
-    if (currentChain === 81457) setExplorer("https://blastscan.io");
-    if (currentChain === 10) setExplorer("https://optimistic.etherscan.io");
-    if (currentChain === 42161) setExplorer("https://arbiscan.io");
 
     let _factoryAddress = getFactory(currentChain);
 

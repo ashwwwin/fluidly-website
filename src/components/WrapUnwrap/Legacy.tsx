@@ -24,13 +24,13 @@ import { parseEther, MaxUint256 } from "ethers";
 import { getFactory } from "@/libs/getFactory";
 import { connectToDatabase } from "@/libs/database";
 import Navbar from "@/components/Navbar";
+import { useWalletSettings } from "../../../store/useWalletSettings";
 
 const LiquidifyMutatio = "0xF9d450590b238CDA15E570F924C9B9fA577A9872";
 
 const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
   selectedCollection,
 }) => {
-  const [walletAddress, setWalletAddress] = useState<string>("");
   const [currentChain, setCurrentChain] = useState<number>(0);
   const [mode, setMode] = useState<"wrap" | "unwrap" | "summary">("wrap");
   const [tokenIdList, setTokenIdList] = useState<number[]>([]);
@@ -57,7 +57,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
     writeContract,
     error,
   } = useWriteContract();
-  const [explorer, setExplorer] = useState("https://etherscan.io");
+
   const [inputtedERC1155Qty, setInputtedERC1155Qty] = useState<string>("0");
   const [inputtedERC1155UnwrapAmt, setInputtedERC1155UnwrapAmt] =
     useState<string>("0");
@@ -69,6 +69,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
   const [showNftSelection, setShowNftSelection] = useState<boolean>(false);
   const [nftSelection, setNftSelection] = useState<any>();
   const [loadedOwnedNfts, setLoadedOwnedNfts] = useState<boolean>(false);
+  const { walletAddress, chainId, explorer } = useWalletSettings();
 
   const toastTx = (tx: any) => {
     setTimeout(() => {
@@ -90,26 +91,14 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
   };
 
   useEffect(() => {
-    let currentChain = account.chainId;
-
-    if (!currentChain) return;
-
-    if (currentChain == 1) setExplorer("https://etherscan.io");
-    if (currentChain === 8453) setExplorer("https://basescan.org");
-    if (currentChain === 137) setExplorer("https://polygonscan.com");
-    if (currentChain === 81457) setExplorer("https://blastscan.io");
-    if (currentChain === 10) setExplorer("https://optimistic.etherscan.io");
-    if (currentChain === 42161) setExplorer("https://arbiscan.io");
-
-    let _factoryAddress = getFactory(currentChain);
+    let _factoryAddress = getFactory(chainId);
 
     setFactoryAddress(_factoryAddress as `0x${string}`);
-  }, [account.chainId]);
+  }, [chainId]);
 
   // Same standard for ERC1155 and ERC721
   const approveTransfers = async () => {
-    if (!account.address || !walletAddress)
-      return toast.error("Please connect your wallet");
+    if (!walletAddress) return toast.error("Please connect your wallet");
 
     const liquidifyContractAddress = selectedCollection?.liquidifyContract;
 
@@ -150,10 +139,6 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
   };
 
   // ${selectedCollection?.tokenSymbol} balance: {balance}
-  useEffect(() => {
-    if (!account?.address) return;
-    setWalletAddress(account.address);
-  }, [account?.address]);
 
   const fetchMutatioERC20Allowance = async () => {
     const item = await fetch(
@@ -167,8 +152,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
   };
 
   const wrap = async () => {
-    if (!account.address || !walletAddress)
-      return toast.error("Please connect your wallet");
+    if (!walletAddress) return toast.error("Please connect your wallet");
 
     console.log("trying");
     if (selectedCollection?.type == "ERC721") {
@@ -289,8 +273,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
   };
 
   const unwrap = async () => {
-    if (!account.address || !walletAddress)
-      return toast.error("Please connect your wallet");
+    if (!walletAddress) return toast.error("Please connect your wallet");
     // await fetchBalance();
     console.log("trying unwrap");
 
@@ -862,7 +845,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                                 </div>
                                 <button
                                   onClick={() => {
-                                    if (!account.address)
+                                    if (!walletAddress)
                                       return toast.error(
                                         "Please connect your wallet"
                                       );

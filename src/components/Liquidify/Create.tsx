@@ -15,6 +15,7 @@ import { useWriteContract, useReadContract, useAccount } from "wagmi";
 import { switchChain, watchChainId } from "@wagmi/core";
 import toast from "react-hot-toast";
 import { getFactory } from "@/libs/getFactory";
+import { useWalletSettings } from "../../../store/useWalletSettings";
 
 const CreatePage = () => {
   const { data: hash, isError, writeContract, error } = useWriteContract();
@@ -29,22 +30,12 @@ const CreatePage = () => {
   const [explorer, setExplorer] = useState<string>("https://etherscan.io");
   const [sellFees, setSellFees] = useState<number>(0);
   const [nftType, setNftType] = useState<"ERC721" | "ERC1155">("ERC721");
+  const { chainId } = useWalletSettings();
 
   useEffect(() => {
-    let currentChain = account.chainId;
-    if (!currentChain) return;
-
-    if (currentChain == 1) setExplorer("https://etherscan.io");
-    if (currentChain === 8453) setExplorer("https://basescan.org");
-    if (currentChain === 137) setExplorer("https://polygonscan.com");
-    if (currentChain === 81457) setExplorer("https://blastscan.io");
-    if (currentChain === 10) setExplorer("https://optimistic.etherscan.io");
-    if (currentChain === 42161) setExplorer("https://arbiscan.io");
-
-    let _factoryAddress = getFactory(currentChain);
-
+    let _factoryAddress = getFactory(chainId);
     setFactoryAddress(_factoryAddress as `0x${string}`);
-  }, [account.chainId]);
+  }, [chainId]);
 
   const toastTx = (tx: any) => {
     setTimeout(() => {

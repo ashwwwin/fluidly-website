@@ -46,8 +46,8 @@ const FaqPage_Faq = () => {
             Do you provide liquidity?
           </span>
           <span className="text-md mt-1 opacity-50">
-            No, we provide a way to convert your NFTs into ERC20s. The LP relies
-            on the team behind the project or the community to do so.
+            No, we provide a way to convert your NFTs into ERC20s and back. The
+            LP relies on the team behind the project or the community to do so.
           </span>
         </div>
         <div className="text-white bg-white p-3 rounded-lg shadow-inner bg-opacity-[3%] flex flex-col">
@@ -68,9 +68,7 @@ const FaqPage_Faq = () => {
           </span>
           <div className="text-md mt-1 opacity-50 flex gap-x-2.5">
             <button
-              onClick={() =>
-                window.open("https://x.com/Liquidify_gg", "_blank")
-              }
+              onClick={() => window.open("https://x.com/Fluidly_app", "_blank")}
               className="scale-[0.8] group rounded-full cursor-pointer"
             >
               <img

@@ -23,16 +23,11 @@ import { useAccount } from "wagmi";
 const LiquidifyMutatio = "0xF9d450590b238CDA15E570F924C9B9fA577A9872";
 
 const CollectionPage = ({ collections }: { collections: any }) => {
-  const [walletAddress, setWalletAddress] = useState<string>("");
   const [currentView, setCurrentView] = useState<"explore" | "launching">(
     "explore"
   );
   const account = useAccount();
 
-  useEffect(() => {
-    if (!account?.address) return;
-    setWalletAddress(account.address);
-  }, [account?.address]);
 
   return (
     <>

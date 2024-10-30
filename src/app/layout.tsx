@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Script src="https://scripts.simpleanalyticscdn.com/latest.js" />
+      <script defer src="https://umami.winzylabs.com/script.js" data-website-id="c7180501-e49e-409f-9f68-a401326b2787"></script>
       <Toaster
         position="bottom-right"
         toastOptions={{
