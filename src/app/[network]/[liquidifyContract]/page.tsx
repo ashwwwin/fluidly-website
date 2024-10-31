@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import LegacyWrapUnwrap from "@/components/WrapUnwrap/Legacy";
 import { Loader2Icon, LoaderIcon } from "lucide-react";
-import MintPage from "@/components/Launchpad/MintPage";
 import { WrapUnwrapV3A } from "@/components/WrapUnwrap/V3A/Collection";
 
 export default function wrapUnwrap({
