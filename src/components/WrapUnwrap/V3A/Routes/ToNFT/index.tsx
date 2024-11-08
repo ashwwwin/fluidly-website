@@ -9,7 +9,7 @@ export const ToNFT: React.FC<{ selectedCollection: any }> = ({
   return (
     <div className="flex flex-col">
       <span className="text-white text-opacity-70 mt-2.5 text-md font-medium">
-        Convert ${selectedCollection.tokenSymbol} into selected NFTs.
+        Convert ${selectedCollection.tokenSymbol} into selected NFTs
       </span>
       {loading && (
         <>

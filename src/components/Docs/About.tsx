@@ -9,7 +9,7 @@ const FaqPage_About = () => {
     <>
       <div className="items-center bg-white text-white mt-1 rounded-sm py-1 bg-opacity-0 transition-all text-2xl rounded-md select-none text-opacity-100">
         <div className="flex items-center font-medium">
-          <Info className="h-[18px] mr-1.5" /> About Liquidify
+          <Info className="h-[18px] mr-1.5" /> About Fluidly
         </div>
       </div>
       <div className="flex flex-col p-3 opacity-50 gap-y-5 mt-1 mb-12 w-full mx-auto text-left">

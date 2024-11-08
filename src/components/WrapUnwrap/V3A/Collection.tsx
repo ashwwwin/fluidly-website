@@ -3,19 +3,31 @@ import { useState, useEffect } from "react";
 import { ToNFT } from "./Routes/ToNFT";
 import { ToToken } from "./Routes/ToToken";
 import { useERC20Balance } from "../../../../store/useERC20Balance";
+import { useWalletSettings } from "../../../../store/useWalletSettings";
 
 export const WrapUnwrapV3A: FC<{ selectedCollection: any }> = ({
   selectedCollection,
 }) => {
   const [tab, setTab] = useState<"toToken" | "toNFT">("toToken");
   const { ERC20Balance, setERC20Balance } = useERC20Balance();
+  const {walletAddress} = useWalletSettings();
+
+  const loadERC20Balance = async () => {
+    if (!selectedCollection) return;
+    const balance = await fetch(`/api/checks/balances?wallet=${walletAddress}&contract=${selectedCollection?.liquidifyContract}&network=${selectedCollection?.network}`);
+    const data = await balance.json();
+    
+    if (!data.balance) return;
+    setERC20Balance(data.balance);
+  }
 
   useEffect(() => {
-    if (!selectedCollection) return;
-    setERC20Balance(selectedCollection.tokensPerNft);
+    loadERC20Balance()
   }, [selectedCollection]);
 
   return (
+    <>
+    <title>{selectedCollection?.tokenName}</title>
     <div className="flex flex-col w-screen h-screen text-white pt-[57px]">
       <div className="flex flex-col py-3 w-full bg-white bg-opacity-10">
         <div className="flex px-6">
@@ -122,5 +134,6 @@ export const WrapUnwrapV3A: FC<{ selectedCollection: any }> = ({
         )}
       </div>
     </div>
+    </>
   );
 };

@@ -48,7 +48,7 @@ export const OwnedERC721Display: React.FC<{ selectedCollection: any }> = ({
               className="relative flex w-fit group hover:translate-y-[-2px] flex-col gap-y-1 p-1 rounded-md bg-white bg-opacity-10 cursor-pointer transition-all duration-[100ms]"
             >
               <img
-                className="h-[150px] select-none w-[150px] min-w-[150px] min-h-[150px] max-w-[150px] max-h-[150px] object-cover rounded-[3.8px] overflow-hidden"
+                className="h-[150px] pointer-events-none select-none w-[150px] min-w-[150px] min-h-[150px] max-w-[150px] max-h-[150px] object-cover rounded-[3.8px] overflow-hidden"
                 src={nft.image || "/temp.png"}
               />
               <span className="text-white w-full text-center text-opacity-70 text-sm">
@@ -57,7 +57,7 @@ export const OwnedERC721Display: React.FC<{ selectedCollection: any }> = ({
 
               {selectedNFTs.includes(nft.tokenId) && (
                 <>
-                  <div className="absolute opacity-50 top-3 right-3 border-white flex items-center justify-center h-5 w-5 rounded-ful">
+                  <div className="absolute opacity-50 top-3 bg-[#272727] right-3 border-white flex items-center justify-center h-5 w-5 rounded-ful">
                     <CheckCircle2 className="h-full w-full text-white " />
                   </div>
                   {/* <div className="absolute opacity-50 top-3 right-3 border-white flex items-center justify-center h-5 w-5 rounded-full bg-blue-500 border-[1px]">
