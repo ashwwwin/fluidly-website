@@ -64,7 +64,7 @@ export default function wrapUnwrap({
                 Could not find the selected collection
               </span>
               <span className="opacity-70 text-sm">
-                Please ensure the correct network and contract is selected.
+                Please ensure the URL has the correct network and contract.
               </span>
             </div>
             
