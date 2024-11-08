@@ -7,6 +7,7 @@ import {
   Droplet,
   FileWarning,
   ImagesIcon,
+  PencilRulerIcon,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import "../../../app/globals.css";
@@ -115,7 +116,7 @@ const CreatePage = () => {
       <div className="flex w-full flex-col h-full">
         <div className="flex flex-col items-center">
           <span className="flex text-2xl text-center justify-center items-center py-1 mt-1 select-none font-medium text-white">
-            <Droplet className="h-[18px] mr-2" />
+            <PencilRulerIcon className="h-[18px] mr-2" />
             Create a token
           </span>
           <span className="text-sm text-white text-opacity-50 w-[450px] text-center">

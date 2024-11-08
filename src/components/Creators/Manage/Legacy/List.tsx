@@ -5,8 +5,10 @@ import {
   ArrowUpRightSquareIcon,
   CircleDollarSign,
   CirclePower,
+  Cog,
   Copy,
   Droplet,
+  FileSliders,
   FileWarning,
   ImagesIcon,
   LockKeyholeOpenIcon,
@@ -88,7 +90,7 @@ const ManagePage = () => {
     <div className="flex w-full flex-col h-full">
       <div className="flex flex-col items-center">
         <span className="flex text-2xl text-center justify-center items-center py-1 mt-1 select-none font-medium text-white">
-          <Droplet className="h-[18px] mr-2" />
+          <FileSliders className="h-[18px] mr-2" />
           Manage pairs
         </span>
         <span className="text-sm text-white text-opacity-50 w-[450px] text-center">
