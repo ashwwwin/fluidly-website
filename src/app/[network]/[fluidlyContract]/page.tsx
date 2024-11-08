@@ -10,7 +10,7 @@ import { WrapUnwrapV3A } from "@/components/WrapUnwrap/V3A/Collection";
 export default function wrapUnwrap({
   params,
 }: {
-  params: { network: string; liquidifyContract: string };
+  params: { network: string; fluidlyContract: string };
 }) {
   const [selectedCollection, setSelectedCollection] = useState<any>(undefined);
   const [loading, setLoading] = useState<boolean>(true);
@@ -18,7 +18,7 @@ export default function wrapUnwrap({
   useEffect(() => {
     const load = async () => {
       const response = await fetch(
-        `/api/collections/get?contract=${params.liquidifyContract}&network=${params.network}`
+        `/api/collections/get?contract=${params.fluidlyContract}&network=${params.network}`
       );
 
       const data = await response.json();
@@ -28,14 +28,13 @@ export default function wrapUnwrap({
     };
 
     load();
-  }, [params.liquidifyContract]);
+  }, [params.fluidlyContract]);
 
   return (
     <>
       <div className="flex flex-col w-screen h-screen">
         {selectedCollection !== undefined && (
           <>
-            {/* && selectedCollection.pairEnabled == true */}
             {(selectedCollection?.version.toString() == "2" ||
               selectedCollection?.version.toString() == "3") && (
               <>
@@ -48,12 +47,6 @@ export default function wrapUnwrap({
                 <WrapUnwrapV3A selectedCollection={selectedCollection} />
               </>
             )}
-
-            {/* {selectedCollection.minting == true && (
-              <>
-                <MintPage selectedCollection={selectedCollection} />{" "}
-              </>
-            )} */}
           </>
         )}
 
@@ -67,7 +60,6 @@ export default function wrapUnwrap({
                 Please ensure the URL has the correct network and contract.
               </span>
             </div>
-            
           </>
         )}
 

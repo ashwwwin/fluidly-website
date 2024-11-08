@@ -1,6 +1,6 @@
 "use client";
 
-import LaunchpadPage from "@/components/Liquidify/Launchpad";
+
 import RarityStudio from "@/components/RarityStudio/RarityStudio";
 
 export default function Faq() {

@@ -22,7 +22,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import FaqPage from "@/components/FaqPage";
 import { Toaster } from "react-hot-toast";
 import Navbar from "@/components/Navbar";
-import CreatePage from "@/components/Liquidify/Create";
+import CreatePage from "@/components/Creators/CreateToken";
 
 export default function Faq() {
 

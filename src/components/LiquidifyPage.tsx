@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import "../app/globals.css";
-import CreatePage from "./Liquidify/Create";
-import ManagePage from "./Liquidify/Manage";
+import CreatePage from "./Creators/CreateToken";
+import ManagePage from "./Creators/Manage/Legacy/List";
 
 const LiquidifyPage = ({ tab }: { tab: "manage" | "liquidify" }) => {
   return (

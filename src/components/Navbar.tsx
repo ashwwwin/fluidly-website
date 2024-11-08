@@ -47,6 +47,7 @@ const Navbar = () => {
 
   useEffect(() => {
     let _page = pathname.replace("/", "");
+    console.log(_page);
     setPage(_page);
   }, [pathname]);
 
@@ -67,8 +68,6 @@ const Navbar = () => {
     if (currentChain === 42161) setExplorer("https://arbiscan.io");
 
     setChainId(currentChain);
-
- 
   }, [account?.address]);
 
   return (
@@ -183,9 +182,8 @@ const Navbar = () => {
               <button
                 className={
                   "outline-none flex z-[10000] items-center bg-white text-white duration-[150ms] py-1 bg-opacity-0 transition-all px-3.5 rounded-md select-none " +
-                  (page == "manage" ||
+                  (page.endsWith("manage") ||
                   page == "create" ||
-                  page == "launchpad" ||
                   page == "rarity"
                     ? " text-opacity-100 bg-opacity-10"
                     : " text-opacity-50 group-hover:text-opacity-100 group-hover:bg-opacity-[7.5%]")
@@ -200,7 +198,7 @@ const Navbar = () => {
                     href="/manage"
                     className={
                       "outline-none flex items-center bg-white text-white rounded-[4.5px] py-1 bg-opacity-0 transition-all duration-[100ms] pr-3 pl-2 rounded-[4.3px] select-none " +
-                      (page == "manage"
+                      (page.endsWith("manage")
                         ? " text-opacity-100 bg-opacity-10"
                         : " text-opacity-50 hover:text-opacity-100 hover:bg-opacity-[7.5%]")
                     }

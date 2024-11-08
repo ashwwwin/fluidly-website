@@ -9,13 +9,13 @@ import {
   ImagesIcon,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import "../../app/globals.css";
-import LiquidifyV3Factory from "../../app/abi/LiquidifyV3Factory.json";
+import "../../../app/globals.css";
+import LiquidifyV3Factory from "../../../app/abi/LiquidifyV3Factory.json";
 import { useWriteContract, useReadContract, useAccount } from "wagmi";
 import { switchChain, watchChainId } from "@wagmi/core";
 import toast from "react-hot-toast";
 import { getFactory } from "@/libs/getFactory";
-import { useWalletSettings } from "../../../store/useWalletSettings";
+import { useWalletSettings } from "../../../../store/useWalletSettings";
 
 const CreatePage = () => {
   const { data: hash, isError, writeContract, error } = useWriteContract();

@@ -12,16 +12,17 @@ import {
   LockKeyholeOpenIcon,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import "../../app/globals.css";
+import "../../../../app/globals.css";
 import { useWriteContract, useReadContract, useAccount } from "wagmi";
 import { switchChain, watchChainId } from "@wagmi/core";
-import { config } from "../../app/providers";
-import LiquidERC721v3 from "../../app/abi/LiquidERC721v3.json";
-import LiquidERC1155v3 from "../../app/abi/LiquidERC1155v3.json";
+import { config } from "../../../../app/providers";
+import LiquidERC721v3 from "../../../../app/abi/LiquidERC721v3.json";
+import LiquidERC1155v3 from "../../../../app/abi/LiquidERC1155v3.json";
 import toast from "react-hot-toast";
-import { useWalletSettings } from "../../../store/useWalletSettings";
+import { useWalletSettings } from "../../../../../store/useWalletSettings";
+import { getCollection } from "../../../Tools/getCollection";
 
-const ManagePage = () => {
+const ManageCollectionPage = ({ manage }: { manage: any }) => {
   const {
     data: hash,
     isSuccess,
@@ -30,8 +31,7 @@ const ManagePage = () => {
     writeContract,
     error,
   } = useWriteContract();
-  const [ownedPairs, setOwnedPairs] = useState([]);
-  const [manage, setManage] = useState<any>();
+
   const [manageTab, setManageTab] = useState<
     "royalties" | "enablePairERC1155" | "ownership"
   >("royalties");
@@ -54,7 +54,7 @@ const ManagePage = () => {
     enablePairERC1155Input_TokenAmount,
     setEnablePairERC1155Input_TokenAmount,
   ] = useState<string>("");
-  const { walletAddress, explorer } = useWalletSettings();
+  const { explorer } = useWalletSettings();
 
   const toastTx = (tx: any) => {
     setTimeout(() => {
@@ -105,28 +105,6 @@ const ManagePage = () => {
     toast.error(errMsg);
     return;
   }, [isError]);
-
-  const loadOwnedPairs = async () => {
-    if (!walletAddress) return;
-    let _ownedPairs = await fetch(`/api/pairs/owned?wallet=${walletAddress}`);
-
-    if (!_ownedPairs) return;
-
-    let item = await _ownedPairs.json();
-    item = item?.ownedPairs;
-
-    if (!item) return;
-
-    setOwnedPairs(item);
-  };
-
-  useEffect(() => {
-    loadOwnedPairs();
-  }, [walletAddress]);
-
-  useEffect(() => {
-    loadOwnedPairs();
-  }, []);
 
   const loadRoyalty = async () => {
     let _royalties = await fetch(
@@ -349,54 +327,6 @@ const ManagePage = () => {
       </div>
 
       <div className="flex flex-col min-h-[calc(100vh-250px)] select-none items-center justify-center gap-y-2.5">
-        {!manage && (
-          <>
-            {ownedPairs.length >= 1 ? (
-              <>
-                {ownedPairs?.map((pair: any) => (
-                  <>
-                    <div
-                      onClick={() => {
-                        setManage(pair);
-                      }}
-                      className="flex py-2 cursor-pointer px-3.5 transition-all duration-[100ms] items-center bg-white bg-opacity-10 hover:bg-opacity-[15%] min-w-[460px] max-w-[460px] rounded-lg"
-                    >
-                      <img
-                        className="border-[1px] object-cover rounded-md select-none overflow-none border-opacity-10 border-white h-[55px] mr-3 w-[55px] min-w-[55px] min-h-[55px] max-w-[55px] max-h-[55px]"
-                        src={pair?.nftProjectImage || "/temp.png"}
-                      />
-                      <div className="flex flex-col">
-                        <span className="text-white">
-                          {pair?.tokenName} / ${pair.tokenSymbol}
-                        </span>
-                        <span className="text-white text-sm">
-                          {pair?.liquidifyContract}
-                        </span>
-                        <span className="text-white text-sm">
-                          {pair.type} on {pair.network}
-                        </span>
-                      </div>
-                    </div>
-                  </>
-                ))}
-              </>
-            ) : (
-              <>
-                <div className="flex flex-col items-center pt-[50px]">
-                  <FileWarning className="text-white mb-2 opacity-80" />
-                  <span className="text-white opacity-80">
-                    No created pairs found
-                  </span>
-                  <span className="text-white text-sm opacity-50 select-text items-center text-center w-[350px]">
-                    Create a pair to get started. If you just created a pair and
-                    don't see it here, try refreshing.
-                  </span>
-                </div>
-              </>
-            )}
-          </>
-        )}
-
         {manage && (
           <>
             <div className="flex flex-col text-white p-3 bg-white bg-opacity-5 rounded-xl shadow-xl h-[430px] max-h-[430px] min-h-[430px]">
@@ -586,18 +516,18 @@ const ManagePage = () => {
                       Ownership
                     </div>
                     {/* <div
-                      className={`flex bg-white items-center w-full p-1 px-3 text-white ${
-                        manageTab === "transfer"
-                          ? "text-opacity-100 bg-opacity-10"
-                          : "text-opacity-70 bg-opacity-5"
-                      } rounded-md hover:bg-opacity-10 transition-all cursor-pointer`}
-                      onClick={() => {
-                        setManageTab("transfer");
-                      }}
-                    >
-                      <AlertTriangle className="h-[15px] mr-1" />
-                      Transfer
-                    </div> */}
+                className={`flex bg-white items-center w-full p-1 px-3 text-white ${
+                  manageTab === "transfer"
+                    ? "text-opacity-100 bg-opacity-10"
+                    : "text-opacity-70 bg-opacity-5"
+                } rounded-md hover:bg-opacity-10 transition-all cursor-pointer`}
+                onClick={() => {
+                  setManageTab("transfer");
+                }}
+              >
+                <AlertTriangle className="h-[15px] mr-1" />
+                Transfer
+              </div> */}
                   </div>
                   <div className="p-1.5 flex h-[300px] w-full items-center justify-center flex-col">
                     {manageTab == "royalties" && (
@@ -685,8 +615,9 @@ const ManagePage = () => {
                               Enable pair
                             </span>
                             <span className="text-sm opacity-70 mb-2.5 -mt-0.5 text-wrap flex w-[350px]">
-                              Make sure you enter the correct address, it will
-                              have full access to manage. This is permanent.
+                              Make sure you enter the correct Token Id and
+                              amount. This NFT will be permanently exchangeable
+                              for the amount you set. 
                             </span>
                             <div className="flex gap-x-2 flex-col gap-y-2 h-fit w-full">
                               <div className="flex border-[1.5px] rounded-[7px] w-[350px] border-white border-opacity-[8%]">
@@ -733,4 +664,4 @@ const ManagePage = () => {
   );
 };
 
-export default ManagePage;
+export default ManageCollectionPage;

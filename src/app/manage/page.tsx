@@ -1,31 +1,8 @@
 "use client";
 
-import {
-  BookCheckIcon,
-  Droplet,
-  HelpCircle,
-  ImageIcon,
-  ImagesIcon,
-  Info,
-  InfoIcon,
-  MousePointerClickIcon,
-  PencilRuler,
-  StarsIcon,
-  Wallet,
-  X,
-} from "lucide-react";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import CollectionPage from "../../components/CollectionPage";
-import LiquidifyPage from "../../components/LiquidifyPage";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import FaqPage from "@/components/FaqPage";
-import { Toaster } from "react-hot-toast";
-import Navbar from "@/components/Navbar";
-import CreatePage from "@/components/Liquidify/Create";
-import ManagePage from "@/components/Liquidify/Manage";
+import ManagePage from "@/components/Creators/Manage/Legacy/List";
 
-export default function Faq() {
+export default function ManagerList() {
 
   return (
     <>
