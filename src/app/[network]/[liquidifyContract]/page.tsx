@@ -3,9 +3,8 @@
 import React from "react";
 import "../../globals.css";
 import { useState, useEffect } from "react";
-import Navbar from "@/components/Navbar";
 import LegacyWrapUnwrap from "@/components/WrapUnwrap/Legacy";
-import { Loader2Icon, LoaderIcon } from "lucide-react";
+import { LoaderIcon } from "lucide-react";
 import { WrapUnwrapV3A } from "@/components/WrapUnwrap/V3A/Collection";
 
 export default function wrapUnwrap({
@@ -24,7 +23,6 @@ export default function wrapUnwrap({
 
       const data = await response.json();
 
-      console.log(data.collection);
       setSelectedCollection(data.collection);
       setLoading(false);
     };
@@ -56,6 +54,20 @@ export default function wrapUnwrap({
                 <MintPage selectedCollection={selectedCollection} />{" "}
               </>
             )} */}
+          </>
+        )}
+
+        {!selectedCollection && !loading && (
+          <>
+            <div className="text-white h-screen flex-col w-full flex items-center justify-center">
+              <span className="font-medium select-none">
+                Could not find the selected collection
+              </span>
+              <span className="opacity-70 text-sm">
+                Please ensure the correct network and contract is selected.
+              </span>
+            </div>
+            
           </>
         )}
 
