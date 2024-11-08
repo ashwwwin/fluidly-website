@@ -566,8 +566,8 @@ const ManageCollectionPage = ({ manage }: { manage: any }) => {
                             </div>
 
                             <span className="text-sm text-white opacity-50 cursor-pointer mt-3 transition-all w-full hover:opacity-80">
-                              Royalties go to {feeReceiver.slice(0, 10)}...
-                              {feeReceiver.slice(-8)}
+                              Royalties go to {feeReceiver?.slice(0, 10)}...
+                              {feeReceiver?.slice(-8)}
                             </span>
                           </div>
                         </div>
