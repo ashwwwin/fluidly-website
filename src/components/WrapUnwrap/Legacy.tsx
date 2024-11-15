@@ -1161,12 +1161,12 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
                     <>
                       <button
                         onClick={() => {
-                          if (
-                            selectedCollection?.network == "Ethereum" &&
-                            currentChain != 1
-                          ) {
-                            switchChain(config, { chainId: 1 });
-                          }
+                          // if (
+                          //   selectedCollection?.network == "Ethereum" &&
+                          //   currentChain != 1
+                          // ) {
+                          //   switchChain(config, { chainId: 1 });
+                          // }
 
                           if (
                             selectedCollection?.network == "Base" &&
