@@ -92,75 +92,7 @@ const CollectionPage = ({ collections }: { collections: any }) => {
 
                 {/* <button className="px-3 py-1.5 xs:hidden">Launchpad</button> */}
               </div>
-              {currentView == "launching" &&
-                collections?.liquidNfts?.map((collection: any) => {
-                  if (!collection?.minting) {
-                    return;
-                  }
-
-                  return (
-                    <>
-                      <div className="group flex w-fit xs:w-full w-[300px] flex flex-col hover:-translate-y-[1.5px] rounded-xl transition-all duration-[200ms]">
-                        <a
-                          href={`/${collection.network.toLowerCase()}/${
-                            collection.liquidifyContract
-                          }`}
-                          className="flex flex-grow bg-white p-[4.5px] w-[300px] transition-all duration-[55ms] hover:bg-opacity-[11.5%] cursor-pointer select-none flex flex-grow w-full bg-opacity-10 rounded-lg select-none w-full"
-                        >
-                          <div className="h-[169px] w-[189px] max-w-[189px] min-w-[169px] min-h-[169px] max-h-[169px] overflow-hidden ">
-                            <img
-                              className="transition-all duration-[200ms] opacity-80 xs:mr-3 h-[169px] w-[189px] max-w-[189px] min-w-[169px] min-h-[169px] max-h-[169px] bg-white bg-opacity-10 object-cover rounded-md outline-none overflow-hidden pointer-events-none"
-                              src={collection.nftProjectImage || "/temp.png"}
-                            />
-                          </div>
-                          <div className="flex flex-col w-full ml-2.5 mt-1 ">
-                            <span className="block xs:hidden flex items-center truncate ... max-w-[175px] sm:w-[175px]">
-                              {collection.nftName || collection.tokenName}
-                            </span>
-                            <span className="hidden xs:block flex items-center">
-                              <span className="flex items-center">
-                                {collection.nftName || collection.tokenName}
-                                {collection.liquidifyVerified && (
-                                  <>
-                                    <Verified className="h-[13.9px] ml-0" />
-                                  </>
-                                )}
-                              </span>
-                            </span>
-                            {/* <span>{collection.tokenName}</span> */}
-                            <div className="flex flex-col gap-y-1 mt-1">
-                              <span className="text-xs truncate ... opacity-50">
-                                Conversion:{" "}
-                                {new Intl.NumberFormat().format(
-                                  collection.tokensPerNft
-                                )}
-                              </span>
-                              <span className="text-xs truncate ... opacity-50">
-                                Ticker: {collection.tokenSymbol}
-                              </span>
-                              <span className="text-xs truncate ... opacity-50">
-                                Supply: 10,000
-                              </span>
-                              <span className="text-xs truncate ... opacity-50">
-                                Mint: {collection.mintCost} ETH
-                              </span>
-                              <span className="text-xs truncate ... opacity-50">
-                                Chain: {collection.network}
-                              </span>
-                              <span className="text-xs truncate ... opacity-50">
-                                Time left: 17 hours 3 mins
-                              </span>
-                            </div>
-                            <div className="flex flex-grow" />
-                            <div className="rounded-full flex items-center w-[200px] py-1 bg-white bg-opacity-10 relative mb-2">
-                              <div className="h-full w-[20%] bg-blue-500 opacity-80 absolute rounded-full" />
-                            </div>
-                          </div>
-                        </a>
-                      </div>
-                    </>
-                  );
-                })}
+            
               {currentView == "explore" &&
                 collections?.liquidNfts?.map((collection: any) => {
                   if (!collection?.pairEnabled) {
