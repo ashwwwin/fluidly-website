@@ -164,17 +164,20 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
             address: selectedCollection?.liquidifyContract,
             abi: LiquidERC721v3.abi,
             functionName: "wrapERC721",
-            value: parseEther(await getStorageFee(v3_tokenId.length)),
+            value: await parseEther(await getStorageFee(v3_tokenId.length)),
             args: [v3_tokenId],
           };
         }
 
         if (selectedCollection?.version == "2") {
+          if (!tokenId) return;
+
+          let val = BigInt(tokenId);
           data = {
             address: selectedCollection?.liquidifyContract,
             abi: LiquidERC721v2.abi,
             functionName: "wrapERC721",
-            args: `${tokenId}`,
+            args: [val],
           };
         }
 
@@ -278,32 +281,35 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
     console.log("trying unwrap");
 
     if (selectedCollection?.type == "ERC721") {
-      console.log("unwrap erc721");
+      console.log(
+        "unwrap erc721",
+        selectedTier,
+        selectedCollection.tokensPerNft
+      );
 
       try {
+        let val = BigInt(
+          Math.floor(parseFloat(selectedCollection?.tokensPerNft) * 10 ** 18)
+        );
+
         let data = {
           address: selectedCollection?.liquidifyContract,
-          abi: LiquidERC721v3.abi,
+          abi: LiquidERC721v2.abi,
           functionName: "unwrapERC721",
-          value: parseEther(await getStorageFee(1)),
-          args: [BigInt(selectedTier?.amount) * BigInt(10 ** 18)],
+          value: parseEther("0"),
+          args: [val],
         };
 
-        if (selectedCollection?.version == "2") {
+        if (selectedCollection?.version == "3") {
           data = {
             address: selectedCollection?.liquidifyContract,
-            abi: LiquidERC721v2.abi,
+            abi: LiquidERC721v3.abi,
             functionName: "unwrapERC721",
-            value: parseEther("0"),
-            args: [
-              BigInt(
-                Math.floor(
-                  parseFloat(selectedCollection?.tokensPerNft) * 10 ** 18
-                )
-              ),
-            ],
+            value: parseEther(await getStorageFee(1)),
+            args: [BigInt(selectedTier?.amount) * BigInt(10 ** 18)],
           };
         }
+
         const tx = writeContract(data, {
           onSuccess: async (tx: any) => {
             toastTx(tx);
