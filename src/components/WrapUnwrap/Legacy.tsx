@@ -286,7 +286,7 @@ const LegacyWrapUnwrap: React.FC<{ selectedCollection: any }> = ({
           abi: LiquidERC721v3.abi,
           functionName: "unwrapERC721",
           value: parseEther(await getStorageFee(1)),
-          args: [BigInt(selectedTier.amount) * BigInt(10 ** 18)],
+          args: [BigInt(selectedTier?.amount) * BigInt(10 ** 18)],
         };
 
         if (selectedCollection?.version == "2") {
