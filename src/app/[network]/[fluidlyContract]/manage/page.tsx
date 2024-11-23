@@ -1,6 +1,7 @@
 "use client";
 
 import ManageCollectionPage from "@/components/Creators/Manage/Legacy/Panel";
+import ManageV3APage from "@/components/Creators/Manage/ManageV3A";
 import { getCollection } from "@/components/Tools/getCollection";
 import { Loader } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -39,8 +40,11 @@ export default function ManageCollection({
         <title>Fluidly</title>
 
         <div className="flex items-center flex-col gap-y-5 h-full mx-5 mt-[78px] opacity-90">
-          {collection?.version !== "Fluidly" && (
+          {collection?.version == "3" && (
             <ManageCollectionPage manage={collection} />
+          )}
+          {collection?.version == "Fluidly" && (
+            <ManageV3APage manage={collection} />
           )}
         </div>
         {loading && (

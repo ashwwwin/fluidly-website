@@ -6,8 +6,33 @@ import { LoaderIcon, Toaster } from "react-hot-toast";
 import { Suspense } from "react";
 import Navbar from "@/components/Navbar";
 import Script from "next/script";
+import type { Metadata } from "next";
+
 
 const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "Fluidly.app",
+  description:
+    "The simplest way to create sophisticated artcoins. Convert your NFTs into ERC20 tokens and back on 5+ chains.",
+  openGraph: {
+    type: "website",
+    url: "https://fluidly.app",
+    title: "Fluidly.app",
+    description:
+      "The simplest way to create sophisticated artcoins. Convert your NFTs into ERC20 tokens and back on 5+ chains.",
+    images: [
+      {
+        url: "https://fluidly.app/logo.png",
+        width: 256,
+        height: 256,
+        alt: "Fluidly",
+      },
+    ],
+    siteName: "Fluidly.app",
+  },
+};
+
 
 export default function RootLayout({
   children,
