@@ -30,7 +30,7 @@ import { WagmiProvider } from "wagmi";
 const { wallets } = getDefaultWallets();
 
 export const config = getDefaultConfig({
-  appName: "Liquidify",
+  appName: "Fluidly",
   projectId: "fe932ff4b31807518184f268436e418d",
   wallets: [
     ...wallets,

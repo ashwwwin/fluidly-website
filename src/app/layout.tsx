@@ -23,10 +23,10 @@ export const metadata: Metadata = {
       "The simplest way to create sophisticated artcoins. Convert your NFTs into ERC20 tokens and back on 5+ chains.",
     images: [
       {
-        url: "https://fluidly.app/logo.png",
+        url: "https://fluidly.app/icon.png",
         width: 256,
         height: 256,
-        alt: "Fluidly",
+        alt: "Fluidly.app",
       },
     ],
     siteName: "Fluidly.app",
