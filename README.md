@@ -108,12 +108,11 @@ yarn start
 
 ## 🔗 Links
 
-- [Discord Community](https://discord.gg/fluidly)
 - [Twitter](https://twitter.com/fluidly_app)
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Fluidly is now deprecated and no longer maintained. Feel free to fork the repository and make your own changes.
 
 ## 📄 License
 
