@@ -2,8 +2,6 @@
 
 Fluidly is a multi-chain platform that allows users to convert NFTs into ERC20 tokens and back again. The platform operates across multiple blockchains including Polygon, Base, Blast, Optimism, and Arbitrum.
 
-![Fluidly Logo](/public/logo.png)
-
 ## ✨ Features
 
 - **NFT Liquidification**: Convert NFTs to ERC20 tokens seamlessly
