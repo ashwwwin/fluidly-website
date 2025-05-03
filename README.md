@@ -1,36 +1,120 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Fluidly
 
-## Getting Started
+Fluidly is a multi-chain platform that allows users to convert NFTs into ERC20 tokens and back again. The platform operates across multiple blockchains including Polygon, Base, Blast, Optimism, and Arbitrum.
 
-First, run the development server:
+![Fluidly Logo](/public/logo.png)
+
+## ✨ Features
+
+- **NFT Liquidification**: Convert NFTs to ERC20 tokens seamlessly
+- **Reverse Conversion**: Convert tokens back to NFTs
+- **Multi-chain Support**: Works on Polygon, Base, Blast, Optimism, and Arbitrum
+- **Collection Creation**: Create your own NFT collections
+- **Mobile-friendly Interface**: Fully responsive design with mobile support
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js (version 18 or higher)
+- npm or yarn
+- MetaMask or another Ethereum wallet
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/yourusername/liquidify.gg.git
+   cd liquidify.gg
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   # or
+   yarn
+   ```
+
+3. Run the development server:
+
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
+
+## 🔧 Tech Stack
+
+- **Frontend**: React.js with Next.js framework (App Router)
+- **Styling**: TailwindCSS for responsive design
+- **Web3 Integration**: RainbowKit, wagmi, and ethers.js
+- **State Management**: Zustand
+- **Animation**: Framer Motion
+- **Database**: MongoDB for backend data storage
+
+## 📱 Application Structure
+
+- **Explore Page**: Browse available NFT collections
+- **Create Page**: Create new NFT collections or tokens
+- **Rarity Page**: Check rarity scores for NFTs
+- **FAQ Page**: Comprehensive guides and information
+- **Manage Page**: Manage your created collections
+
+## 🧩 Main Components
+
+- **NFT to Token**: Convert NFTs to ERC20 tokens
+- **Token to NFT**: Convert tokens back to NFTs
+- **Collection Creator**: Tools for creating new ERC20/ERC(721 or 1155) pairs
+
+## 💻 Development
+
+### Folder Structure
+
+- `/src/app`: Next.js App Router pages and API routes
+- `/src/components`: Reusable React components
+- `/src/libs`: Utility functions and libraries
+- `/public`: Static assets like images and icons
+- `/store`: Zustand state management
+
+### Building for Production
+
+Please create a `.env` file in the root of the project and add the following:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+MONGO_URL=mongodb
+ALCHEMY_KEY=
+SIMPLEHASH_KEY=
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then run:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build
+# or
+yarn build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Running in Production
 
-## Learn More
+```bash
+npm run start
+# or
+yarn start
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 🔗 Links
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Discord Community](https://discord.gg/fluidly)
+- [Twitter](https://twitter.com/fluidly_app)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## 🤝 Contributing
 
-## Deploy on Vercel
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📄 License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This project is licensed under the MIT License - see the LICENSE file for details.
