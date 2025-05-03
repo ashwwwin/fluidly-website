@@ -106,10 +106,6 @@ ALCHEMY_KEY=
 SIMPLEHASH_KEY=
 ```
 
-## 🔗 Links
-
-- [Twitter](https://twitter.com/fluidly_app)
-
 ## 🤝 Contributing
 
 Fluidly is now deprecated and no longer maintained. Feel free to fork the repository and make your own changes.
