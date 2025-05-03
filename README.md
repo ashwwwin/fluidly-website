@@ -16,7 +16,6 @@ Fluidly is a multi-chain platform that allows users to convert NFTs into ERC20 t
 
 - Node.js (version 18 or higher)
 - npm or yarn
-- MetaMask or another Ethereum wallet
 
 ### Installation
 
