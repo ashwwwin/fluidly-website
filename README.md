@@ -22,8 +22,8 @@ Fluidly is a multi-chain platform that allows users to convert NFTs into ERC20 t
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/liquidify.gg.git
-   cd liquidify.gg
+   git clone https://github.com/ashwwwin/fluidly-website.git
+   cd fluidly-website
    ```
 
 2. Install dependencies:
@@ -50,7 +50,6 @@ Fluidly is a multi-chain platform that allows users to convert NFTs into ERC20 t
 - **Styling**: TailwindCSS for responsive design
 - **Web3 Integration**: RainbowKit, wagmi, and ethers.js
 - **State Management**: Zustand
-- **Animation**: Framer Motion
 - **Database**: MongoDB for backend data storage
 
 ## 📱 Application Structure
