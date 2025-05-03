@@ -82,16 +82,6 @@ Fluidly is a multi-chain platform that allows users to convert NFTs into ERC20 t
 
 ### Building for Production
 
-Please create a `.env` file in the root of the project and add the following:
-
-```bash
-MONGO_URL=mongodb
-ALCHEMY_KEY=
-SIMPLEHASH_KEY=
-```
-
-Then run:
-
 ```bash
 npm run build
 # or
@@ -104,6 +94,16 @@ yarn build
 npm run start
 # or
 yarn start
+```
+
+### Environment Variables
+
+Please create a `.env` file in the root of the project and add the following:
+
+```bash
+MONGO_URL=mongodb
+ALCHEMY_KEY=
+SIMPLEHASH_KEY=
 ```
 
 ## 🔗 Links
